@@ -4,8 +4,8 @@ import { FormProvider } from '@/contexts/FormContext';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Lean Designer - デザインでかなえるスマートな開発体験',
-  description: 'UI/UXの要件定義をまとめたデザイン計画書をAIを活用して生成',
+  title: 'Lean Designer | 開発専門のハイエンドUI/UXソリューション',
+  description: 'ピンポイントの開発課題を必要な分だけスペシャリストのデザイナーに発注ができる、UI/UXデザインソリューション',
 };
 
 export default function RootLayout({

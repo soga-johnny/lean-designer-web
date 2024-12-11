@@ -5,16 +5,36 @@ import { NextResponse } from 'next/server';
 import { db } from '@/app/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// OpenAIクライアントの初期化を条件付きで行う
+const openai = process.env.OPENAI_API_KEY 
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null;
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Resendクライアントの初期化を条件付きで行う
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 export async function POST(request: Request) {
   try {
+    // APIキーのチェック
+    if (!openai || !resend) {
+      return NextResponse.json(
+        { error: 'API configuration is missing' },
+        { status: 500 }
+      );
+    }
+
     const formData = await request.json();
     
+    // BASE_URLのチェック
+    if (!process.env.NEXT_PUBLIC_BASE_URL) {
+      return NextResponse.json(
+        { error: 'Base URL is not configured' },
+        { status: 500 }
+      );
+    }
+
     // ドキュメントのパスとパスワードを生成
     const documentPath = nanoid();
     const documentPassword = nanoid(8);
@@ -29,7 +49,7 @@ export async function POST(request: Request) {
           content: `
             あなたはUI/UXデザインの専門家です。
             提供された情報を基に、プロジェクトのデザインコンセプトを生成してください。
-            コンセプトは、以下の要件を満た��必要があります：
+            コンセプトは、以下の要件を満たす必要があります：
             - 簡潔で印象的な1文であること
             - プロジェクトの本質を捉えていること
             - ユーザー価値を明確に示していること
@@ -102,7 +122,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: 'Lean Designer <info@plasmism.com>',
       to: formData.companyInfo.email,
-      subject: 'デザイン計画書が完成しました',
+      subject: 'デザイン計画書が完���しました',
       html: `
         <p>デザイン計画書の作成が完了しました。</p>
         <p>以下のURLとパスワードからご確認ください。</p>
