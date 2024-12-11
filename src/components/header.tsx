@@ -4,6 +4,7 @@ import React from 'react';
 import { Logo } from './logo';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export const Header = () => {
   return (
@@ -17,9 +18,10 @@ export const Header = () => {
         <Logo />
         <Link
           href="/form/guide"
-          className="bg-primary text-background px-6 py-2 rounded-full text-sm hover:opacity-90 transition-opacity"
+          className="bg-primary text-background rounded-full transition-opacity hover:opacity-90 md:px-6 md:py-2 p-2"
         >
-          デザイン計画書を作成する
+          <span className="hidden md:inline text-sm">デザイン計画書を作成する</span>
+          <PencilSquareIcon className="h-5 w-5 md:hidden" />
         </Link>
       </div>
     </motion.header>

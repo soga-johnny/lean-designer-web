@@ -1,9 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+
+type DocumentData = {
+  serviceName: string;
+  designConcept: string;
+  components: {
+    strategy: string[];
+    tactical: string[];
+    styling: string[];
+    reasons: Record<string, string>;
+  };
+  formData: {
+    basicInfo: {
+      serviceName: string;
+      serviceGoals: string[];
+      targetUser: string;
+      expectedEffect: string;
+    };
+    technicalInfo: {
+      techStack: string[];
+    };
+    designInfo: {
+      designKeywords: string[];
+      persona: {
+        attributes: string;
+        needs: string[];
+      };
+      direction: string;
+      metrics: string[];
+    };
+  };
+};
 
 type DocumentState = {
   isLoading: boolean;
   error: string | null;
-  data: any | null;
+  data: DocumentData | null;
   isAuthenticated: boolean;
 };
 

@@ -2,7 +2,6 @@
 
 import { Logo } from '@/components/logo';
 import { useForm } from '@/contexts/FormContext';
-import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 const sections = [

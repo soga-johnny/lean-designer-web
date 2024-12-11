@@ -18,6 +18,35 @@ export const AnimatedBackground = () => {
           ease: "easeInOut",
         }}
       />
+      
+      <motion.div
+        className="absolute left-[10%] md:top-[30%] top-[50%] w-[400px] h-[400px] rounded-full bg-[#FF8C66] blur-[80px] md:opacity-30 opacity-20"
+        animate={{
+          y: [-20, 20, -20],
+          x: [-10, 10, -10],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute left-[25%] md:top-[60%] top-[80%] w-[200px] h-[200px] rounded-full bg-[#FF8C66] blur-[60px] md:opacity-20 opacity-10"
+        animate={{
+          y: [10, -10, 10],
+          x: [5, -5, 5],
+          scale: [1, 0.9, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
     </div>
   );
 }; 

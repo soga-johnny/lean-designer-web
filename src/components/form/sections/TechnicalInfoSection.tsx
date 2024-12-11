@@ -58,7 +58,7 @@ export function TechnicalInfoSection() {
   const { formData, setFormData } = useForm();
   const { technicalInfo } = formData;
 
-  const updateTechnicalInfo = (field: string, value: any) => {
+  const updateTechnicalInfo = (field: string, value: string | string[]) => {
     setFormData(prev => ({
       ...prev,
       technicalInfo: {

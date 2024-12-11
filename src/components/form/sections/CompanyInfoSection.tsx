@@ -28,7 +28,7 @@ export function CompanyInfoSection() {
   const { companyInfo } = formData;
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const updateCompanyInfo = (field: string, value: any) => {
+  const updateCompanyInfo = (field: string, value: string | string[]) => {
     setFormData(prev => ({
       ...prev,
       companyInfo: {

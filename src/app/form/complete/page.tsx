@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { useForm } from '@/contexts/FormContext';
 import { Logo } from '@/components/logo';
 import { isMobile } from '@/lib/utils';
 
 export default function CompletePage() {
-  const router = useRouter();
   const { formData } = useForm();
   const [isGenerating, setIsGenerating] = useState(true);
   const [documentUrl, setDocumentUrl] = useState('');

@@ -15,26 +15,26 @@ export default function Home() {
         
         <main className="flex-grow">
           {/* Hero Section */}
-          <section className="pt-32 pb-20 px-4">
-            <div className="max-w-7xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-16 leading-relaxed">
+          <section className="pt-12 md:pt-32 pb-20 px-4">
+            <div className="max-w-7xl mx-auto mt-32 text-center">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-12 leading-relaxed">
                 <span className="relative inline-block mb-4">
                   デザインでかなえる
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/20"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/40"></span>
                 </span>
                 <br />
                 <span className="relative inline-block mb-4">
                   クリティカルな課題解決
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/20"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/40"></span>
                 </span>
                 <br />
                 <span className="relative inline-block">
                   スマートな開発体験
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/20"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/40"></span>
                 </span>
               </h2>
               <div className="max-w-2xl mx-auto">
-                <p className="text-sm text-gray-600 mb-8">
+                <p className="text-sm mb-8">
                   あなたの開発プロジェクトに最適した<br />
                   UI/UXの要件定義をまとめた<br />
                   デザイン計画書をAIを活用して生成
@@ -47,17 +47,18 @@ export default function Home() {
           {/* About Section */}
           <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto text-center">
-              <h3 className="text-xl mb-16 flex flex-col items-center gap-2">
+              <h3 className="text-sm mb-16 flex flex-col items-center gap-2">
                 About
-                <span className="font-garamond">Lean Designer</span>
+                <span className="font-garamond text-xl">Lean Designer</span>
                 <span className="block w-4 h-4 rotate-45 border-b-2 border-r-2 border-primary/20"></span>
               </h3>
               <div className="relative h-64 md:h-96 mb-16">
                 <Image
-                  src="/images/components.png"
+                  src="/image1.png"
                   alt="Components visualization"
                   fill
                   className="object-contain"
+                  style={{ display: 'block' }}
                 />
               </div>
               <h4 className="text-xl mb-6">
@@ -65,7 +66,7 @@ export default function Home() {
                 デザイン業務の見える化
               </h4>
               <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                開発プロジェクトでの、イレギュラーな工数の組み込み、3rdパーティの調整などといったさまざまな課題に対し、本当に必要な要素を可視化する6つステークホルダーとの認識統一を可能にする仕組み
+                開発プロジェクトでの、イレギュラーなさまざまな課題に対し、本当に必要な要素や工程を&quot;見える化&quot;ステークホルダーとの認識齟齬を限りなく削減
               </p>
             </div>
           </section>
@@ -83,7 +84,7 @@ export default function Home() {
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 02</span>
                   <h4 className="text-lg mb-4">UXアシスタントと面談</h4>
-                  <p className="text-sm text-gray-600">経験豊富なUXアシスタントがデザイン計画書の内容を確認し、プロジェクトの目的にあわせて調整します。</p>
+                  <p className="text-sm text-gray-600">経験豊富なUXアシスタントがデザイン計画書の内容を確認し、プロジェクトの目的にあわせて調整しま���。</p>
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 03</span>

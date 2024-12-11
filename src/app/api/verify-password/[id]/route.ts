@@ -24,7 +24,8 @@ export async function POST(
     }
 
     // パスワードを除外してデータを返す
-    const { password: _, ...planData } = data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...planData } = data;
 
     return NextResponse.json({ planData });
   } catch (error) {

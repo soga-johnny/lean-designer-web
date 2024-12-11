@@ -47,12 +47,6 @@ const initialFormData: FormData = {
   },
 };
 
-const loadInitialData = () => {
-  if (typeof window === 'undefined') return initialFormData;
-  const saved = localStorage.getItem('formData');
-  return saved ? JSON.parse(saved) : initialFormData;
-};
-
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 export function FormProvider({ children }: { children: React.ReactNode }) {

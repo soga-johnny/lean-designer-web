@@ -8,7 +8,7 @@ export function DesignInfoSection() {
   const { designInfo } = formData;
   const [keyword, setKeyword] = useState('');
 
-  const updateDesignInfo = (field: string, value: any) => {
+  const updateDesignInfo = useCallback((field: string, value: string | string[]) => {
     setFormData(prev => ({
       ...prev,
       designInfo: {
@@ -16,7 +16,7 @@ export function DesignInfoSection() {
         [field]: value
       }
     }));
-  };
+  }, [setFormData]);
 
   const handleKeywordSubmit = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -26,7 +26,7 @@ export function DesignInfoSection() {
         setKeyword('');
       }
     }
-  }, [keyword, designInfo.designKeywords]);
+  }, [keyword, designInfo.designKeywords, updateDesignInfo]);
 
   const removeKeyword = (keywordToRemove: string) => {
     updateDesignInfo(

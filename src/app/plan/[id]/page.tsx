@@ -223,7 +223,7 @@ export default function PlanPage({ params }: PlanPageProps) {
       </header>
 
       <main className="pt-24 pb-24">
-        {sections.map(({ id, label }, index) => {
+        {sections.map(({ id }, index) => {
           let content;
           switch (id) {
             case 'outline':
@@ -253,16 +253,16 @@ export default function PlanPage({ params }: PlanPageProps) {
                     </div>
                     <div className="grid grid-cols-2 gap-8">
                       <div>
-                        <h3 className="text-lg font-medium mb-4">開発するサービスのゴール</h3>
+                        <h3 className="text-lg font-medium mb-4">開発する��ービスのゴール</h3>
                         <ul className="list-disc list-inside space-y-2">
-                          {planData?.goals?.map((goal: string, index: number) => (
+                          {planData?.formData?.basicInfo?.serviceGoals?.map((goal: string, index: number) => (
                             <li key={index}>{goal}</li>
                           ))}
                         </ul>
                       </div>
                       <div>
                         <h3 className="text-lg font-medium mb-4">ターゲット</h3>
-                        <p>{planData?.target}</p>
+                        <p>{planData?.formData?.basicInfo?.targetUser}</p>
                       </div>
                     </div>
                   </div>
@@ -281,12 +281,12 @@ export default function PlanPage({ params }: PlanPageProps) {
                         <div className="grid grid-cols-2 gap-8">
                           <div>
                             <h4 className="text-sm text-gray-600 mb-2">属性</h4>
-                            <p>{planData?.designInfo?.persona?.attributes}</p>
+                            <p>{planData?.formData?.designInfo?.persona?.attributes}</p>
                           </div>
                           <div>
                             <h4 className="text-sm text-gray-600 mb-2">課題・ニーズ</h4>
                             <ul className="list-disc list-inside space-y-2">
-                              {planData?.designInfo?.persona?.needs?.map((need: string, index: number) => (
+                              {planData?.formData?.designInfo?.persona?.needs?.map((need: string, index: number) => (
                                 <li key={index}>{need}</li>
                               ))}
                             </ul>
@@ -307,9 +307,9 @@ export default function PlanPage({ params }: PlanPageProps) {
                     <p className="text-lg">今回に最適なUI/UXのデザインをお届けできるコンポーネントを選別しました</p>
                     <div className="bg-white rounded-xl p-8">
                       <p className="text-sm text-gray-600 mb-8">
-                        コンポーネントとは、開発プロジェクトをより良くすることに対して、本当に必要な要素や工程を"みえる化"したLean Designer独自の概念です。
-                        これによってプロジェクトにおける、デザインの「この要素は必要で、工程に組み込まれていない」「この要素は必要で、工程に組み込まれている」
-                        「この要素は不要で、工程に組み込まれていない」「この要素は不要で、工程に組み込まれている」をプロジェクトに関わる方全てがすぐに把握、
+                        コンポーネントとは、開発プロジェクトをより良くすることに対して、本当に必要な要素や工程を&quot;みえる化&quot;したLean Designer独自の概念��す。
+                        これによってプロジェクトにおける、デザインの「この素は必要で、工程に組み込まれていない」「この要素は必要で、工程に組み込まれている」
+                        「この要素は不要で、工程に組み込まれていない」「この要素は不要で、工程に組み込まれている」をプロジェクトに関わる方全てがすに把握、
                         理解することができます。
                       </p>
                       <div className="grid grid-cols-3 gap-4">
@@ -364,7 +364,7 @@ export default function PlanPage({ params }: PlanPageProps) {
                 <div className="max-w-4xl mx-auto px-4">
                   <h2 className="text-2xl font-medium mb-8">アサインデザイナー</h2>
                   <div className="bg-gray-50 rounded-lg p-8 text-center text-gray-600">
-                    <p>UXアシスタントとのお打ち合わせ後に精査され、最適なものが反映されます</p>
+                    <p>UXアシスタントとのお打ち合わせ後に精され、最適なものが反映されます</p>
                   </div>
                 </div>
               );

@@ -11,25 +11,6 @@ const openai = new OpenAI({
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// 生成するデータの型定義
-type GeneratedDocument = {
-  serviceName: string;
-  designConcept: string;
-  projectOutline: {
-    goals: string[];
-    target: string;
-    effects: string[];
-    competitors: string[];
-    timeline: string;
-    features: string[];
-  };
-  selectedComponents: {
-    strategy: string[];
-    tactical: string[];
-    styling: string[];
-  };
-};
-
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
@@ -48,7 +29,7 @@ export async function POST(request: Request) {
           content: `
             あなたはUI/UXデザインの専門家です。
             提供された情報を基に、プロジェクトのデザインコンセプトを生成してください。
-            コンセプトは、以下の要件を満たす必要があります：
+            コンセプトは、以下の要件を満た��必要があります：
             - 簡潔で印象的な1文であること
             - プロジェクトの本質を捉えていること
             - ユーザー価値を明確に示していること
@@ -68,8 +49,6 @@ export async function POST(request: Request) {
       ]
     });
 
-    const designConcept = conceptResponse.choices[0].message.content || '';
-
     // コンポーネントの選択と理由の生成
     const componentResponse = await openai.chat.completions.create({
       model: "gpt-4",
@@ -79,7 +58,7 @@ export async function POST(request: Request) {
           content: `
             提供された情報を基に、必要なデザインコンポーネントを選択してください。
             以下の条件を満たす必要があります：
-            - 各セクション（戦略、��術、スタイリング）から最低1つ選択
+            - 各セクション（戦略、戦術、スタイリング）から最低1つ選択
             - 選択したコンポーネントがプロジェクトに必要な理由を説明
             - 最大で合計6つまで選択可能
             
@@ -119,7 +98,7 @@ export async function POST(request: Request) {
       formData: formData
     });
 
-    // メール送���を復活
+    // メール送信を復活
     await resend.emails.send({
       from: 'Lean Designer <info@plasmism.com>',
       to: formData.companyInfo.email,

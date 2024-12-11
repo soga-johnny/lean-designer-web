@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from '@/contexts/FormContext';
-import { useState, useEffect } from 'react';
 
 const serviceGoalOptions = [
   '新規顧客の獲得',
@@ -50,7 +49,7 @@ export function BasicInfoSection() {
     otherRequirements: [],
   };
 
-  const updateBasicInfo = (field: string, value: any) => {
+  const updateBasicInfo = (field: string, value: string | string[]) => {
     setFormData(prev => ({
       ...prev,
       basicInfo: {
