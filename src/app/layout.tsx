@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notoSansJP, ebGaramond } from '@/lib/fonts';
 import { FormProvider } from '@/contexts/FormContext';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -35,6 +36,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={`${notoSansJP.variable} ${ebGaramond.variable}`}>
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className="bg-background text-text">
         <FormProvider>
           {children}
