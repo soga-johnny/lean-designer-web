@@ -40,73 +40,89 @@ export async function POST(request: Request) {
     const documentPassword = nanoid(8);
     const documentUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/plan/${documentPath}`;
 
-    // デザインコンセプトの生成
-    const conceptResponse = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: `
-            あなたはUI/UXデザインの専門家です。
-            提供された情報を基に、プロジェクトのデザインコンセプトを生成してください。
-            コンセプトは、以下の要件を満たす必要があります：
-            - 簡潔で印象的な1文であること
-            - プロジェクトの本質を捉えていること
-            - ユーザー価値を明確に示していること
-          `
-        },
-        {
-          role: "user",
-          content: `
-            サービス名: ${formData.basicInfo.serviceName}
-            目的: ${formData.basicInfo.serviceGoals.join(', ')}
-            ターゲット: ${formData.basicInfo.targetUser}
-            期待される効果: ${formData.basicInfo.expectedEffect}
-            技術スタック: ${formData.technicalInfo.techStack.join(', ')}
-            デザインキーワード: ${formData.designInfo.designKeywords.join(', ')}
-          `
-        }
-      ]
-    });
-
-    // コンポーネントの選択と理由の生成
-    const componentResponse = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: `
-            提供された情報を基に、必要なデザインコンポーネントを選択してください。
-            以下の条件を満たす必要があります：
-            - 各セクション（戦略、戦術、スタイリング）から最低1つ選択
-            - 選択したコンポーネントがプロジェクトに必要な理由を説明
-            - 最大で合計6つまで選択可能
-            
-            回答は以下のJSON形式で返してください：
-            {
-              "strategy": ["コンポーネント名"],
-              "tactical": ["コンポーネント名"],
-              "styling": ["コンポーネント名"],
-              "reasons": {
-                "コンポーネント名": "選択理由"
+    // OpenAIの呼び出しを並列化
+    const [conceptResponse, componentResponse] = await Promise.all([
+      openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: `
+              あなたはUI/UXデザインの専門家です。
+              提供された情報を基に、プロジェクトのデザインコンセプトを生成してください。
+              コンセプトは、以下の要件を満たす必要があります：
+              - 簡潔で印象的な1文であること
+              - プロジェクトの本質を捉えていること
+              - ユーザー価値を明確に示していること
+            `
+          },
+          {
+            role: "user",
+            content: `
+              サービス名: ${formData.basicInfo.serviceName}
+              目的: ${formData.basicInfo.serviceGoals.join(', ')}
+              ターゲット: ${formData.basicInfo.targetUser}
+              期待される効果: ${formData.basicInfo.expectedEffect}
+              技術スタック: ${formData.technicalInfo.techStack.join(', ')}
+              デザインキーワード: ${formData.designInfo.designKeywords.join(', ')}
+            `
+          }
+        ]
+      }),
+      openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: `
+              提供された情報を基に、必要なデザインコンポーネントを選択してください。
+              以下の条件を満たす必要があります：
+              - 各セクション（戦略、戦術、スタイリング）から最低1つ選択
+              - 選択したコンポーネントがプロジェクトに必要な理由を説明
+              - 最大で合計6つまで選択可能
+              
+              回答は以下のJSON形式で返してください：
+              {
+                "strategy": ["コンポーネント名"],
+                "tactical": ["コンポーネント名"],
+                "styling": ["コンポーネント名"],
+                "reasons": {
+                  "コンポーネント名": "選択理由"
+                }
               }
-            }
-          `
-        },
-        {
-          role: "user",
-          content: JSON.stringify({
-            basicInfo: formData.basicInfo,
-            technicalInfo: formData.technicalInfo,
-            designInfo: formData.designInfo
-          })
-        }
-      ]
-    });
+            `
+          },
+          {
+            role: "user",
+            content: JSON.stringify({
+              basicInfo: formData.basicInfo,
+              technicalInfo: formData.technicalInfo,
+              designInfo: formData.designInfo
+            })
+          }
+        ]
+      })
+    ]);
+
+    let components;
+    try {
+      const componentContent = componentResponse.choices[0].message.content;
+      if (!componentContent) {
+        throw new Error('Component response is empty');
+      }
+      components = JSON.parse(componentContent);
+    } catch (error) {
+      console.error('Error parsing component response:', error);
+      console.error('Raw component response:', componentResponse.choices[0].message.content);
+      return NextResponse.json(
+        { error: 'Failed to parse AI response' },
+        { status: 500 }
+      );
+    }
 
     const generatedData = {
       designConcept: conceptResponse.choices[0].message.content ?? '',
-      components: JSON.parse(componentResponse.choices[0].message.content ?? '{}'),
+      components,
       // 他の生成データ
     };
 
@@ -122,7 +138,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: 'Lean Designer <info@plasmism.com>',
       to: formData.companyInfo.email,
-      subject: 'デザイン計画書が完���しました',
+      subject: 'デザイン計画書が完成しました',
       html: `
         <p>デザイン計画書の作成が完了しました。</p>
         <p>以下のURLとパスワードからご確認ください。</p>

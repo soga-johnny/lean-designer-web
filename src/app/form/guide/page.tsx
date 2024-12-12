@@ -55,10 +55,10 @@ export default function FormGuidePage() {
               <span className="w-1.5 h-1.5 bg-primary/20 rounded-full"></span>
               不明箇所は空欄のままで問題ございません
             </li>
-            <li className="flex items-center gap-2">
+            {/* <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-primary/20 rounded-full"></span>
               PDFによるドキュメント等のインポートが可能です
-            </li>
+            </li> */}
           </ul>
 
           <div className="flex items-center gap-2 mb-8">

@@ -66,7 +66,7 @@ export default function Home() {
                 デザイン業務の見える化
               </h4>
               <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                開発プロジェクトでの、イレギュラーなさまざまな課題に対し、本当に必要な要素や工程を&quot;見える化&quot;ステークホルダーとの認識齟齬を限りなく削減
+                開発プロジェクトでの、イレギュラーなさまざまな課題に対し、本当に必要な要素や工程を&quot;見える化&quot;を行い、ステークホルダーとの認識齟齬を限りなく削減
               </p>
             </div>
           </section>
@@ -79,12 +79,12 @@ export default function Home() {
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 01</span>
                   <h4 className="text-lg mb-4">デザイン計画書を作成</h4>
-                  <p className="text-sm text-gray-600">要件定義書をアップロードするだけで、AIが最適なデザイン計画書を自動生成します。</p>
+                  <p className="text-sm text-gray-600">プロジェクトの概要を入力すると、AIが最適なデザイン計画書を自動生成します。</p>
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 02</span>
                   <h4 className="text-lg mb-4">UXアシスタントと面談</h4>
-                  <p className="text-sm text-gray-600">経験豊富なUXアシスタントがデザイン計画書の内容を確認し、プロジェクトの目的にあわせて調整しま���。</p>
+                  <p className="text-sm text-gray-600">経験豊富なUXアシスタントがヒアリングし、デザイン計画書の内容をより良いものに調整。</p>
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 03</span>
@@ -93,8 +93,8 @@ export default function Home() {
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-sm">
                   <span className="inline-block bg-primary text-background text-xs px-2 py-1 rounded mb-4">STEP 04</span>
-                  <h4 className="text-lg mb-4">プロジェクトデザイン</h4>
-                  <p className="text-sm text-gray-600">確定した計画書に基づいて、最適なデザインワークとアウトプット、デザイン体制を構築します。</p>
+                  <h4 className="text-lg mb-4">プロジェクトアサイン</h4>
+                  <p className="text-sm text-gray-600">確定した計画書に基づいて、ハイクオリティなソリューションを提供できるように稼働します。</p>
                 </div>
               </div>
             </div>
@@ -104,8 +104,9 @@ export default function Home() {
           <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto text-center">
               <h3 className="text-xl mb-8">
-                UI/UXの要件定義をまとめた<br />
-                デザイン計画書をAIを活用して生成
+              AIを活用して<br />
+              UI/UXの要件定義をまとめた<br />
+                デザイン計画書を生成
               </h3>
               <Link
                 href="/form/guide"
