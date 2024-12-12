@@ -1,9 +1,10 @@
 'use client';
 
 import { useForm } from '@/contexts/FormContext';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function FormFooter() {
+  const router = useRouter();
   const { currentSection, formData } = useForm();
 
   const isSection4Valid = currentSection === 4 && 
@@ -15,11 +16,17 @@ export function FormFooter() {
 
   const isPreviewEnabled = currentSection !== 4 || isSection4Valid;
 
+  const handleConfirm = () => {
+    if (isPreviewEnabled) {
+      router.push('/form/confirm');
+    }
+  };
+
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-end">
-        <Link
-          href={isPreviewEnabled ? "/form/confirm" : "#"}
+        <button
+          onClick={handleConfirm}
           className={`
             px-8 py-3 rounded-full text-sm transition-all
             ${isPreviewEnabled 
@@ -27,10 +34,10 @@ export function FormFooter() {
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }
           `}
-          onClick={(e) => !isPreviewEnabled && e.preventDefault()}
+          disabled={!isPreviewEnabled}
         >
           内容を確認
-        </Link>
+        </button>
       </div>
     </footer>
   );
