@@ -37,7 +37,7 @@ export default function CompletePage() {
         let data;
         try {
           data = await response.json();
-        } catch (e) {
+        } catch {
           throw new Error('サーバーからの応答が不正です。しばらく時間をおいて再度お試しください。');
         }
         

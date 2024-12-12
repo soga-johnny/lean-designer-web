@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     // OpenAIの呼び出しを並列化
     const [conceptResponse, componentResponse] = await Promise.all([
       openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",
