@@ -11,6 +11,7 @@ export default function CompletePage() {
   const [isGenerating, setIsGenerating] = useState(true);
   const [documentUrl, setDocumentUrl] = useState('');
   const [documentPassword, setDocumentPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isMobile()) {
@@ -20,9 +21,7 @@ export default function CompletePage() {
 
     const generateDocument = async () => {
       try {
-        // TODO: OpenAI APIを使用してデザイン計画書を生成
-        // TODO: URLとパスワードを生成
-        // TODO: Resend APIを使用してメール送信
+        setError(null);
         const response = await fetch('/api/generate-document', {
           method: 'POST',
           headers: {
@@ -32,12 +31,22 @@ export default function CompletePage() {
         });
 
         const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'デザイン計画書の生成中にエラーが発生しました');
+        }
+
+        if (!data.url || !data.password) {
+          throw new Error('生成されたデータが不完全です');
+        }
+
         setDocumentUrl(data.url);
         setDocumentPassword(data.password);
         setIsGenerating(false);
       } catch (error) {
         console.error('Error generating document:', error);
-        // エラー処理
+        setError(error instanceof Error ? error.message : 'エラーが発生しました');
+        setIsGenerating(false);
       }
     };
 
@@ -68,8 +77,19 @@ export default function CompletePage() {
               <h2 className="text-xl font-medium">デザイン計画書を生成中...</h2>
               <p className="text-gray-600">しばらくお待ちください</p>
               <div className="bg-primary/5 rounded-lg p-4 text-sm">
-                    <p>α版のため、生成に時間がかかる場合があります。<br/>終わらない場合は、以下までご連絡をいただくか、後日メールにてご連絡させていただきます。<br/>メール：lean-designer@plasmism.com</p>
-                  </div>
+                <p>α版のため、生成に時間がかかる場合があります。<br/>終わらない場合は、以下までご連絡をいただくか、後日メールにてご連絡させていただきます。<br/>メール：lean-designer@plasmism.com</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="text-center space-y-4">
+              <div className="bg-red-50 rounded-lg p-6">
+                <h2 className="text-xl font-medium text-red-600 mb-2">エラーが発生しました</h2>
+                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-gray-600 mt-4">
+                  お手数ですが、以下のメールアドレスまでご連絡ください：<br/>
+                  lean-designer@plasmism.com
+                </p>
+              </div>
             </div>
           ) : (
             <div className="space-y-8 text-center">
