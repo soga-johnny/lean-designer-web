@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { isMobile } from '@/lib/utils';
-import { Logo } from '@/components/logo';
 
 export default function FormGuidePage() {
   const [isAgreed, setIsAgreed] = useState(false);
