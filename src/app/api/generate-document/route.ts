@@ -7,13 +7,15 @@ import { doc, setDoc } from 'firebase/firestore';
 
 // OpenAIクライアントの初期化を条件付きで行う
 const openai = process.env.OPENAI_API_KEY 
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 60000 })
   : null;
 
 // Resendクライアントの初期化を条件付きで行う
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
+
+export const maxDuration = 60; // Vercelのタイムアウトを60秒に設定
 
 export async function POST(request: Request) {
   try {

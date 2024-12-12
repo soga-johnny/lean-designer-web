@@ -30,7 +30,16 @@ export default function CompletePage() {
           body: JSON.stringify(formData),
         });
 
-        const data = await response.json();
+        if (response.status === 504) {
+          throw new Error('生成に時間がかかりすぎています。しばらく時間をおいて再度お試しください。');
+        }
+
+        let data;
+        try {
+          data = await response.json();
+        } catch (e) {
+          throw new Error('サーバーからの応答が不正です。しばらく時間をおいて再度お試しください。');
+        }
         
         if (!response.ok) {
           throw new Error(data.error || 'デザイン計画書の生成中にエラーが発生しました');
