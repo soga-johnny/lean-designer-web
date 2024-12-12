@@ -67,6 +67,9 @@ export default function CompletePage() {
               />
               <h2 className="text-xl font-medium">デザイン計画書を生成中...</h2>
               <p className="text-gray-600">しばらくお待ちください</p>
+              <div className="bg-primary/5 rounded-lg p-4 text-sm">
+                    <p>α版のため、生成に時間がかかる場合があります。<br/>終わらない場合は、以下までご連絡をいただくか、後日メールにてご連絡させていただきます。<br/>メール：lean-designer@plasmism.com</p>
+                  </div>
             </div>
           ) : (
             <div className="space-y-8 text-center">
