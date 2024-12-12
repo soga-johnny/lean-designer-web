@@ -95,7 +95,7 @@ export function TechnicalInfoSection() {
 
       {/* チーム構成 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">チーム構成</label>
+        <label className="block text-sm font-medium">現状のチーム構成</label>
         <div className="grid grid-cols-2 gap-2">
           {teamStructureOptions.map((role) => (
             <label key={role} className="flex items-center space-x-2">
@@ -164,11 +164,11 @@ export function TechnicalInfoSection() {
 
       {/* 現状の課題 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">現状の課題</label>
+        <label className="block text-sm font-medium">現状のプロジェクトに関する課題</label>
         <textarea
           value={technicalInfo.currentIssues}
           onChange={(e) => updateTechnicalInfo('currentIssues', e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[120px]"
+          className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-[#61585A] bg-white dark:bg-[#231F1F] focus:outline-none focus:ring-2 focus:ring-primary/20 dark:focus:ring-[#6B4A4F]/20 text-text dark:text-text-dark placeholder-gray-400 dark:placeholder-text-gray min-h-[120px]"
           placeholder="現在のプロジェクトで直面している技術的な課題があれば記入してください"
         />
       </div>

@@ -23,15 +23,15 @@ export function FormFooter() {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md">
+    <footer className="fixed bottom-0 left-0 right-0 bg-background/80 dark:bg-background-dark/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-end">
         <button
           onClick={handleConfirm}
           className={`
             px-8 py-3 rounded-full text-sm transition-all
             ${isPreviewEnabled 
-              ? 'bg-primary text-background hover:opacity-90' 
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              ? 'bg-primary dark:bg-[#2B2325] text-background dark:text-text-dark hover:opacity-90 border dark:border-[#61585A]' 
+              : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             }
           `}
           disabled={!isPreviewEnabled}

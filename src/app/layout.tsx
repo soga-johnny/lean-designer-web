@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notoSansJP, ebGaramond } from '@/lib/fonts';
 import { FormProvider } from '@/contexts/FormContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import './globals.css';
 
@@ -39,10 +40,12 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
       </head>
-      <body className="bg-background text-text">
-        <FormProvider>
-          {children}
-        </FormProvider>
+      <body className="bg-background dark:bg-background-dark text-text dark:text-text-dark">
+        <ThemeProvider>
+          <FormProvider>
+            {children}
+          </FormProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

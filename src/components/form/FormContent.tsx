@@ -15,12 +15,14 @@ export function FormContent() {
   }, [currentSection]);
 
   return (
-    <main className="pt-24 pb-24 min-h-screen">
+    <main className="pt-24 pb-24 min-h-screen bg-background dark:bg-background-dark">
       <div className="max-w-3xl mx-auto px-4">
-        {currentSection === 1 && <BasicInfoSection />}
-        {currentSection === 2 && <TechnicalInfoSection />}
-        {currentSection === 3 && <DesignInfoSection />}
-        {currentSection === 4 && <CompanyInfoSection />}
+        <div className="bg-white dark:bg-[#231F1F] rounded-2xl p-8 shadow-sm">
+          {currentSection === 1 && <BasicInfoSection />}
+          {currentSection === 2 && <TechnicalInfoSection />}
+          {currentSection === 3 && <DesignInfoSection />}
+          {currentSection === 4 && <CompanyInfoSection />}
+        </div>
       </div>
     </main>
   );

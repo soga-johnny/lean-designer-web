@@ -18,7 +18,7 @@ export default function FormInputPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background"
+      className="min-h-screen bg-background dark:bg-background-dark"
     >
       <FormHeader />
       <FormContent />

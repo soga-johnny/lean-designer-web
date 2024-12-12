@@ -37,7 +37,6 @@ export function CompanyInfoSection() {
       }
     }));
     
-    // エラーをクリア
     if (errors[field]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -57,11 +56,15 @@ export function CompanyInfoSection() {
     }
   };
 
+  const inputClasses = "w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-[#61585A] bg-white dark:bg-[#231F1F] focus:outline-none focus:ring-2 focus:ring-primary/20 dark:focus:ring-[#6B4A4F]/20 text-text dark:text-text-dark placeholder-gray-400 dark:placeholder-text-gray";
+  const checkboxClasses = "rounded border-gray-300 dark:border-[#61585A] text-primary dark:text-primary-dark focus:ring-primary/20 dark:focus:ring-[#6B4A4F]/20";
+  const labelClasses = "text-sm text-text dark:text-text-dark";
+
   return (
     <div className="space-y-8">
       {/* ご担当者様 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium text-text dark:text-text-dark">
           ご担当者様
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -69,7 +72,7 @@ export function CompanyInfoSection() {
           type="text"
           value={companyInfo.personInCharge}
           onChange={(e) => updateCompanyInfo('personInCharge', e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className={inputClasses}
           placeholder="例：山田 太郎"
           required
         />
@@ -77,14 +80,14 @@ export function CompanyInfoSection() {
 
       {/* 役職 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium text-text dark:text-text-dark">
           役職
           <span className="text-red-500 ml-1">*</span>
         </label>
         <select
           value={companyInfo.position}
           onChange={(e) => updateCompanyInfo('position', e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className={inputClasses}
           required
         >
           <option value="">選択してください</option>
@@ -98,7 +101,7 @@ export function CompanyInfoSection() {
 
       {/* 会社名 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium text-text dark:text-text-dark">
           会社名
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -106,7 +109,7 @@ export function CompanyInfoSection() {
           type="text"
           value={companyInfo.companyName}
           onChange={(e) => updateCompanyInfo('companyName', e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className={inputClasses}
           placeholder="例：株式会社サンプル"
           required
         />
@@ -114,7 +117,7 @@ export function CompanyInfoSection() {
 
       {/* メールアドレス */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium text-text dark:text-text-dark">
           メールアドレス
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -123,9 +126,7 @@ export function CompanyInfoSection() {
           value={companyInfo.email}
           onChange={(e) => updateCompanyInfo('email', e.target.value)}
           onBlur={(e) => validateEmail(e.target.value)}
-          className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/20 ${
-            errors.email ? 'border-red-500' : 'border-gray-200'
-          }`}
+          className={`${inputClasses} ${errors.email ? 'border-red-500 dark:border-red-500' : ''}`}
           placeholder="例：example@company.com"
           required
         />
@@ -136,7 +137,7 @@ export function CompanyInfoSection() {
 
       {/* サービスを知ったきっかけ */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium text-text dark:text-text-dark">
           サービスを知ったきっかけ
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -152,9 +153,9 @@ export function CompanyInfoSection() {
                     : companyInfo.referralSource.filter(s => s !== option);
                   updateCompanyInfo('referralSource', newSources);
                 }}
-                className="rounded border-gray-300 text-primary focus:ring-primary/20"
+                className={checkboxClasses}
               />
-              <span className="text-sm">{option}</span>
+              <span className={labelClasses}>{option}</span>
             </label>
           ))}
         </div>

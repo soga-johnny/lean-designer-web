@@ -15,7 +15,7 @@ export function FormHeader() {
   const { currentSection, setCurrentSection } = useForm();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 dark:bg-background-dark/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <Logo />
         <nav className="flex gap-2">
@@ -26,8 +26,8 @@ export function FormHeader() {
               className={clsx(
                 'px-4 py-2 text-sm rounded-full transition-all',
                 currentSection === section.id
-                  ? 'bg-primary text-background'
-                  : 'hover:bg-primary/10'
+                  ? 'bg-primary dark:bg-[#2B2325] text-background dark:text-text-dark border dark:border-[#61585A]'
+                  : 'hover:bg-primary/10 dark:hover:bg-[#2B2325]/50 dark:text-text-dark'
               )}
             >
               {section.title}
