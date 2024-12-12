@@ -253,7 +253,7 @@ export default function PlanPage({ params }: PlanPageProps) {
                     </div>
                     <div className="grid grid-cols-2 gap-8">
                       <div>
-                        <h3 className="text-lg font-medium mb-4">開発する��ービスのゴール</h3>
+                        <h3 className="text-lg font-medium mb-4">開発するサービスのゴール</h3>
                         <ul className="list-disc list-inside space-y-2">
                           {planData?.formData?.basicInfo?.serviceGoals?.map((goal: string, index: number) => (
                             <li key={index}>{goal}</li>
@@ -307,9 +307,8 @@ export default function PlanPage({ params }: PlanPageProps) {
                     <p className="text-lg">今回に最適なUI/UXのデザインをお届けできるコンポーネントを選別しました</p>
                     <div className="bg-white rounded-xl p-8">
                       <p className="text-sm text-gray-600 mb-8">
-                        コンポーネントとは、開発プロジェクトをより良くすることに対して、本当に必要な要素や工程を&quot;みえる化&quot;したLean Designer独自の概念��す。
-                        これによってプロジェクトにおける、デザインの「この素は必要で、工程に組み込まれていない」「この要素は必要で、工程に組み込まれている」
-                        「この要素は不要で、工程に組み込まれていない」「この要素は不要で、工程に組み込まれている」をプロジェクトに関わる方全てがすに把握、
+                        コンポーネントとは、開発プロジェクトの本当に必要な要素や工程を&quot;みえる化&quot;したLean Designer独自のシステムです。
+                        これによってプロジェクトにおける、デザインのどの要素が必要で、どの工程が組み込まれていないのかをプロジェクトに関わる全ての方が把握、
                         理解することができます。
                       </p>
                       <div className="grid grid-cols-3 gap-4">
