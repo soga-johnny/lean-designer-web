@@ -22,6 +22,41 @@ type ComponentSection = {
   }[];
 };
 
+type PlanData = {
+  components?: {
+    strategy: string[];
+    tactical: string[];
+    styling: string[];
+    reasons: Record<string, string>;
+  };
+  designConcept?: string;
+  formData?: {
+    basicInfo: {
+      serviceName: string;
+      serviceGoals: string[];
+      targetUser: string;
+      expectedEffect: string;
+      budget: string;
+      developmentPeriod: string;
+    };
+    technicalInfo: {
+      techStack: string[];
+      teamStructure: string[];
+      communicationTools: string[];
+      projectManagementTools: string[];
+      currentIssues: string;
+    };
+    designInfo: {
+      designKeywords: string[];
+      persona: string;
+      customerJourney: string;
+      marketPositioning: string;
+      colorPattern: string;
+      interaction: string;
+    };
+  };
+};
+
 const componentSections: ComponentSection[] = [
   {
     title: "デザイン戦略セクション",
@@ -86,19 +121,21 @@ export default function PlanPage({ params }: PlanPageProps) {
     };
   }, []);
 
-  const updateComponentSelection = (planData: any) => {
+  const updateComponentSelection = (planData: PlanData) => {
     console.log('Full planData:', planData);
     
     if (!planData?.components) {
       console.log('No components data:', planData);
       return componentSections;
     }
+
+    const components = planData.components;
     
     console.log('Components data:', {
-      strategy: planData.components.strategy,
-      tactical: planData.components.tactical,
-      styling: planData.components.styling,
-      reasons: planData.components.reasons
+      strategy: components.strategy,
+      tactical: components.tactical,
+      styling: components.styling,
+      reasons: components.reasons
     });
     
     return componentSections.map(section => {
@@ -107,11 +144,11 @@ export default function PlanPage({ params }: PlanPageProps) {
                         "styling";
       
       console.log(`Processing section: ${section.title}, sectionKey: ${sectionKey}`);
-      console.log(`Available components for ${sectionKey}:`, planData.components[sectionKey]);
+      console.log(`Available components for ${sectionKey}:`, components[sectionKey]);
       
       const updatedComponents = section.components.map(comp => {
-        const isSelected = Array.isArray(planData.components[sectionKey]) && 
-                          planData.components[sectionKey].includes(comp.name);
+        const isSelected = Array.isArray(components[sectionKey]) && 
+                          components[sectionKey].includes(comp.name);
         console.log(`Component ${comp.name} selected: ${isSelected}`);
         return {
           ...comp,
@@ -450,12 +487,12 @@ export default function PlanPage({ params }: PlanPageProps) {
                     <p className="text-lg dark:text-text-dark">今回に最適なUI/UXのデザインをお届けできるコンポーネントを選別しました</p>
                     <div className="bg-white dark:bg-[#231F1F] rounded-xl p-8">
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
-                        コンポーネントとは、開発プロジェクトの本当に必要な要素や工程を"みえる化"したLean Designer独自のシステムです。
+                        コンポーネントとは、開発プロジェクトの本当に必要な要素や工程を&ldquo;みえる化&rdquo;したLean Designer独自のシステムです。
                         これによってプロジェクトにおける、デザインのどの要素が必要で、どの工程が組み込まれていないのかをプロジェクトに関わる全ての方が把握、
                         理解することができます。
                       </p>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
-                        {updateComponentSelection(planData).map((section, sectionIndex) => (
+                        {updateComponentSelection(planData || { components: { strategy: [], tactical: [], styling: [], reasons: {} } }).map((section, sectionIndex) => (
                           <div key={sectionIndex} className="space-y-4">
                             <h3 className="text-base md:text-sm font-medium text-gray-600 dark:text-gray-400">{section.title}</h3>
                             {section.components.map((component, componentIndex) => {
