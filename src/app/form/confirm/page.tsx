@@ -9,8 +9,10 @@ import { isMobile } from '@/lib/utils';
 
 export default function FormConfirmPage() {
   const router = useRouter();
-  const { formData } = useForm();
-  const [isLoading, setIsLoading] = useState(true); // ローディング状態を管理
+  const { formData, setGeneratedDocument } = useForm();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isMobile()) {
@@ -22,17 +24,56 @@ export default function FormConfirmPage() {
     if (!formData.basicInfo.serviceName) {
       router.push('/form/input');
     } else {
-      setIsLoading(false); // データが取得できたらローディングを解除
+      setIsLoading(false);
     }
   }, [formData, router]);
 
   const handleGenerateDocument = async () => {
-    // TODO: AIによるデザイン計画書生成処理
-    router.push('/form/complete');
+    try {
+      setIsGenerating(true);
+      setError(null);
+
+      const response = await fetch('/api/generate-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.status === 504) {
+        throw new Error('生成に時間がかかりすぎています。しばらく時間をおいて再度お試しください。');
+      }
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error('サーバーからの応答が不正です。しばらく時間をおいて再度お試しください。');
+      }
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'デザイン計画書の生成中にエラーが発生しました');
+      }
+
+      if (!data.url || !data.password) {
+        throw new Error('生成されたデータが不完全です');
+      }
+
+      setGeneratedDocument({
+        url: data.url,
+        password: data.password
+      });
+      router.push('/form/complete');
+    } catch (error) {
+      console.error('Error generating document:', error);
+      setError(error instanceof Error ? error.message : 'エラーが発生しました');
+      setIsGenerating(false);
+    }
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // ローディング中の表示
+    return <div>Loading...</div>;
   }
 
   return (
@@ -251,18 +292,37 @@ export default function FormConfirmPage() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between">
           <button
             onClick={() => router.back()}
-            className="px-8 py-3 rounded-full text-sm border border-primary dark:border-[#61585A] hover:bg-primary/5 dark:hover:bg-[#6B4A4F]/20 transition-colors dark:text-text-dark"
+            disabled={isGenerating}
+            className="px-8 py-3 rounded-full text-sm border border-primary dark:border-[#61585A] hover:bg-primary/5 dark:hover:bg-[#6B4A4F]/20 transition-colors dark:text-text-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
             入力内容を修正
           </button>
           <button
             onClick={handleGenerateDocument}
-            className="px-8 py-3 rounded-full text-sm bg-primary dark:bg-[#2B2325] text-background dark:text-text-dark hover:opacity-90 transition-opacity border dark:border-[#61585A]"
+            disabled={isGenerating}
+            className="px-8 py-3 rounded-full text-sm bg-primary dark:bg-[#2B2325] text-background dark:text-text-dark hover:opacity-90 transition-opacity border dark:border-[#61585A] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            デザイン計画書を生成
+            {isGenerating ? 'デザイン計画書を生成中...' : 'デザイン計画書を生成'}
           </button>
         </div>
       </footer>
+
+      {error && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-lg font-medium text-red-600 dark:text-red-400 mb-2">エラーが発生しました</h3>
+            <p className="text-sm text-red-600 dark:text-red-400 mb-4">{error}</p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setError(null)}
+                className="px-4 py-2 text-sm bg-primary dark:bg-[#2B2325] text-background dark:text-text-dark rounded hover:opacity-90"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 } 

@@ -1,5 +1,5 @@
 import { OpenAI } from 'openai';
-import { Resend } from 'resend';
+import sgMail from '@sendgrid/mail';
 import { nanoid } from 'nanoid';
 import { NextResponse } from 'next/server';
 import { db } from '@/app/lib/firebase';
@@ -10,17 +10,17 @@ const openai = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 60000 })
   : null;
 
-// Resendクライアントの初期化を条件付きで行う
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+// SendGridクライアントの初期化を条件付きで行う
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 export const maxDuration = 60; // Vercelのタイムアウトを60秒に設定
 
 export async function POST(request: Request) {
   try {
     // APIキーのチェック
-    if (!openai || !resend) {
+    if (!openai || !process.env.SENDGRID_API_KEY) {
       return NextResponse.json(
         { error: 'API configuration is missing' },
         { status: 500 }
@@ -161,8 +161,8 @@ export async function POST(request: Request) {
     await setDoc(doc(db, 'documents', documentPath), generatedData);
 
     // メール送信を実行
-    await resend.emails.send({
-      from: 'Lean Designer <info@plasmism.com>',
+    await sgMail.send({
+      from: 'lean-designer@plasmism.com',
       to: formData.companyInfo.email,
       subject: 'デザイン計画書が完成しました',
       html: `
@@ -174,8 +174,8 @@ export async function POST(request: Request) {
     });
 
     // 運営側へのメール送信
-    await resend.emails.send({
-      from: 'Lean Designer <info@plasmism.com>',
+    await sgMail.send({
+      from: 'info@plasmism.com',
       to: 'lean-designer@plasmism.com',
       subject: '新規デザイン計画書が作成されました',
       html: `

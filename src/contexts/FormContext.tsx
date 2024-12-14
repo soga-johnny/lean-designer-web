@@ -3,11 +3,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { FormData } from '@/types/form';
 
+type GeneratedDocument = {
+  url: string;
+  password: string;
+} | null;
+
 type FormContextType = {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   currentSection: number;
   setCurrentSection: React.Dispatch<React.SetStateAction<number>>;
+  generatedDocument: GeneratedDocument;
+  setGeneratedDocument: React.Dispatch<React.SetStateAction<GeneratedDocument>>;
 };
 
 const initialFormData: FormData = {
@@ -69,6 +76,7 @@ export function FormProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [currentSection, setCurrentSection] = useState(1);
+  const [generatedDocument, setGeneratedDocument] = useState<GeneratedDocument>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -83,6 +91,8 @@ export function FormProvider({ children }: { children: React.ReactNode }) {
         setFormData,
         currentSection,
         setCurrentSection,
+        generatedDocument,
+        setGeneratedDocument,
       }}
     >
       {children}
