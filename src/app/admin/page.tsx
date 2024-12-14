@@ -130,7 +130,7 @@ export default function AdminPage() {
     // コンポーネントの検証
     const components = data.components || defaultComponents;
     if (!components.strategy?.length) {
-      errors.push('戦略セクションから最低1つのコンポーネントを選択してく���さい');
+      errors.push('戦略セクションから最低1つのコンポーネントを選択してください');
     }
     if (!components.tactical?.length) {
       errors.push('戦術セクションから最低1つのコンポーネントを選択してください');

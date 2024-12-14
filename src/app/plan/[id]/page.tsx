@@ -54,7 +54,7 @@ const componentSections: ComponentSection[] = [
 export default function PlanPage({ params }: PlanPageProps) {
   const { isLoading, error, data: planData, isAuthenticated, verifyPassword } = useDocumentData(params.id);
   const [password, setPassword] = useState('');
-  const [activeSection, setActiveSection] = useState('outline');
+  const [activeSection, setActiveSection] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
@@ -85,6 +85,46 @@ export default function PlanPage({ params }: PlanPageProps) {
       sections.forEach((section) => observer.unobserve(section));
     };
   }, []);
+
+  const updateComponentSelection = (planData: any) => {
+    console.log('Full planData:', planData);
+    
+    if (!planData?.components) {
+      console.log('No components data:', planData);
+      return componentSections;
+    }
+    
+    console.log('Components data:', {
+      strategy: planData.components.strategy,
+      tactical: planData.components.tactical,
+      styling: planData.components.styling,
+      reasons: planData.components.reasons
+    });
+    
+    return componentSections.map(section => {
+      const sectionKey = section.title === "デザイン戦略セクション" ? "strategy" :
+                        section.title === "デザイン戦術セクション" ? "tactical" :
+                        "styling";
+      
+      console.log(`Processing section: ${section.title}, sectionKey: ${sectionKey}`);
+      console.log(`Available components for ${sectionKey}:`, planData.components[sectionKey]);
+      
+      const updatedComponents = section.components.map(comp => {
+        const isSelected = Array.isArray(planData.components[sectionKey]) && 
+                          planData.components[sectionKey].includes(comp.name);
+        console.log(`Component ${comp.name} selected: ${isSelected}`);
+        return {
+          ...comp,
+          selected: isSelected
+        };
+      });
+
+      return {
+        ...section,
+        components: updatedComponents
+      };
+    });
+  };
 
   if (!isAuthenticated) {
     return (
@@ -155,10 +195,10 @@ export default function PlanPage({ params }: PlanPageProps) {
 
   const sections = [
     { id: 'outline', label: 'アウトライン' },
+    { id: 'plan', label: 'デザインプラン' },
     { id: 'project', label: 'プロジェクト概要' },
     { id: 'requirements', label: '詳細要件' },
     { id: 'design', label: 'デザイン要件' },
-    { id: 'plan', label: 'デザインプラン' },
     { id: 'timeline', label: 'タイムライン' },
     { id: 'tools', label: '活用ツール' },
     { id: 'designer', label: 'デザイナー' },
@@ -216,16 +256,18 @@ export default function PlanPage({ params }: PlanPageProps) {
         <motion.div
           initial={false}
           animate={{ height: isMobileMenuOpen ? 'auto' : 0 }}
-          className="md:hidden overflow-hidden bg-background/95 dark:bg-[#231F1F]/95"
+          className="md:hidden overflow-hidden bg-white/95 dark:bg-[#1A1616]/95 border-t border-gray-100 dark:border-[#2B2325]"
         >
-          <nav className="px-4 py-4">
-            <ul className="space-y-4">
+          <nav className="px-4 py-2">
+            <ul className="space-y-1">
               {sections.map(({ id, label }) => (
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    className={`block py-2 dark:text-text-dark ${
-                      activeSection === id ? 'text-primary dark:text-primary-dark font-medium' : ''
+                    className={`block px-4 py-3 rounded-lg transition-colors ${
+                      activeSection === id 
+                        ? 'bg-primary/5 dark:bg-[#2B2325] text-primary dark:text-primary-dark font-medium' 
+                        : 'hover:bg-gray-50 dark:hover:bg-[#231F1F] dark:text-gray-300'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -250,6 +292,10 @@ export default function PlanPage({ params }: PlanPageProps) {
                     <p>α版のため、生成精度を検証中です。この生成結果を参考に、UXアシスタントとのやり取りを通じて細部の調整を行います。</p>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">最終更新日: {new Date().toLocaleDateString('ja-JP')}</p>
+                  <div className="mt-8">
+                    <h2 className="text-2xl font-medium mb-4 dark:text-gray-200">デザインコンセプト</h2>
+                    <p className="text-lg text-primary dark:text-primary-dark">{planData?.designConcept}</p>
+                  </div>
                 </div>
               );
               break;
@@ -261,25 +307,85 @@ export default function PlanPage({ params }: PlanPageProps) {
                   <div className="space-y-8">
                     <div>
                       <h3 className="text-lg font-medium mb-4 dark:text-gray-200">サービス名</h3>
-                      <p className="dark:text-gray-300">{planData?.serviceName || "リーンな開発プロジェクト"}</p>
+                      <p className="dark:text-gray-300">{planData?.formData?.basicInfo?.serviceName}</p>
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">デザインコンセプト</h3>
-                      <p className="text-lg text-primary dark:text-primary-dark">{planData?.designConcept}</p>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">開発するサービスのゴール</h3>
+                      <ul className="list-disc list-inside space-y-2 dark:text-gray-300">
+                        {planData?.formData?.basicInfo?.serviceGoals?.map((goal: string, index: number) => (
+                          <li key={index}>{goal}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="grid grid-cols-2 gap-8">
-                      <div>
-                        <h3 className="text-lg font-medium mb-4 dark:text-gray-200">開発するサービスのゴール</h3>
-                        <ul className="list-disc list-inside space-y-2">
-                          {planData?.formData?.basicInfo?.serviceGoals?.map((goal: string, index: number) => (
-                            <li key={index}>{goal}</li>
-                          ))}
-                        </ul>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">ターゲットユーザー</h3>
+                      <p className="dark:text-gray-300">{planData?.formData?.basicInfo?.targetUser}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">期待される効果</h3>
+                      <p className="dark:text-gray-300">{planData?.formData?.basicInfo?.expectedEffect}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">開発スケジュール</h3>
+                      <p className="dark:text-gray-300">{planData?.formData?.basicInfo?.developmentPeriod}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">予算感</h3>
+                      <p className="dark:text-gray-300">{planData?.formData?.basicInfo?.budget}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+              break;
+
+            case 'requirements':
+              content = (
+                <div className="max-w-4xl mx-auto px-4">
+                  <h2 className="text-2xl font-medium mb-8 dark:text-gray-200">技術要件</h2>
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">技術スタック</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {planData?.formData?.technicalInfo?.techStack?.map((tech: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-primary/5 dark:bg-[#2B2325] rounded-full text-sm dark:text-gray-300">
+                            {tech}
+                          </span>
+                        ))}
                       </div>
-                      <div>
-                        <h3 className="text-lg font-medium mb-4 dark:text-gray-200">ターゲット</h3>
-                        <p>{planData?.formData?.basicInfo?.targetUser}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">デーム構成</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {planData?.formData?.technicalInfo?.teamStructure?.map((member: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-primary/5 dark:bg-[#2B2325] rounded-full text-sm dark:text-gray-300">
+                            {member}
+                          </span>
+                        ))}
                       </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">コミュニケーションツール</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {planData?.formData?.technicalInfo?.communicationTools?.map((tool: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-primary/5 dark:bg-[#2B2325] rounded-full text-sm dark:text-gray-300">
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">プロジェクト管理ツール</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {planData?.formData?.technicalInfo?.projectManagementTools?.map((tool: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-primary/5 dark:bg-[#2B2325] rounded-full text-sm dark:text-gray-300">
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">現在の課題</h3>
+                      <p className="dark:text-gray-300">{planData?.formData?.technicalInfo?.currentIssues}</p>
                     </div>
                   </div>
                 </div>
@@ -292,22 +398,43 @@ export default function PlanPage({ params }: PlanPageProps) {
                   <h2 className="text-2xl font-medium mb-8 dark:text-gray-200">デザイン要件</h2>
                   <div className="space-y-8">
                     <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">ペザインキーワード</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {planData?.formData?.designInfo?.designKeywords?.map((keyword: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-primary/5 dark:bg-[#2B2325] rounded-full text-sm dark:text-gray-300">
+                            {keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
                       <h3 className="text-lg font-medium mb-4 dark:text-gray-200">ペルソナ</h3>
                       <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 border dark:border-[#61585A]">
-                        <div className="grid grid-cols-2 gap-8">
-                          <div>
-                            <h4 className="text-sm text-gray-600 dark:text-gray-400 mb-2">属性</h4>
-                            <p className="dark:text-text-dark">{planData?.formData?.designInfo?.persona?.attributes}</p>
-                          </div>
-                          <div>
-                            <h4 className="text-sm text-gray-600 dark:text-gray-400 mb-2">課題・ニーズ</h4>
-                            <ul className="list-disc list-inside space-y-2 dark:text-text-dark">
-                              {planData?.formData?.designInfo?.persona?.needs?.map((need: string, index: number) => (
-                                <li key={index}>{need}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                        <p className="dark:text-text-dark">{planData?.formData?.designInfo?.persona}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">カスタマージャーニー</h3>
+                      <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 border dark:border-[#61585A]">
+                        <p className="dark:text-text-dark">{planData?.formData?.designInfo?.customerJourney}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">市場におけるポジショニング</h3>
+                      <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 border dark:border-[#61585A]">
+                        <p className="dark:text-text-dark">{planData?.formData?.designInfo?.marketPositioning}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">カラーパターン</h3>
+                      <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 border dark:border-[#61585A]">
+                        <p className="dark:text-text-dark">{planData?.formData?.designInfo?.colorPattern}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4 dark:text-gray-200">インタラクション要件</h3>
+                      <div className="bg-white dark:bg-[#231F1F] rounded-lg p-6 border dark:border-[#61585A]">
+                        <p className="dark:text-text-dark">{planData?.formData?.designInfo?.interaction}</p>
                       </div>
                     </div>
                   </div>
@@ -323,26 +450,34 @@ export default function PlanPage({ params }: PlanPageProps) {
                     <p className="text-lg dark:text-text-dark">今回に最適なUI/UXのデザインをお届けできるコンポーネントを選別しました</p>
                     <div className="bg-white dark:bg-[#231F1F] rounded-xl p-8">
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
-                        コンポーネントとは、開発プロジェクトの本当に必要な要素や工程を&quot;みえる化&quot;したLean Designer独自のシステムです。
+                        コンポーネントとは、開発プロジェクトの本当に必要な要素や工程を"みえる化"したLean Designer独自のシステムです。
                         これによってプロジェクトにおける、デザインのどの要素が必要で、どの工程が組み込まれていないのかをプロジェクトに関わる全ての方が把握、
                         理解することができます。
                       </p>
-                      <div className="grid grid-cols-3 gap-4">
-                        {componentSections.map((section, sectionIndex) => (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
+                        {updateComponentSelection(planData).map((section, sectionIndex) => (
                           <div key={sectionIndex} className="space-y-4">
-                            <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">{section.title}</h3>
-                            {section.components.map((component, componentIndex) => (
-                              <div
-                                key={componentIndex}
-                                className={`p-4 rounded-lg border-2 ${
-                                  component.selected
-                                    ? 'border-primary dark:border-[#61585A] bg-primary/5 dark:bg-[#2B2325]'
-                                    : 'border-gray-200 dark:border-[#61585A] opacity-50'
-                                }`}
-                              >
-                                <p className="text-sm dark:text-text-dark">{component.name}</p>
-                              </div>
-                            ))}
+                            <h3 className="text-base md:text-sm font-medium text-gray-600 dark:text-gray-400">{section.title}</h3>
+                            {section.components.map((component, componentIndex) => {
+                              const reason = planData?.components?.reasons?.[component.name];
+                              return (
+                                <div
+                                  key={componentIndex}
+                                  className={`p-4 rounded-lg border-2 transition-all ${
+                                    component.selected
+                                      ? 'border-primary dark:border-[#61585A] bg-primary/5 dark:bg-[#2B2325]'
+                                      : 'border-gray-200 dark:border-[#61585A] opacity-50'
+                                  }`}
+                                >
+                                  <p className="text-base md:text-sm dark:text-text-dark">{component.name}</p>
+                                  {component.selected && reason && (
+                                    <p className="text-sm md:text-xs text-gray-600 dark:text-gray-400 mt-2">
+                                      {reason}
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
                         ))}
                       </div>
@@ -391,7 +526,7 @@ export default function PlanPage({ params }: PlanPageProps) {
                   <h2 className="text-2xl font-medium mb-8">Lean Designer概要</h2>
                   <div className="text-center space-y-6">
                     <p className="dark:text-text-dark">
-                      Lean Designerは、ピンポイントのプロジェクト課題に必要な分だけ
+                      Lean Designerは、ピンポイントのプロジェクト課題に必要なだけ
                       スペシャリストのデザイナーに発注できるサービスです
                     </p>
                     <button

@@ -15,18 +15,27 @@ type DocumentData = {
       serviceGoals: string[];
       targetUser: string;
       expectedEffect: string;
+      budget: string;
+      developmentPeriod: string;
+      constraints: string[];
+      qualityRequirements: string;
+      seoImportance: string;
+      otherRequirements: string[];
     };
     technicalInfo: {
       techStack: string[];
+      teamStructure: string[];
+      communicationTools: string[];
+      projectManagementTools: string[];
+      currentIssues: string;
     };
     designInfo: {
       designKeywords: string[];
-      persona: {
-        attributes: string;
-        needs: string[];
-      };
-      direction: string;
-      metrics: string[];
+      persona: string;
+      customerJourney: string;
+      marketPositioning: string;
+      colorPattern: string;
+      interaction: string;
     };
   };
 };
@@ -62,13 +71,35 @@ export function useDocumentData(id: string) {
       }
 
       const { planData } = await response.json();
+      console.log('Received planData:', planData);
+      
+      if (planData?.components) {
+        console.log('Components structure:', {
+          strategy: planData.components.strategy,
+          tactical: planData.components.tactical,
+          styling: planData.components.styling,
+          reasons: planData.components.reasons
+        });
+      }
+
+      const normalizedData = {
+        ...planData,
+        components: planData?.components ? {
+          strategy: Array.isArray(planData.components.strategy) ? planData.components.strategy : [],
+          tactical: Array.isArray(planData.components.tactical) ? planData.components.tactical : [],
+          styling: Array.isArray(planData.components.styling) ? planData.components.styling : [],
+          reasons: planData.components.reasons || {}
+        } : null
+      };
+      
       setState({
         isLoading: false,
         error: null,
-        data: planData,
+        data: normalizedData,
         isAuthenticated: true,
       });
     } catch (error) {
+      console.error('Error in verifyPassword:', error);
       setState(prev => ({
         ...prev,
         isLoading: false,

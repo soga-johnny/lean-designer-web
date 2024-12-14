@@ -122,7 +122,7 @@ export function BasicInfoSection() {
 
       {/* 予算 */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-text dark:text-text-dark">予算</label>
+        <label className="block text-sm font-medium text-text dark:text-text-dark">開発予算</label>
         <select
           value={basicInfo.budget}
           onChange={(e) => updateBasicInfo('budget', e.target.value)}

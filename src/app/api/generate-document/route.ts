@@ -72,22 +72,37 @@ export async function POST(request: Request) {
         ]
       }),
       openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",
             content: `
-              提供された情報を基に、必要なデザインコンポーネントを選択してください。
-              以下の条件を満たす必要があります：
-              - 各セクション（戦略、戦術、スタイリング）から最低1つ選択
-              - 選択したコンポーネントがプロジェクトに必要な理由を説明
-              - 最大で合計6つまで選択可能
-              
-              回答は以下のJSON形式で返してください：
+              あなたはUI/UXデザインの専門家です。
+              以下の定義された選択肢から、プロジェクトに必要なコンポーネントを選択してください。
+
+              デザイン戦略セクション（strategy）の選択肢：
+              - ユーザーコンセプト策定
+              - ユーザー要求定義
+
+              デザイン戦術セクション（tactical）の選択肢：
+              - デザイン要件定義
+              - ペルソナ策定
+              - カスタマージャーニー策定
+              - UI画面設計
+              - デザインガイドライン作成
+              - ワイヤーフレーム作成
+
+              スタイリングセクション（styling）の選択肢：
+              - サイトビジュアルデザイン
+              - サービス・システム画面ビジュアルデザイン
+              - 資料ビジュアルデザイン
+
+              各セクションから適切なコンポーネントを選択し、その選択理由も説明してください。
+              レスポンスは以下の形式のJSONで返してください：
               {
-                "strategy": ["コンポーネント名"],
-                "tactical": ["コンポーネント名"],
-                "styling": ["コンポーネント名"],
+                "strategy": ["選択したコンポーネント名"],
+                "tactical": ["選択したコンポーネント名"],
+                "styling": ["選択したコンポーネント名"],
                 "reasons": {
                   "コンポーネント名": "選択理由"
                 }
@@ -96,11 +111,14 @@ export async function POST(request: Request) {
           },
           {
             role: "user",
-            content: JSON.stringify({
-              basicInfo: formData.basicInfo,
-              technicalInfo: formData.technicalInfo,
-              designInfo: formData.designInfo
-            })
+            content: `
+              サービス名: ${formData.basicInfo.serviceName}
+              目的: ${formData.basicInfo.serviceGoals.join(', ')}
+              ターゲット: ${formData.basicInfo.targetUser}
+              期待される効果: ${formData.basicInfo.expectedEffect}
+              技術スタック: ${formData.technicalInfo.techStack.join(', ')}
+              デザインキーワード: ${formData.designInfo.designKeywords.join(', ')}
+            `
           }
         ]
       })
@@ -113,6 +131,7 @@ export async function POST(request: Request) {
         throw new Error('Component response is empty');
       }
       components = JSON.parse(componentContent);
+      console.log('Generated components:', components);
     } catch (error) {
       console.error('Error parsing component response:', error);
       console.error('Raw component response:', componentResponse.choices[0].message.content);
@@ -123,20 +142,25 @@ export async function POST(request: Request) {
     }
 
     const generatedData = {
-      designConcept: conceptResponse.choices[0].message.content ?? '',
-      components,
-      // 他の生成データ
+      serviceName: formData.basicInfo.serviceName,
+      designConcept: conceptResponse.choices[0].message.content?.trim() ?? '',
+      components: {
+        strategy: components.strategy || [],
+        tactical: components.tactical || [],
+        styling: components.styling || [],
+        reasons: components.reasons || {}
+      },
+      formData: formData,
+      createdAt: new Date().toISOString(),
+      password: documentPassword
     };
 
-    // Firestoreにデータを保存
-    await setDoc(doc(db, 'documents', documentPath), {
-      ...generatedData,
-      password: documentPassword,
-      createdAt: new Date().toISOString(),
-      formData: formData
-    });
+    console.log('Saving data to Firestore:', generatedData);
 
-    // メール送信を復活
+    // Firestoreにデータを保存
+    await setDoc(doc(db, 'documents', documentPath), generatedData);
+
+    // メール送信を実行
     await resend.emails.send({
       from: 'Lean Designer <info@plasmism.com>',
       to: formData.companyInfo.email,
@@ -164,9 +188,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      url: documentUrl,
-      password: documentPassword,
-      ...generatedData
+      ...generatedData,
+      url: documentUrl
     });
   } catch (error) {
     console.error('Error:', error);
