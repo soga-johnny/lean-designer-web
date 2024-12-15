@@ -3,6 +3,7 @@ import { notoSansJP, ebGaramond } from '@/lib/fonts';
 import { FormProvider } from '@/contexts/FormContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ClarityScript from '@/components/ClarityScript';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="ja" className={`${notoSansJP.variable} ${ebGaramond.variable}`}>
       <head>
         <GoogleAnalytics />
+        <ClarityScript />
       </head>
       <body className="bg-background dark:bg-background-dark text-text dark:text-text-dark">
         <ThemeProvider>
