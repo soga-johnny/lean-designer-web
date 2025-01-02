@@ -19,7 +19,7 @@ export default function Home() {
             <div className="max-w-7xl mx-auto mt-32 text-center">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-12 leading-relaxed">
                 <span className="relative inline-block mb-4">
-                  デザインでかなえる
+                  betabetabeta
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary/40 dark:bg-primary-dark/40"></span>
                 </span>
                 <br />
