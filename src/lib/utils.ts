@@ -13,13 +13,25 @@ export async function saveFormDataToFirestore(
   collection: string
 ): Promise<void> {
   try {
+    console.log('Firebase config check:', {
+      apiKey: !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    });
+    
     const docId = Date.now().toString()
+    console.log('Attempting to save document with ID:', docId);
+    console.log('Data to save:', data);
+    
     await setDoc(doc(db, collection, docId), {
       ...data,
       createdAt: serverTimestamp()
     })
+    
+    console.log('Document saved successfully');
   } catch (error) {
     console.error('Error saving to Firestore:', error)
+    console.error('Firestore error details:', error);
     throw error
   }
 }

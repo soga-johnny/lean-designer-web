@@ -3,6 +3,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { 
+  PageWrapper, 
+  StaggerContainer, 
+  fadeInUp, 
+  gentleFadeIn, 
+  ButtonMotion, 
+  buttonVariants 
+} from './SurveyAnimations';
 
 export function Hero() {
   const router = useRouter();
@@ -34,11 +43,16 @@ export function Hero() {
   const isAnswered = selectedRole && (selectedRole !== 'other' || otherText.trim().length > 0);
 
   return (
-    <div className="bg-[#F4F3F2] py-12 px-4">
+    <PageWrapper className="bg-[#F4F3F2] py-12 px-4">
       <div className="max-w-[400px] mx-auto">
         
         {/* Main Logo */}
-        <div className="text-center mb-8">
+        <motion.div 
+          className="text-center mb-8"
+          variants={gentleFadeIn}
+          initial="initial"
+          animate="in"
+        >
           <Image
             src="/logo-lean-designer-beta.svg"
             alt="Lean Designer Beta"
@@ -46,10 +60,15 @@ export function Hero() {
             height={180}
             className="h-auto md:w-full w-[80%] mx-auto mb-6"
           />
-        </div>
+        </motion.div>
 
         {/* Description Text */}
-        <div className="mb-12 max-w-2xl mx-auto">
+        <motion.div 
+          className="mb-12 max-w-2xl mx-auto"
+          variants={fadeInUp}
+          initial="initial"
+          animate="in"
+        >
           <p className="text-gray-700 leading-relaxed mb-6">
             現在開発中のプロダクトアイデアを可視化する
             「Lean Designer Beta」において、サービスの品質を向上させる
@@ -61,10 +80,16 @@ export function Hero() {
             シートをご提供しておりますので、お役に立てますと幸
             いです。
           </p>
-        </div>
+        </motion.div>
 
         {/* Question Preview Section */}
-        <div className="w-full mx-auto">
+        <motion.div 
+          className="w-full mx-auto"
+          variants={fadeInUp}
+          initial="initial"
+          animate="in"
+          transition={{ delay: 0.2 }}
+        >
           
           {/* Question Title */}
           <div className="text-center mb-8">
@@ -74,99 +99,144 @@ export function Hero() {
           </div>
 
           {/* Question Options */}
-          <div className="space-y-3 mb-6">
-            <div 
+          <StaggerContainer className="space-y-3 mb-6">
+            <motion.div 
               onClick={() => handleRoleSelect('individual')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
                 ${selectedRole === 'individual' ? 'border-[#364153] bg-gray-100' : ''}
               `}
+              variants={fadeInUp}
+              whileHover={{ opacity: 0.9 }}
+              whileTap={{ opacity: 0.8 }}
             >
               <span className="text-gray-700 font-bold text-lg">個人事業主 / 個人</span>
               {selectedRole === 'individual' && (
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <motion.div 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
                     <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
             
-            <div 
+            <motion.div 
               onClick={() => handleRoleSelect('dev')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
                 ${selectedRole === 'dev' ? 'border-[#364153] bg-gray-100' : ''}
               `}
+              variants={fadeInUp}
+              whileHover={{ opacity: 0.9 }}
+              whileTap={{ opacity: 0.8 }}
             >
               <span className="text-gray-700 font-bold text-lg">個人開発者</span>
               {selectedRole === 'dev' && (
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <motion.div 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
                     <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
             
-            <div 
+            <motion.div 
               onClick={() => handleRoleSelect('pdm')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
                 ${selectedRole === 'pdm' ? 'border-[#364153] bg-gray-100' : ''}
               `}
+              variants={fadeInUp}
+              whileHover={{ opacity: 0.9 }}
+              whileTap={{ opacity: 0.8 }}
             >
               <span className="text-gray-700 font-bold text-lg">PdM / プロダクトオーナー</span>
               {selectedRole === 'pdm' && (
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <motion.div 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
                     <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
             
-            <div 
+            <motion.div 
               onClick={() => handleRoleSelect('ceo')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
                 ${selectedRole === 'ceo' ? 'border-[#364153] bg-gray-100' : ''}
               `}
+              variants={fadeInUp}
+              whileHover={{ opacity: 0.9 }}
+              whileTap={{ opacity: 0.8 }}
             >
               <span className="text-gray-700 font-bold text-lg">CEO / 創業者</span>
               {selectedRole === 'ceo' && (
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <motion.div 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
                     <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
             
-            <div 
+            <motion.div 
               onClick={() => handleRoleSelect('other')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
                 ${selectedRole === 'other' ? 'border-[#364153] bg-gray-100' : ''}
               `}
+              variants={fadeInUp}
+              whileHover={{ opacity: 0.9 }}
+              whileTap={{ opacity: 0.8 }}
             >
               <span className="text-gray-700 font-bold text-lg">その他</span>
               {selectedRole === 'other' && (
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <motion.div 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
                     <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
             
             {selectedRole === 'other' && (
-              <div className="mt-3 space-y-1">
+              <motion.div 
+                className="mt-3 space-y-1"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="mb-8">
                   <textarea
                     placeholder="現在の役職を入力してください"
@@ -176,23 +246,37 @@ export function Hero() {
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-gray-400 resize-none"
                   />
                 </div>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </StaggerContainer>
 
           {/* Progress Bar */}
-          <div className="mb-6">
+          <motion.div 
+            className="mb-6"
+            variants={fadeInUp}
+            initial="initial"
+            animate="in"
+            transition={{ delay: 0.4 }}
+          >
             <div className="h-2 bg-gray-300 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gray-300 transition-all duration-300"
-                style={{ width: '0%' }}
+              <motion.div 
+                className="h-full bg-gray-300"
+                initial={{ width: '0%' }}
+                animate={{ width: '0%' }}
+                transition={{ duration: 0.8 }}
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* CTA Button */}
-          <div className="text-center">
-            <button
+          <motion.div 
+            className="text-center"
+            variants={fadeInUp}
+            initial="initial"
+            animate="in"
+            transition={{ delay: 0.5 }}
+          >
+            <ButtonMotion
               onClick={handleNext}
               disabled={!isAnswered}
               className={`
@@ -202,14 +286,18 @@ export function Hero() {
                   : 'bg-[#DEC1A9] text-white cursor-not-allowed'
                 }
               `}
+              variants={buttonVariants}
+              initial="idle"
+              whileHover={isAnswered ? "hover" : "idle"}
+              whileTap={isAnswered ? "tap" : "idle"}
             >
               次へ
-            </button>
-          </div>
+            </ButtonMotion>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
       </div>
-    </div>
+    </PageWrapper>
   );
 } 

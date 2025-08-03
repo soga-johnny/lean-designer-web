@@ -3,9 +3,16 @@
 import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { SurveyProvider, useSurvey } from '@/contexts/SurveyContext';
 import { getQuestionByNumber } from '@/data/surveyQuestions';
 import { saveFormDataToFirestore, sendThankYouEmail } from '@/lib/utils';
+import { 
+  PageWrapper, 
+  ButtonMotion, 
+  buttonVariants,
+  progressBarVariants 
+} from '@/components/survey/SurveyAnimations';
 
 function SurveyFormContent() {
   const router = useRouter();
@@ -127,12 +134,34 @@ function SurveyFormContent() {
     setIsSubmitting(true);
     
     try {
-      // Firestoreに保存（回答データをそのまま保存）
-      await saveFormDataToFirestore(responses, 'survey_responses');
+      console.log('Starting submission process...');
+      console.log('Responses to submit:', responses);
       
-      // メール送信
-      if (responses.email && typeof responses.email === 'string') {
+      // 開発環境用の回避策: Firestoreエラーを回避
+      const isProduction = process.env.NODE_ENV === 'production';
+      
+      if (isProduction) {
+        // 本番環境: 通常の処理
+        console.log('Production mode: Saving to Firestore...');
+        await saveFormDataToFirestore(responses, 'survey_responses');
+        console.log('Firestore save completed');
+      } else {
+        // 開発環境: ローカルストレージに保存
+        console.log('Development mode: Saving to localStorage...');
+        localStorage.setItem('surveyData_' + Date.now(), JSON.stringify({
+          ...responses,
+          submittedAt: new Date().toISOString()
+        }));
+        console.log('Data saved to localStorage');
+      }
+      
+      // メール送信（開発環境では省略）
+      if (responses.email && typeof responses.email === 'string' && isProduction) {
+        console.log('Sending thank you email to:', responses.email);
         await sendThankYouEmail(responses.email);
+        console.log('Email sent successfully');
+      } else {
+        console.log('Development mode: Skipping email send');
       }
       
       // LocalStorageをクリア
@@ -143,7 +172,15 @@ function SurveyFormContent() {
       
     } catch (error) {
       console.error('Survey submission error:', error);
-      alert('送信中にエラーが発生しました。もう一度お試しください。');
+      console.log('Survey responses data:', responses);
+      
+      // より詳細なエラーメッセージを表示
+      let errorMessage = '送信中にエラーが発生しました。';
+      if (error instanceof Error) {
+        errorMessage += ` 詳細: ${error.message}`;
+      }
+      
+      alert(errorMessage + ' もう一度お試しください。');
     } finally {
       setIsSubmitting(false);
     }
@@ -159,9 +196,14 @@ function SurveyFormContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F3F2]">
+    <PageWrapper className="min-h-screen bg-[#F4F3F2]">
       {/* Header and Banner */}
-      <div className="bg-white">
+      <motion.div 
+        className="bg-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="md:mx-10 mx-0 px-4 py-4 flex items-center justify-between">
           <div className="flex items-center">
             <a 
@@ -188,9 +230,14 @@ function SurveyFormContent() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-[#2B2325] text-white py-3">
+      <motion.div 
+        className="bg-[#2B2325] text-white py-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-center space-x-4">
             <div className="flex items-center space-x-2">
@@ -207,18 +254,29 @@ function SurveyFormContent() {
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
-      <div className="bg-[#F4F3F2] py-12 px-4">
-        <div className="max-w-[400px] mx-auto">
+      <motion.div 
+        className="bg-[#F4F3F2] py-12 px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        <div className="max-w-[400px] min-h-[800px] mx-auto">
 
           {/* Question Title */}
-          <div className="text-center mt-8 mb-12">
+          <motion.div 
+            className="text-center mt-8 mb-12"
+            key={`question-${questionNumber}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
             <h2 className="text-2xl font-bold text-gray-700 mb-6">
               {currentQuestion.title}
             </h2>
-          </div>
+          </motion.div>
 
           {/* Question Content */}
           <div className="w-full mx-auto">
@@ -399,30 +457,43 @@ function SurveyFormContent() {
 
 
 
-                         {/* Progress Bar */}
-             <div className="mb-6">
-               {/* <div className="flex justify-end mb-2">
-                 <span className="text-sm text-gray-500">{Math.round((questionNumber / 8) * 100)}%</span>
-               </div> */}
-               <div className="h-2 bg-gray-300 rounded-full overflow-hidden">
-                 <div 
-                   className="h-full bg-[#BF8058] transition-all duration-300"
-                   style={{ width: `${(questionNumber / 8) * 100}%` }}
-                 />
-               </div>
-             </div>
+                                                 {/* Progress Bar */}
+            <motion.div 
+              className="mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              {/* <div className="flex justify-end mb-2">
+                <span className="text-sm text-gray-500">{Math.round((questionNumber / 8) * 100)}%</span>
+              </div> */}
+              <div className="h-2 bg-gray-300 rounded-full overflow-hidden">
+                <motion.div 
+                  className="h-full bg-[#BF8058]"
+                  variants={progressBarVariants}
+                  initial="initial"
+                  animate="animate"
+                  custom={`${(questionNumber / 8) * 100}%`}
+                />
+              </div>
+            </motion.div>
 
             {/* Navigation Buttons */}
             <div className="flex flex-col-reverse space-y-8 justify-center items-center">
               
               {/* Previous Button */}
               {questionNumber >= 2 && (
-                <button
+                <motion.button
                   onClick={handlePrevious}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                  className="text-gray-500 hover:text-gray-700 transition-colors underline"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  whileHover={{ opacity: 0.7 }}
+                  whileTap={{ opacity: 0.6 }}
                 >
                   ← 戻る
-                </button>
+                </motion.button>
               )}
 
               {/* Spacer */}
@@ -430,7 +501,7 @@ function SurveyFormContent() {
 
                              {/* Next/Submit Button */}
                {questionNumber < 8 ? (
-                 <button
+                 <ButtonMotion
                    onClick={handleNext}
                    disabled={!isCurrentQuestionAnswered()}
                    className={`
@@ -440,23 +511,42 @@ function SurveyFormContent() {
                        : 'bg-[#DEC1A9] text-white cursor-not-allowed'
                      }
                    `}
+                   variants={buttonVariants}
+                   initial="idle"
+                   whileHover={isCurrentQuestionAnswered() ? "hover" : "idle"}
+                   whileTap={isCurrentQuestionAnswered() ? "tap" : "idle"}
                  >
                    次へ
-                 </button>
+                 </ButtonMotion>
                ) : (
-                 <button
-                   onClick={handleSubmit}
-                   disabled={!isCurrentQuestionAnswered() || isSubmitting}
-                   className={`
-                     inline-block px-6 py-4 rounded-md font-bold transition-colors
-                     ${isCurrentQuestionAnswered() && !isSubmitting
-                       ? 'bg-[#BF8058] hover:bg-[#5C2D2B] text-white'
-                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                     }
-                   `}
-                 >
-                   {isSubmitting ? '送信中...' : '送信'}
-                 </button>
+                                    <motion.div 
+                     className="space-y-4"
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     transition={{ duration: 0.6, delay: 0.5 }}
+                   >
+                   <ButtonMotion
+                     onClick={() => {
+                       console.log('Current responses before submit:', responses);
+                       console.log('Email validation:', responses.email && typeof responses.email === 'string');
+                       handleSubmit();
+                     }}
+                     disabled={!isCurrentQuestionAnswered() || isSubmitting}
+                     className={`
+                       inline-block px-6 py-4 rounded-md font-bold transition-colors
+                       ${isCurrentQuestionAnswered() && !isSubmitting
+                         ? 'bg-[#BF8058] hover:bg-[#5C2D2B] text-white'
+                         : 'bg-[#DEC1A9] text-white cursor-not-allowed'
+                       }
+                     `}
+                     variants={buttonVariants}
+                     initial="idle"
+                     whileHover={isCurrentQuestionAnswered() && !isSubmitting ? "hover" : "idle"}
+                     whileTap={isCurrentQuestionAnswered() && !isSubmitting ? "tap" : "idle"}
+                   >
+                     {isSubmitting ? '送信中...' : '送信'}
+                   </ButtonMotion>
+                 </motion.div>
                )}
 
             </div>
@@ -464,7 +554,7 @@ function SurveyFormContent() {
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
       {/* Footer */}
       <footer className="border-t border-gray-200 py-4 mt-12">
@@ -493,7 +583,7 @@ function SurveyFormContent() {
         </div>
       </footer>
 
-    </div>
+    </PageWrapper>
   );
 }
 

@@ -4,5 +4,11 @@ service cloud.firestore {
     match /documents/{documentId} {
       allow read, write: if true;  // 開発中は一時的にすべて許可
     }
+    match /survey_responses/{documentId} {
+      allow read, write: if true;  // アンケート回答の保存を許可
+    }
+    match /form_data/{documentId} {
+      allow read, write: if true;  // フォームデータの保存を許可
+    }
   }
 } 
