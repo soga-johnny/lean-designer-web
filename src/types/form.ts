@@ -37,4 +37,30 @@ export type FormData = {
     email: string;
     referralSource: string[];
   };
-}; 
+};
+
+// Survey types
+export interface SurveyResponse {
+  role: "ceo" | "pdm" | "dev" | "individual" | "other";
+  phase: "idea" | "mvp" | "prelaunch" | "postlaunch";
+  category: "saas" | "mobile" | "iot" | "other";
+  excitement: 50 | 80 | 120 | 200;
+  allowInterview: boolean;
+  agreeNDA: boolean;
+  email: string;
+  createdAt: any; // Firestore Timestamp
+  etcOtherText?: string;
+}
+
+export interface QuestionOption {
+  value: string;
+  label: string;
+}
+
+export interface SurveyQuestion {
+  id: string;
+  title: string;
+  options: QuestionOption[];
+  showOther?: boolean;
+  required?: boolean;
+} 
