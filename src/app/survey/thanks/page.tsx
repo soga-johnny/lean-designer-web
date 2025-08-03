@@ -74,15 +74,11 @@ export default function SurveyThanksPage() {
               variants={fadeInUp}
             >
               <p className="mb-6">
-                お答えいただいた内容は現在開発中のプロダクトアイデ
-                アを可視化する「Lean Designer Beta」において、サー
-                ビスの品質を向上させるために活用させていただきま
-                す。
+                お答えいただいた内容は現在開発中のプロダクトアイデアを可視化する「Lean Designer Beta」において、サービスの品質を向上させるために活用させていただきます。
               </p>
               
               <p>
-                担当より改めてご挨拶とお礼のメールを差し上げますの
-                で、お待ちください。
+                担当より改めてご挨拶とお礼のメールを差し上げますので、お待ちください。
               </p>
             </motion.div>
           </StaggerContainer>

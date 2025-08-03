@@ -7,11 +7,11 @@ import ClarityScript from '@/components/ClarityScript';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Lean Designer | 開発専門のハイエンドUI/UXソリューション',
-  description: 'ピンポイントの開発課題を必要な分だけスペシャリストのデザイナーに発注ができる、UI/UXデザインソリューション',
+  title: 'Lean Designer Beta | プロダクトアイデアを３分で可視化',
+  description: 'プロダクト構想フェーズ専門コンセプトシートAI生成サービス',
   openGraph: {
-    title: 'Lean Designer | 開発専門のハイエンドUI/UXソリューション',
-    description: 'ピンポイントの開発課題を必要な分だけスペシャリストのデザイナーに発注ができる、UI/UXデザインソリューション',
+    title: 'Lean Designer Beta | プロダクトアイデアを３分で可視化',
+    description: 'プロダクト構想フェーズ専門コンセプトシートAI生成サービス',
     images: [
       {
         url: '/ogp.png',
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Lean Designer | 開発専門のハイエンドUI/UXソリューション',
-    description: 'ピンポイントの開発課題を必要な分だけスペシャリストのデザイナーに発注ができる、UI/UXデザインソリューション',
+    title: 'Lean Designer Beta | プロダクトアイデアを３分で可視化',
+    description: 'プロダクト構想フェーズ専門コンセプトシートAI生成サービス',
     images: ['/ogp.png'],
   },
 };
