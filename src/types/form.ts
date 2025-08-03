@@ -48,7 +48,7 @@ export interface SurveyResponse {
   allowInterview: boolean;
   agreeNDA: boolean;
   email: string;
-  createdAt: any; // Firestore Timestamp
+  createdAt: { seconds: number; nanoseconds: number } | null; // Firestore Timestamp
   etcOtherText?: string;
 }
 
@@ -60,7 +60,9 @@ export interface QuestionOption {
 export interface SurveyQuestion {
   id: string;
   title: string;
-  options: QuestionOption[];
+  options?: QuestionOption[];
   showOther?: boolean;
   required?: boolean;
+  multiple?: boolean;
+  type?: 'text' | 'email' | 'textarea' | 'combined';
 } 

@@ -9,7 +9,7 @@ export const isMobile = () => {
 
 // Survey utility functions
 export async function saveFormDataToFirestore(
-  data: any, 
+  data: Record<string, unknown> | SurveyResponse, 
   collection: string
 ): Promise<void> {
   try {
@@ -43,16 +43,16 @@ export async function sendThankYouEmail(email: string): Promise<void> {
   }
 }
 
-export function prepareSurveyPayload(responses: Record<string, any>): SurveyResponse {
+export function prepareSurveyPayload(responses: Record<string, string | boolean | number>): SurveyResponse {
   return {
-    role: responses.role || "other",
-    phase: responses.phase || "idea",
-    category: responses.category || "other",
-    excitement: responses.excitement || 50,
-    allowInterview: responses.allowInterview || false,
-    agreeNDA: responses.agreeNDA || false,
-    email: responses.email || "",
+    role: (responses.role as "ceo" | "pdm" | "dev" | "individual" | "other") || "other",
+    phase: (responses.phase as "idea" | "mvp" | "prelaunch" | "postlaunch") || "idea",
+    category: (responses.category as "saas" | "mobile" | "iot" | "other") || "other",
+    excitement: (responses.excitement as 50 | 80 | 120 | 200) || 50,
+    allowInterview: Boolean(responses.allowInterview),
+    agreeNDA: Boolean(responses.agreeNDA),
+    email: String(responses.email || ""),
     createdAt: null, // Will be set by serverTimestamp in Firestore
-    etcOtherText: responses.etcOtherText || undefined,
+    etcOtherText: responses.etcOtherText ? String(responses.etcOtherText) : undefined,
   }
 } 

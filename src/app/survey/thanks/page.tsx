@@ -1,51 +1,59 @@
 'use client';
 
 import Link from 'next/link';
-import { NextStepsCard } from '@/components/survey/NextStepsCard';
+import { SurveyHeader } from '@/components/survey/SurveyHeader';
+import { AnnouncementBanner } from '@/components/survey/AnnouncementBanner';
+import { SurveyFooter } from '@/components/survey/SurveyFooter';
 
 export default function SurveyThanksPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#F4F3F2]">
+      {/* Header */}
+      <div className="bg-white">
+        <SurveyHeader />
+      </div>
+      
+      {/* Announcement Banner */}
+      <AnnouncementBanner />
 
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mb-6">
-            <svg className="w-8 h-8 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
+      {/* Main Content */}
+      <div className="bg-[#F4F3F2] py-12 px-4">
+        <div className="max-w-[400px] mx-auto text-center min-h-[800px]">
           
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            ありがとうございました！
+          {/* Thank You Title */}
+          <h1 className="text-2xl font-bold text-gray-700 mb-8">
+            アンケートへのご協力<br />
+            ありがとうございました
           </h1>
           
-          <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-            アンケートへのご協力、誠にありがとうございました。<br />
-            いただいたご回答をもとに、戦略シートを作成してお送りいたします。
-          </p>
-        </div>
-
-        {/* Next Steps Card */}
-        <div className="mb-12">
-          <NextStepsCard />
-        </div>
-
-        {/* Actions */}
-        <div className="text-center space-y-4">
-          <Link
-            href="/"
-            className="inline-block bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
-          >
-            ホームに戻る
-          </Link>
-          
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            <p>メールが届かない場合は、迷惑メールフォルダもご確認ください。</p>
+          {/* Description */}
+          <div className="mb-8 text-gray-700 leading-relaxed">
+            <p className="mb-6">
+              お答えいただいた内容は現在開発中のプロダクトアイデ
+              アを可視化する「Lean Designer Beta」において、サー
+              ビスの品質を向上させるために活用させていただきま
+              す。
+            </p>
+            
+            <p>
+              担当より改めてご挨拶とお礼のメールを差し上げますの
+              で、お待ちください。
+            </p>
           </div>
-        </div>
 
+          {/* TOP Button */}
+          <Link
+            href="/survey"
+            className="inline-block bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-6 py-4 rounded-md font-bold transition-colors"
+          >
+            TOPへ
+          </Link>
+
+        </div>
       </div>
+
+      {/* Footer */}
+      <SurveyFooter />
     </div>
   );
 } 

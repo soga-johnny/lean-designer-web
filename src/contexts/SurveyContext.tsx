@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type SurveyResponses = Record<string, any>;
+type SurveyResponses = Record<string, string | boolean | number | string[]>;
 
 type SurveyContextType = {
   responses: SurveyResponses;

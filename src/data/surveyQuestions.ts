@@ -1,6 +1,6 @@
 import { SurveyQuestion } from '@/types/form';
 
-// 仮の質問データ（後で実際の質問に差し替え予定）
+// 実際の設問データ
 export const surveyQuestions: SurveyQuestion[] = [
   {
     id: 'role',
@@ -16,99 +16,76 @@ export const surveyQuestions: SurveyQuestion[] = [
     required: true
   },
   {
-    id: 'phase',
-    title: 'プロダクトの現在のフェーズは？',
+    id: 'exciting_challenge',
+    title: '今、最もワクワクする課題は？',
     options: [
-      { value: 'idea', label: 'アイデア段階' },
-      { value: 'mvp', label: 'MVP開発中' },
-      { value: 'prelaunch', label: 'リリース前' },
-      { value: 'postlaunch', label: 'リリース後' }
+      { value: 'customer_challenge', label: '顧客課題 をもっと掘りたい' },
+      { value: 'ux_dev_quality', label: 'UX/UI や開発品質を上げたい' },
+      { value: 'business_model', label: 'ビジネスモデルを固めたい' },
+      { value: 'team_investor', label: '仲間・投資家に共感を拡げたい' }
     ],
     required: true
   },
   {
-    id: 'category',
-    title: 'プロダクトのカテゴリは？',
+    id: 'stumbling_point',
+    title: '逆に 一番つまずいている所は？',
     options: [
-      { value: 'saas', label: 'SaaS / Webアプリ' },
-      { value: 'mobile', label: 'モバイルアプリ' },
-      { value: 'iot', label: 'IoT / ハードウェア' },
-      { value: 'other', label: 'その他' }
-    ],
-    showOther: true,
-    required: true
-  },
-  {
-    id: 'excitement',
-    title: 'このサービスへの期待度は？',
-    options: [
-      { value: '50', label: '少し興味がある（50%）' },
-      { value: '80', label: '結構興味がある（80%）' },
-      { value: '120', label: 'とても興味がある（120%）' },
-      { value: '200', label: '絶対に使いたい（200%）' }
+      { value: 'persona_hypothesis', label: 'ペルソナ／課題仮説が曖昧' },
+      { value: 'feature_priority', label: '機能優先度が決まらない' },
+      { value: 'monetization_scenario', label: '収益化のシナリオ' },
+      { value: 'internal_explanation', label: '社内・投資家への説明資料' }
     ],
     required: true
   },
   {
-    id: 'budget',
-    title: 'デザイン関連の予算は？',
+    id: 'idea_source',
+    title: 'アイデアはどうしている時に浮かんできた？',
     options: [
-      { value: 'low', label: '10万円未満' },
-      { value: 'medium', label: '10-50万円' },
-      { value: 'high', label: '50万円以上' },
-      { value: 'unknown', label: 'まだ決まっていない' }
+      { value: 'customer_talk', label: '顧客と実際に話しているとき' },
+      { value: 'work_practice', label: '仕事の実務中' },
+      { value: 'personal_inconvenience', label: '実際に自分が不便・課題に感じて' },
+      { value: 'alone_time', label: '散歩や入浴中等の一人の時間' }
     ],
     required: true
   },
   {
-    id: 'timeline',
-    title: '希望する納期は？',
+    id: 'concept_organization',
+    title: 'コンセプト整理は今はどうやってる？（複数）',
     options: [
-      { value: 'urgent', label: '1週間以内' },
-      { value: 'short', label: '1-2週間' },
-      { value: 'medium', label: '1ヶ月' },
-      { value: 'long', label: '2ヶ月以上' }
+      { value: 'notion_memo', label: 'Notion等のメモツール' },
+      { value: 'handwritten_memo', label: '手書きメモ' },
+      { value: 'slides', label: 'スライド(ppt, keynote)' },
+      { value: 'other_or_none', label: 'その他、または取らない' }
+    ],
+    multiple: true,
+    required: true
+  },
+  {
+    id: 'product_position',
+    title: 'このプロダクトはどのような立ち位置になる？',
+    options: [
+      { value: 'main_business', label: '事業の主軸になるプロダクト' },
+      { value: 'connected_business', label: '別事業と密接に繋がりながら成長するプロダクト' },
+      { value: 'side_business', label: 'メイン事業が別にあり、その傍で運用するプロダクト' },
+      { value: 'non_profit', label: '非営利で運用するプロダクト' }
     ],
     required: true
   },
   {
-    id: 'pain_point',
-    title: '現在の最大の課題は？',
+    id: 'revenue_target',
+    title: '立ち上げ１年後の希望年間売上規模は？',
     options: [
-      { value: 'design', label: 'デザインの品質' },
-      { value: 'speed', label: '開発スピード' },
-      { value: 'user_feedback', label: 'ユーザーフィードバック' },
-      { value: 'market_fit', label: 'プロダクトマーケットフィット' }
+      { value: 'under_5m', label: '-500万円' },
+      { value: 'under_10m', label: '-1000万円' },
+      { value: 'under_50m', label: '-5000万円' },
+      { value: 'over_50m', label: '5000万円-' }
     ],
     required: true
   },
   {
-    id: 'team_size',
-    title: 'チームの規模は？',
-    options: [
-      { value: 'solo', label: '1人（個人）' },
-      { value: 'small', label: '2-5人' },
-      { value: 'medium', label: '6-20人' },
-      { value: 'large', label: '21人以上' }
-    ],
-    required: true
-  },
-  {
-    id: 'allowInterview',
-    title: 'インタビューにご協力いただけますか？',
-    options: [
-      { value: 'yes', label: 'はい、協力できます' },
-      { value: 'no', label: 'いいえ、難しいです' }
-    ],
-    required: true
-  },
-  {
-    id: 'email_and_nda',
-    title: '最後に、メールアドレスとNDA同意をお願いします',
-    options: [
-      { value: 'agree', label: 'NDAに同意し、メールアドレスを入力する' },
-      { value: 'disagree', label: 'NDAに同意できない' }
-    ],
+    id: 'final_info',
+    title: '最後に、いくつかの情報をお聞かせください',
+    type: 'combined',
     required: true
   }
 ];
