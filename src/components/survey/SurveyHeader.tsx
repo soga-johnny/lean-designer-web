@@ -31,9 +31,14 @@ export function SurveyHeader() {
             プロダクト開発フェーズのアイデアを、3分で可視化する
           </span>
           
-          <button className="bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-4 py-2 rounded-md text-sm font-bold transition-colors">
+          <a 
+            href="https://prtimes.jp/main/html/rd/p/000000004.000154085.html"
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-4 py-2 rounded-md text-sm font-bold transition-colors inline-block"
+          >
             プレスリリース
-          </button>
+          </a>
         </div>
 
       </div>
