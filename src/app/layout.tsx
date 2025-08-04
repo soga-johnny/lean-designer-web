@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notoSansJP, ebGaramond } from '@/lib/fonts';
 import { FormProvider } from '@/contexts/FormContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { Analytics } from '@vercel/analytics/react';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ClarityScript from '@/components/ClarityScript';
 import './globals.css';
@@ -48,6 +49,7 @@ export default function RootLayout({
             {children}
           </FormProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
