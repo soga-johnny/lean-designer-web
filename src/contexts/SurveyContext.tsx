@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { BranchType, getBranchType, getQuestionsForBranch, getTotalQuestionsForBranch } from '@/data/surveyQuestions';
 
 type SurveyResponses = Record<string, string | boolean | number | string[]>;
 
@@ -11,6 +12,9 @@ type SurveyContextType = {
   setCurrentQuestion: React.Dispatch<React.SetStateAction<number>>;
   isSubmitting: boolean;
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
+  branchType: BranchType;
+  currentQuestions: any[];
+  totalQuestions: number;
 };
 
 const SurveyContext = createContext<SurveyContextType | undefined>(undefined);
@@ -33,6 +37,16 @@ export function SurveyProvider({ children }: { children: React.ReactNode }) {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // 条件分岐の判定
+  const branchType = getBranchType(
+    responses.q1_current_situation as string || '',
+    responses.q2_position as string || ''
+  );
+
+  // 現在の分岐に応じた質問リスト
+  const currentQuestions = getQuestionsForBranch(branchType);
+  const totalQuestions = getTotalQuestionsForBranch(branchType);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('surveyResponses', JSON.stringify(responses));
@@ -48,6 +62,9 @@ export function SurveyProvider({ children }: { children: React.ReactNode }) {
         setCurrentQuestion,
         isSubmitting,
         setIsSubmitting,
+        branchType,
+        currentQuestions,
+        totalQuestions,
       }}
     >
       {children}

@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SurveyProvider, useSurvey } from '@/contexts/SurveyContext';
-import { getQuestionByNumber } from '@/data/surveyQuestions';
 import { saveFormDataToFirestore, sendThankYouEmail } from '@/lib/utils';
 import { 
   PageWrapper, 
@@ -18,25 +17,45 @@ function SurveyFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const q = searchParams.get('q');
-  const { responses, setResponses, isSubmitting, setIsSubmitting } = useSurvey();
+  const { 
+    responses, 
+    setResponses, 
+    isSubmitting, 
+    setIsSubmitting,
+    branchType,
+    currentQuestions,
+    totalQuestions
+  } = useSurvey();
 
   useEffect(() => {
-    // クエリパラメータがない場合は2問目にリダイレクト（1問目はTOPページ）
+    // クエリパラメータがない場合の処理
     if (!q) {
-      router.push('/survey/form?q=2');
+      // Q1が既に回答済みかチェック
+      if (responses.q1_current_situation) {
+        router.push('/survey/form?q=2');
+      } else {
+        router.push('/survey');
+      }
       return;
     }
 
     // 質問番号の妥当性チェック
     const questionNumber = parseInt(q);
-    if (isNaN(questionNumber) || questionNumber < 2 || questionNumber > 8) {
-      router.push('/survey/form?q=2');
+    if (isNaN(questionNumber) || questionNumber < 1 || questionNumber > totalQuestions) {
+      // Q1が既に回答済みかチェック
+      if (responses.q1_current_situation) {
+        router.push('/survey/form?q=2');
+      } else {
+        router.push('/survey');
+      }
       return;
     }
-  }, [q, router]);
+  }, [q, router, totalQuestions, responses.q1_current_situation]);
 
-  const questionNumber = q ? parseInt(q) : 1;
-  const currentQuestion = getQuestionByNumber(questionNumber);
+  const questionNumber = q ? parseInt(q) : 2;
+  // questionNumberが2の場合はcurrentQuestions[1]（Q2）を取得
+  // questionNumberが3の場合はcurrentQuestions[2]（Q3）を取得...
+  const currentQuestion = currentQuestions[questionNumber - 1];
 
   const handleAnswerChange = (questionId: string, value: string | string[], otherText?: string) => {
     setResponses(prev => ({
@@ -115,7 +134,7 @@ function SurveyFormContent() {
   };
 
   const handleNext = () => {
-    if (questionNumber < 8) {
+    if (questionNumber < totalQuestions) {
       router.push(`/survey/form?q=${questionNumber + 1}`);
     }
   };
@@ -124,6 +143,9 @@ function SurveyFormContent() {
     if (questionNumber > 2) {
       router.push(`/survey/form?q=${questionNumber - 1}`);
     } else if (questionNumber === 2) {
+      // Q2から戻る場合は/surveyページに戻る（Q1はそこで回答済み）
+      router.push('/survey');
+    } else {
       router.push('/survey');
     }
   };
@@ -473,7 +495,7 @@ function SurveyFormContent() {
                   variants={progressBarVariants}
                   initial="initial"
                   animate="animate"
-                  custom={`${(questionNumber / 8) * 100}%`}
+                  custom={`${(questionNumber / totalQuestions) * 100}%`}
                 />
               </div>
             </motion.div>
@@ -500,7 +522,7 @@ function SurveyFormContent() {
               <div className="flex-1"></div>
 
                              {/* Next/Submit Button */}
-               {questionNumber < 8 ? (
+               {questionNumber < totalQuestions ? (
                  <ButtonMotion
                    onClick={handleNext}
                    disabled={!isCurrentQuestionAnswered()}

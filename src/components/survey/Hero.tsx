@@ -15,32 +15,27 @@ import {
 
 export function Hero() {
   const router = useRouter();
-  const [selectedRole, setSelectedRole] = useState('');
-  const [otherText, setOtherText] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState('');
 
-  const handleRoleSelect = (role: string) => {
-    setSelectedRole(role);
-    if (role !== 'other') {
-      setOtherText('');
-    }
+  const handleAnswerSelect = (answer: string) => {
+    setSelectedAnswer(answer);
   };
 
   const handleNext = () => {
-    if (!selectedRole) return;
+    if (!selectedAnswer) return;
     
     // LocalStorageに最初の回答を保存
     const surveyData = {
-      role: selectedRole,
-      ...(selectedRole === 'other' && otherText && { role_other: otherText })
+      q1_current_situation: selectedAnswer
     };
     
     localStorage.setItem('surveyResponses', JSON.stringify(surveyData));
     
-    // 2問目から開始（TOPページが1問目なので）
+    // フォームページの2問目から開始（Q1は既に回答済みなので）
     router.push('/survey/form?q=2');
   };
 
-  const isAnswered = selectedRole && (selectedRole !== 'other' || otherText.trim().length > 0);
+  const isAnswered = selectedAnswer !== '';
 
   return (
     <PageWrapper className="bg-[#F4F3F2] py-12 px-4">
@@ -90,24 +85,24 @@ export function Hero() {
           {/* Question Title */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-700 mb-6">
-              あなたの現在の役職は？
+              現在、実現を検討されているプロダクトのアイデアはございますか？
             </h2>
           </div>
 
           {/* Question Options */}
           <StaggerContainer className="space-y-3 mb-6">
             <motion.div 
-              onClick={() => handleRoleSelect('individual')}
+              onClick={() => handleAnswerSelect('1')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
-                ${selectedRole === 'individual' ? 'border-[#364153] bg-gray-100' : ''}
+                ${selectedAnswer === '1' ? 'border-[#364153] bg-gray-100' : ''}
               `}
               variants={fadeInUp}
               whileHover={{ opacity: 0.9 }}
               whileTap={{ opacity: 0.8 }}
             >
-              <span className="text-gray-700 font-bold text-lg">個人事業主 / 個人</span>
-              {selectedRole === 'individual' && (
+              <span className="text-gray-700 font-bold text-lg">具体的なアイデアがあり、実現に向けて取り組んでいる</span>
+              {selectedAnswer === '1' && (
                 <motion.div 
                   className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   initial={{ opacity: 0 }}
@@ -123,17 +118,17 @@ export function Hero() {
             </motion.div>
             
             <motion.div 
-              onClick={() => handleRoleSelect('dev')}
+              onClick={() => handleAnswerSelect('2')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
-                ${selectedRole === 'dev' ? 'border-[#364153] bg-gray-100' : ''}
+                ${selectedAnswer === '2' ? 'border-[#364153] bg-gray-100' : ''}
               `}
               variants={fadeInUp}
               whileHover={{ opacity: 0.9 }}
               whileTap={{ opacity: 0.8 }}
             >
-              <span className="text-gray-700 font-bold text-lg">個人開発者</span>
-              {selectedRole === 'dev' && (
+              <span className="text-gray-700 font-bold text-lg">興味深いアイデアがあり、これから具体化を進めたい</span>
+              {selectedAnswer === '2' && (
                 <motion.div 
                   className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   initial={{ opacity: 0 }}
@@ -149,17 +144,17 @@ export function Hero() {
             </motion.div>
             
             <motion.div 
-              onClick={() => handleRoleSelect('pdm')}
+              onClick={() => handleAnswerSelect('3')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
-                ${selectedRole === 'pdm' ? 'border-[#364153] bg-gray-100' : ''}
+                ${selectedAnswer === '3' ? 'border-[#364153] bg-gray-100' : ''}
               `}
               variants={fadeInUp}
               whileHover={{ opacity: 0.9 }}
               whileTap={{ opacity: 0.8 }}
             >
-              <span className="text-gray-700 font-bold text-lg">PdM / プロダクトオーナー</span>
-              {selectedRole === 'pdm' && (
+              <span className="text-gray-700 font-bold text-lg">まだアイデア検討段階だが、新しい事業に関心がある</span>
+              {selectedAnswer === '3' && (
                 <motion.div 
                   className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   initial={{ opacity: 0 }}
@@ -175,17 +170,17 @@ export function Hero() {
             </motion.div>
             
             <motion.div 
-              onClick={() => handleRoleSelect('ceo')}
+              onClick={() => handleAnswerSelect('4')}
               className={`
                 bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
-                ${selectedRole === 'ceo' ? 'border-[#364153] bg-gray-100' : ''}
+                ${selectedAnswer === '4' ? 'border-[#364153] bg-gray-100' : ''}
               `}
               variants={fadeInUp}
               whileHover={{ opacity: 0.9 }}
               whileTap={{ opacity: 0.8 }}
             >
-              <span className="text-gray-700 font-bold text-lg">CEO / 創業者</span>
-              {selectedRole === 'ceo' && (
+              <span className="text-gray-700 font-bold text-lg">すでにアイデアを形にして事業として展開している</span>
+              {selectedAnswer === '4' && (
                 <motion.div 
                   className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   initial={{ opacity: 0 }}
@@ -199,51 +194,6 @@ export function Hero() {
                 </motion.div>
               )}
             </motion.div>
-            
-            <motion.div 
-              onClick={() => handleRoleSelect('other')}
-              className={`
-                bg-gray-50 border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer relative
-                ${selectedRole === 'other' ? 'border-[#364153] bg-gray-100' : ''}
-              `}
-              variants={fadeInUp}
-              whileHover={{ opacity: 0.9 }}
-              whileTap={{ opacity: 0.8 }}
-            >
-              <span className="text-gray-700 font-bold text-lg">その他</span>
-              {selectedRole === 'other' && (
-                <motion.div 
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="9.5" fill="#00A63E" stroke="#00A63E"/>
-                    <path d="M8.5 12l2 2 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </motion.div>
-              )}
-            </motion.div>
-            
-            {selectedRole === 'other' && (
-              <motion.div 
-                className="mt-3 space-y-1"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="mb-8">
-                  <textarea
-                    placeholder="現在の役職を入力してください"
-                    rows={3}
-                    value={otherText}
-                    onChange={(e) => setOtherText(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-gray-400 resize-none"
-                  />
-                </div>
-              </motion.div>
-            )}
           </StaggerContainer>
 
           {/* Progress Bar */}

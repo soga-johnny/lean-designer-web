@@ -7,20 +7,18 @@ export function SurveyHeader() {
     <header>
       <div className="md:mx-10 mx-0 px-4 py-4 flex items-center justify-between">
         
-        {/* Plasmism Logo */}
+        {/* Logo */}
         <div className="flex items-center">
           <a 
-            href="https://plasmism.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="/survey"
             className="hover:opacity-70 transition-opacity"
           >
             <Image
-              src="/logo-plasmism.svg"
-              alt="Plasmism"
-              width={120}
-              height={24}
-              className="h-6 w-auto"
+              src="/logo-lp.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="h-10 w-10"
             />
           </a>
         </div>
