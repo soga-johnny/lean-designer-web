@@ -5,23 +5,30 @@ import { motion } from 'framer-motion';
 
 // アニメーション設定
 const fadeInUp = {
-  initial: { opacity: 0, y: 60 },
+  initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: "easeOut" }
+  transition: { duration: 1.8, ease: "easeOut" }
 };
 
 const fadeIn = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
-  transition: { duration: 1.0, ease: "easeOut" }
+  transition: { duration: 2.2, delay: 0.5, ease: "easeOut" }
 };
 
 const staggerContainer = {
   animate: {
     transition: {
-      staggerChildren: 0.3
+      staggerChildren: 0.2
     }
   }
+};
+
+// より滑らかなフェードアニメーション
+const smoothFadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 2.5, ease: "easeOut" }
 };
 
 export function LPContent() {
@@ -29,65 +36,97 @@ export function LPContent() {
     <>
       {/* Hero Section */}
       <motion.section 
-        className="relative lg:pt-24"
+        className="relative lg:pt-24 bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D]"
         initial="initial"
         animate="animate"
         variants={staggerContainer}
       >
-        <div className="flex flex-col lg:flex-row">
+        <div 
+          className="absolute inset-0 opacity-80 pointer-events-none z-10"
+          style={{
+            backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+            backgroundBlendMode: 'multiply'
+          }}
+        ></div>
+        {/* PC版レイアウト */}
+        <div className="hidden lg:flex lg:flex-row relative z-20">
           {/* Content */}
-          <div className="flex-1 px-6 py-12 md:px-12 md:py-16 lg:py-14 flex flex-col justify-center gap-6 md:gap-8 lg:gap-10">
-            <div className="lg:max-w-[520px] lg:mx-auto lg:px-0">
-              <motion.div className="flex flex-col gap-2 md:gap-4" variants={fadeInUp}>
-                <div className="flex items-center justify-center lg:justify-start gap-1 flex-wrap">
-                  <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">アイデアを</span>
+          <div className="flex-1 px-12 py-14 flex flex-col justify-center gap-10">
+            <div className="max-w-[520px] mx-auto">
+              <motion.div className="flex flex-col gap-4" variants={fadeInUp}>
+                <div className="flex items-center justify-start gap-1 flex-wrap">
+                  <span className="text-4xl font-bold text-white">アイデアを</span>
                   <div className="bg-white px-2 py-1 rounded">
-                    <span className="text-xl md:text-2xl lg:text-2xl font-bold text-[#BF8058]">3分</span>
+                    <span className="text-2xl font-bold text-[#BF8058]">3分</span>
                   </div>
-                  <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">で可視化する</span>
+                  <span className="text-4xl font-bold text-white">で可視化する</span>
                 </div>
-                <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-white leading-tight text-center lg:text-left">
+                <h1 className="text-6xl font-bold text-white leading-tight text-left">
                   コンセプトシートAI生成サービス<br />
-                  LeanDesigner <span className="text-2xl md:text-3xl lg:text-4xl">Beta</span>
+                  LeanDesigner <span className="text-4xl">Beta</span>
                 </h1>
-                <p className="text-base md:text-lg lg:text-xl font-bold text-white text-center">
+                <p className="text-xl font-bold text-white text-center">
                   アイデアから戦略まで、すべてがコンセプトシートに
                 </p>
-              </motion.div>
-              <motion.div className="flex justify-center lg:justify-start" variants={fadeInUp}>
-                <a
-                  href="https://app.lean-designer.tech"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white hover:bg-gray-50 text-[#BF8058] px-6 md:px-8 lg:px-10 py-3 md:py-4 rounded-lg text-lg md:text-xl font-bold transition-colors inline-flex items-center gap-2 md:gap-3"
-                >
-                  <span className="bg-[#BF8058] text-white px-2 py-1 rounded text-sm font-bold">無料</span>
-                  まずは試してみる
-                </a>
               </motion.div>
             </div>
           </div>
           
-          {/* Right Image - Hidden on mobile, visible on desktop */}
-          <motion.div className="hidden lg:flex flex-1 relative" variants={fadeIn}>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/60 to-white"></div>
+          {/* Right Image - PC版 */}
+          <motion.div className="flex-1 relative" variants={fadeIn}>
             <Image
-              src="/image1.png"
+              src="/lp/デザイン全般（UI/名刺/チラシ/hero-image-pc.png"
               alt="プロダクトデザイナー"
               width={956}
-              height={481}
+              height={581}
               className="w-full h-full object-cover"
             />
           </motion.div>
         </div>
-        
-        {/* Background Gradient */}
-        <div className="absolute inset-0 -z-10 bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D]"></div>
+
+        {/* モバイル版レイアウト */}
+        <div className="lg:hidden relative z-20 h-[50vh] min-h-[400px] flex flex-col overflow-hidden">
+          {/* Mobile Image - 右上に配置 */}
+          <motion.div className="absolute top-0 -right-[200px] w-[700px] h-[300px] z-10 overflow-hidden rounded-bl-3xl" variants={fadeIn}>
+            <Image
+              src="/lp/デザイン全般（UI/名刺/チラシ/hero-image-mobile.png"
+              alt="プロダクトデザイナー"
+              width={390}
+              height={320}
+              className="w-full h-full object-contain object-right-top"
+            />
+          </motion.div>
+
+          {/* Content - 左下に配置 */}
+          <div className="flex-1 px-6 py-6 flex flex-col justify-center relative z-20">
+            <div className="max-w-full">
+              <motion.div className="flex flex-col gap-4" variants={fadeInUp}>
+                <div className="flex items-center justify-start gap-1 flex-wrap mb-4">
+                  <span className="text-2xl md:text-3xl font-bold text-white">アイデアを</span>
+                  <div className="bg-white px-2 py-1 rounded">
+                    <span className="text-xl md:text-2xl font-bold text-[#BF8058]">3分</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-start gap-1 flex-wrap mb-6">
+                  <span className="text-2xl md:text-3xl font-bold text-white">で可視化する</span>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight text-left mb-4">
+                  コンセプトシート<br />
+                  AI生成サービス<br />
+                  LeanDesigner <span className="text-2xl md:text-3xl">Beta</span>
+                </h1>
+                <p className="text-base md:text-lg font-bold text-white text-left max-w-sm">
+                  アイデアから戦略まで、すべてがコンセプトシートに
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </motion.section>
 
       {/* Features Section */}
       <motion.section 
-        id="features" 
+        id="features"
         className="bg-white py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
         initial="initial"
         whileInView="animate"
@@ -126,14 +165,14 @@ export function LPContent() {
 
       {/* Problems Section */}
       <motion.section 
-        id="problems" 
-        className="bg-white border-t border-[#EFE2D6] py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
+        id="problems"
+        className="bg-white border-t border-[#EFE2D6] py-10 md:py-16 lg:py-20 px-2 md:px-12 lg:px-0"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerContainer}
       >
-        <div className="lg:max-w-[1040px] lg:mx-auto lg:px-12">
+        <div className="lg:max-w-[1040px] lg:mx-auto px-2 lg:px-12">
           <motion.div className="mb-6" variants={fadeInUp}>
             <h2 className="text-xl md:text-2xl font-bold text-[#BF8058] mb-4 md:mb-6">● よくあるお悩み</h2>
             
@@ -187,13 +226,18 @@ export function LPContent() {
           {/* Arrow and Solution Card */}
           <motion.div className="flex flex-col items-center mb-6 md:mb-8" variants={fadeInUp}>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-0 h-5 border-l border-[#2B2325]"></div>
-              <div className="w-7 h-7 bg-[#2B2325] rounded-full"></div>
             </div>
             
             <div className="bg-white/50 rounded-lg p-6 md:p-8 w-full">
-              <div className="bg-[#BF8058] rounded-t-lg px-4 py-6 -m-6 md:-m-8 mb-6 md:mb-8">
-                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-white text-center">
+              <div className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D] rounded-t-lg px-4 py-6 -m-6 md:-m-8 mb-6 md:mb-8">
+                <div 
+                  className="absolute inset-0 opacity-70 pointer-events-none rounded-t-lg z-10"
+                  style={{
+                    backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+                    backgroundBlendMode: 'multiply'
+                  }}
+                ></div>
+                <h3 className="relative z-20 text-xl md:text-2xl lg:text-4xl font-bold text-white text-center">
                   これらの課題、Lean Designerで解決できます
                 </h3>
               </div>
@@ -269,7 +313,7 @@ export function LPContent() {
       {/* Reasons Section */}
       <motion.section 
         id="reasons" 
-        className="bg-white py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
+        className="bg-[#F4F3F2] py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
@@ -279,9 +323,16 @@ export function LPContent() {
           <motion.div className="mb-6" variants={fadeInUp}>
             <h2 className="text-xl md:text-2xl font-bold text-[#BF8058] mb-4 md:mb-6">● 選ばれる理由</h2>
             
-            <div className="bg-[#EFE2D6] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
-              <div className="border-l-4 md:border-l-6 border-[#FAF5F0] pl-4 md:pl-6">
-                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#FAF5F0]">
+            <div className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
+              <div 
+                className="absolute inset-0 opacity-70 pointer-events-none rounded-lg z-10"
+                style={{
+                  backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+                  backgroundBlendMode: 'multiply'
+                }}
+              ></div>
+              <div className="relative z-20 border-l-4 md:border-l-6 border-white pl-4 md:pl-6">
+                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-white">
                   なぜLean Designerが圧倒的に選ばれるのか
                 </h3>
               </div>
@@ -340,9 +391,16 @@ export function LPContent() {
         <div className="lg:max-w-[1040px] lg:mx-auto lg:px-12">
           <motion.div className="mb-6" variants={fadeInUp}>
             <h2 className="text-2xl font-bold text-[#BF8058] mb-6">● 利用の流れ</h2>
-            <div className="bg-[#EFE2D6] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
-              <div className="border-l-4 md:border-l-6 border-[#FAF5F0] pl-4 md:pl-6">
-                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#FAF5F0]">
+            <div className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
+              <div 
+                className="absolute inset-0 opacity-70 pointer-events-none rounded-lg z-10"
+                style={{
+                  backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+                  backgroundBlendMode: 'multiply'
+                }}
+              ></div>
+              <div className="relative z-20 border-l-4 md:border-l-6 border-white pl-4 md:pl-6">
+                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-white">
                   実際の利用パターンをご覧ください
                 </h3>
               </div>
@@ -357,7 +415,7 @@ export function LPContent() {
               <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4 mb-3 md:mb-4">
                 <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                   <Image
-                    src="/image1.png"
+                    src="/lp/デザイン全般（UI/名刺/チラシ/usecase1.png"
                     alt="ベンチャーCEO"
                     width={96}
                     height={96}
@@ -380,7 +438,7 @@ export function LPContent() {
               <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4 mb-3 md:mb-4">
                 <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                   <Image
-                    src="/image1.png"
+                    src="/lp/デザイン全般（UI/名刺/チラシ/usecase2.png"
                     alt="個人開発エンジニア"
                     width={96}
                     height={96}
@@ -392,7 +450,7 @@ export function LPContent() {
                 </h4>
               </div>
               <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                休日に関した機能案を入力 → Lean Designerにコピーアンドペーストして「生成」 → Slackワークスペースへ共有 → 仮説〜レビューまでのタスク化が当日中に終わり、検証に直行
+                休日に閃いた機能案を入力 → Lean Designerにコピーアンドペーストして「生成」 → SlackワークスペースへURL共有 → 仮説〜レビューまでのタスク化が当日中に終わり、検証に直行
               </p>
             </motion.div>
           </div>
@@ -402,7 +460,7 @@ export function LPContent() {
       {/* Functions Section */}
       <motion.section 
         id="functions" 
-        className="bg-white py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
+        className="bg-[#F4F3F2] py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0 hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
@@ -411,9 +469,16 @@ export function LPContent() {
         <div className="lg:max-w-[1040px] lg:mx-auto lg:px-12">
           <motion.div className="mb-6" variants={fadeInUp}>
             <h2 className="text-2xl font-bold text-[#BF8058] mb-6">● 機能一覧</h2>
-            <div className="bg-[#EFE2D6] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
-              <div className="border-l-4 md:border-l-6 border-[#FAF5F0] pl-4 md:pl-6">
-                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#FAF5F0]">
+            <div className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
+              <div 
+                className="absolute inset-0 opacity-70 pointer-events-none rounded-lg z-10"
+                style={{
+                  backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+                  backgroundBlendMode: 'multiply'
+                }}
+              ></div>
+              <div className="relative z-20 border-l-4 md:border-l-6 border-white pl-4 md:pl-6">
+                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-white">
                   今すぐLean Designerを試してみませんか？
                 </h3>
               </div>
@@ -485,10 +550,12 @@ PostgreSQL、Puppeteer、LibreOffice`}
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold">機能. 5</span>
                 </div>
                 <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black mb-3 md:mb-4 leading-tight">
-                  仮
+                  インフラ・運用
                 </h4>
-                <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                  仮
+                <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed whitespace-pre-line">
+                  {`Vercel、Google Cloud Run
+Supabase、GitHub Actions
+Sentry、Vercel Analytics`}
                 </p>
               </motion.div>
 
@@ -497,10 +564,12 @@ PostgreSQL、Puppeteer、LibreOffice`}
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold">機能. 6</span>
                 </div>
                 <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black mb-3 md:mb-4 leading-tight">
-                  仮
+                  プロダクト設計特化AI
                 </h4>
-                <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                  仮
+                <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed whitespace-pre-line">
+                  {`戦略策定に特化したチューニング
+国内現場の実践検証済みナレッジ
+ファインチューニング適用`}
                 </p>
               </motion.div>
             </div>
@@ -523,7 +592,7 @@ PostgreSQL、Puppeteer、LibreOffice`}
       {/* Pricing Section */}
       <motion.section 
         id="pricing" 
-        className="bg-[#F4F3F2] py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0"
+        className="bg-[#F4F3F2] py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-0 hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
@@ -532,9 +601,16 @@ PostgreSQL、Puppeteer、LibreOffice`}
         <div className="lg:max-w-[1040px] lg:mx-auto lg:px-12">
           <motion.div className="mb-6" variants={fadeInUp}>
             <h2 className="text-2xl font-bold text-[#BF8058] mb-6">● 料金形態</h2>
-            <div className="bg-[#EFE2D6] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
-              <div className="border-l-4 md:border-l-6 border-[#FAF5F0] pl-4 md:pl-6">
-                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-[#FAF5F0]">
+            <div className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
+              <div 
+                className="absolute inset-0 opacity-70 pointer-events-none rounded-lg z-10"
+                style={{
+                  backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+                  backgroundBlendMode: 'multiply'
+                }}
+              ></div>
+              <div className="relative z-20 border-l-4 md:border-l-6 border-white pl-4 md:pl-6">
+                <h3 className="text-xl md:text-2xl lg:text-4xl font-bold text-white">
                   Beta版は無料でお使いいただけます
                 </h3>
               </div>
@@ -588,57 +664,57 @@ PostgreSQL、Puppeteer、LibreOffice`}
           <div className="space-y-6">
             <motion.div className="border-b border-[#E1DEDB] pb-6" variants={fadeInUp}>
               <div className="mb-4">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <div className="flex flex-col gap-3">
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold w-fit">質問. 1</span>
                   <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black">
-                    質問が入ります質問が入ります質問が入ります（なるべく1行）
+                    Lean Designerはどのような人に向けたサービスですか？
                   </h4>
                 </div>
               </div>
               <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります。
+                主に2つのターゲットユーザーを想定しています。1つ目は、メイン事業がある中で新たな事業の柱となる新規事業を検討・開発中のベンチャーCEOやPdMの方々です。2つ目は、本業でエンジニアをしながら趣味の延長線でプロダクトを構想・開発し、軌道に乗れば独立も検討している個人開発エンジニアの方々です。
               </p>
             </motion.div>
 
             <motion.div className="border-b border-[#E1DEDB] pb-6" variants={fadeInUp}>
               <div className="mb-4">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <div className="flex flex-col gap-3">
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold w-fit">質問. 2</span>
                   <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black">
-                    質問が入ります質問が入ります質問が入ります（なるべく1行）
+                    コンセプトシートにはどのような内容が含まれますか？
                   </h4>
                 </div>
               </div>
               <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります。
+                プロダクトの価値（キャッチコピー、ユーザー像、課題、提供価値、機能紹介、ユーザーフロー、ユースケース）、マーケティング・会計（ビジネスモデル、競合比較、市場規模、リードジェネレーション、PL、コストシミュレーション）、実現可能性・実行（開発技術スタック、開発アーキテクチャ、WBS、プロダクトガントチャート、ToDoリスト）など、プロダクト開発に必要な戦略的情報を網羅的に生成します。
               </p>
             </motion.div>
 
             <motion.div className="border-b border-[#E1DEDB] pb-6" variants={fadeInUp}>
               <div className="mb-4">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <div className="flex flex-col gap-3">
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold w-fit">質問. 3</span>
                   <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black">
-                    質問が入ります質問が入ります質問が入ります（なるべく1行）
+                    Beta版は本当に無料で使えますか？
                   </h4>
                 </div>
               </div>
               <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります。
+                はい、Beta版は個人・法人問わず全機能を完全無料でお使いいただけます。アカウント登録から、コンセプトシートの生成、編集、PDFエクスポートまで、すべての機能に制限なくアクセスできます。正式版は2026年2月の公開を目指して開発中です。
               </p>
             </motion.div>
 
             <motion.div className="border-b border-[#E1DEDB] pb-6" variants={fadeInUp}>
               <div className="mb-4">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <div className="flex flex-col gap-3">
                   <span className="bg-[#E1DEDB] text-black px-3 py-2 rounded-full text-base md:text-lg font-bold w-fit">質問. 4</span>
                   <h4 className="text-lg md:text-2xl lg:text-4xl font-bold text-black">
-                    質問が入ります質問が入ります質問が入ります（なるべく1行）
+                    他のAIツールとの違いは何ですか？
                   </h4>
                 </div>
               </div>
               <p className="text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります回答が入ります。
+                Lean Designerはプロダクト設計に特化しており、戦略策定に特化したチューニングを施したAIを使用しています。汎用的なLLMサービスと比べて、実用度、ビジュアル情報設計の充実度、ユーザーとのイメージ解離度において優位性があります。また、国内現場でのプロダクト開発に関する実践検証済みのナレッジをファインチューニングしており、より実用的で即座に使用できる点にフォーカスしています。
               </p>
             </motion.div>
           </div>
@@ -647,51 +723,47 @@ PostgreSQL、Puppeteer、LibreOffice`}
 
       {/* Final CTA Section */}
       <motion.section 
-        className="relative"
+        className="relative bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D]"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerContainer}
       >
-        <div className="flex flex-col lg:flex-row">
+        <div 
+          className="absolute inset-0 opacity-70 pointer-events-none z-10"
+          style={{
+            backgroundImage: `url('/lp/デザイン全般（UI/名刺/チラシ/texture.png')`,
+            backgroundBlendMode: 'multiply'
+          }}
+        ></div>
+        {/* PC版レイアウト */}
+        <div className="hidden lg:flex lg:flex-row relative z-20">
           {/* Left Content */}
-          <div className="flex-1 px-6 md:px-12 py-8 md:py-10 lg:py-14 flex flex-col justify-center gap-6 md:gap-8 lg:gap-10">
-            <div className="lg:max-w-[520px] lg:mx-auto lg:px-0">
-              <motion.div className="flex flex-col gap-3 md:gap-4" variants={fadeInUp}>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1 md:gap-2">
-                  <span className="text-lg md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white">アイデアを</span>
+          <div className="flex-1 px-12 py-14 flex flex-col justify-center gap-10">
+            <div className="max-w-[520px] mx-auto">
+              <motion.div className="flex flex-col gap-4" variants={fadeInUp}>
+                <div className="flex flex-wrap items-center justify-start gap-1">
+                  <span className="text-4xl font-bold text-white">アイデアを</span>
                   <div className="bg-white px-2 py-1 rounded">
-                    <span className="text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-[#BF8058]">3分</span>
+                    <span className="text-2xl font-bold text-[#BF8058]">3分</span>
                   </div>
-                  <span className="text-lg md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white">で可視化する</span>
+                  <span className="text-4xl font-bold text-white">で可視化する</span>
                 </div>
-                <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white leading-tight text-center lg:text-left">
+                <h1 className="text-6xl font-bold text-white leading-tight text-left">
                   コンセプトシートAI生成サービス<br />
-                  LeanDesigner <span className="text-lg md:text-xl lg:text-2xl xl:text-4xl">Beta</span>
+                  LeanDesigner <span className="text-4xl">Beta</span>
                 </h1>
-                <p className="text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white text-center">
+                <p className="text-xl font-bold text-white text-center">
                   アイデアから戦略まで、すべてがコンセプトシートに
                 </p>
-              </motion.div>
-              <motion.div className="flex justify-center" variants={fadeInUp}>
-                <a
-                  href="https://app.lean-designer.tech"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white hover:bg-gray-50 text-[#BF8058] px-6 md:px-8 lg:px-10 py-3 md:py-4 rounded-lg text-base md:text-lg lg:text-xl font-bold transition-colors inline-flex items-center gap-2 md:gap-3"
-                >
-                  <span className="bg-[#BF8058] text-white px-2 py-1 rounded text-xs md:text-sm font-bold">無料</span>
-                  まずは試してみる
-                </a>
               </motion.div>
             </div>
           </div>
           
-          {/* Right Image */}
-          <motion.div className="flex-1 relative min-h-64 md:min-h-80 lg:min-h-96" variants={fadeIn}>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/60 to-white lg:bg-gradient-to-r"></div>
+          {/* Right Image - PC版 */}
+          <motion.div className="flex-1 relative min-h-96" variants={fadeIn}>
             <Image
-              src="/image1.png"
+              src="/lp/デザイン全般（UI/名刺/チラシ/hero-image-pc.png"
               alt="プロダクトデザイナー"
               width={956}
               height={481}
@@ -699,9 +771,45 @@ PostgreSQL、Puppeteer、LibreOffice`}
             />
           </motion.div>
         </div>
-        
-        {/* Background Gradient */}
-        <div className="absolute inset-0 -z-10 bg-gradient-radial from-[#AE6333] via-[#DCB08B] to-[#8D6E8D]"></div>
+
+        {/* モバイル版レイアウト */}
+        <div className="lg:hidden relative z-20 h-[50vh] min-h-[400px] flex flex-col overflow-hidden">
+          {/* Mobile Image - 右上に配置 */}
+          <motion.div className="absolute top-0 -right-[200px] w-[700px] h-[300px] z-10 overflow-hidden rounded-bl-3xl" variants={fadeIn}>
+            <Image
+              src="/lp/デザイン全般（UI/名刺/チラシ/hero-image-mobile.png"
+              alt="プロダクトデザイナー"
+              width={390}
+              height={320}
+              className="w-full h-full object-contain object-right-top"
+            />
+          </motion.div>
+
+          {/* Content - 左下に配置 */}
+          <div className="flex-1 px-6 py-6 flex flex-col justify-center relative z-20">
+            <div className="max-w-full">
+              <motion.div className="flex flex-col gap-4" variants={fadeInUp}>
+                <div className="flex items-center justify-start gap-1 flex-wrap mb-4">
+                  <span className="text-2xl md:text-3xl font-bold text-white">アイデアを</span>
+                  <div className="bg-white px-2 py-1 rounded">
+                    <span className="text-xl md:text-2xl font-bold text-[#BF8058]">3分</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-start gap-1 flex-wrap mb-6">
+                  <span className="text-2xl md:text-3xl font-bold text-white">で可視化する</span>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight text-left mb-4">
+                  コンセプトシート<br />
+                  AI生成サービス<br />
+                  LeanDesigner <span className="text-2xl md:text-3xl">Beta</span>
+                </h1>
+                <p className="text-base md:text-lg font-bold text-white text-left max-w-sm">
+                  アイデアから戦略まで、すべてがコンセプトシートに
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </motion.section>
     </>
   );

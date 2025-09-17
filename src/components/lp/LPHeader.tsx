@@ -7,7 +7,7 @@ export function LPHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="border-b border-gray-200 bg-white fixed top-0 left-0 right-0 z-50">
+    <header className="border-b border-gray-200 bg-[#F4F3F2] fixed top-0 left-0 right-0 z-50">
       <div className="mx-4 md:mx-10 px-4 py-3 flex items-center justify-between">
         
         {/* Logo Section */}
@@ -20,11 +20,11 @@ export function LPHeader() {
               className="hover:opacity-70 transition-opacity"
             >
               <Image
-                src="/logo-plasmism.svg"
-                alt="Plasmism"
+                src="/lp/デザイン全般（UI/名刺/チラシ/デザイン全般（UI/名刺/チラシ/logo-lp.png"
+                alt="Lean Designer"
                 width={32}
                 height={24}
-                className="w-6 h-4 md:w-8 md:h-6"
+                className="w-6 h-6 md:w-14 md:h-14"
               />
             </a>
           </div>
@@ -71,7 +71,7 @@ export function LPHeader() {
 
       {/* Mobile Menu */}
       <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <nav className="px-4 py-4 bg-white border-t border-gray-200">
+        <nav className="px-4 py-4 bg-[#F4F3F2] border-t border-gray-200">
           <div className="space-y-4">
             <a 
               href="#features" 
