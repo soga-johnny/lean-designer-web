@@ -24,13 +24,6 @@ const staggerContainer = {
   }
 };
 
-// より滑らかなフェードアニメーション
-const smoothFadeIn = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  transition: { duration: 2.5, ease: "easeOut" }
-};
-
 export function LPContent() {
   return (
     <>
