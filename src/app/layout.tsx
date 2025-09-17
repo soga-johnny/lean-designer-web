@@ -6,6 +6,7 @@ import { ClientProviders } from '@/components/providers/ClientProviders';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://lean-designer.tech'),
   title: 'Lean Designer Beta | プロダクトアイデアを３分で可視化',
   description: 'プロダクト構想フェーズ専門コンセプトシートAI生成サービス',
   openGraph: {
