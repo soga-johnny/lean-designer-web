@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SurveyProvider, useSurvey } from '@/contexts/SurveyContext';
 import { saveFormDataToFirestore, sendThankYouEmail } from '@/lib/utils';
+import { QuestionOption } from '@/types/form';
 import { 
   PageWrapper, 
   ButtonMotion, 
@@ -22,7 +23,6 @@ function SurveyFormContent() {
     setResponses, 
     isSubmitting, 
     setIsSubmitting,
-    branchType,
     currentQuestions,
     totalQuestions
   } = useSurvey();
@@ -411,7 +411,7 @@ function SurveyFormContent() {
              ) : currentQuestion.multiple ? (
                // 複数選択（チェックボックス）
                <div className="space-y-3 mb-6">
-                 {currentQuestion.options?.map((option) => {
+                 {currentQuestion.options?.map((option: QuestionOption) => {
                    const isChecked = Array.isArray(responses[currentQuestion.id]) && (responses[currentQuestion.id] as string[]).includes(option.value);
                    return (
                      <div 
@@ -438,7 +438,7 @@ function SurveyFormContent() {
              ) : (
                // 単一選択（ラジオボタン）
                <div className="space-y-3 mb-6">
-                 {currentQuestion.options?.map((option) => (
+                 {currentQuestion.options?.map((option: QuestionOption) => (
                    <div 
                      key={option.value}
                      onClick={() => handleAnswerChange(currentQuestion.id, option.value)}

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { BranchType, getBranchType, getQuestionsForBranch, getTotalQuestionsForBranch } from '@/data/surveyQuestions';
+import { SurveyQuestion } from '@/types/form';
 
 type SurveyResponses = Record<string, string | boolean | number | string[]>;
 
@@ -13,7 +14,7 @@ type SurveyContextType = {
   isSubmitting: boolean;
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
   branchType: BranchType;
-  currentQuestions: any[];
+  currentQuestions: SurveyQuestion[];
   totalQuestions: number;
 };
 
