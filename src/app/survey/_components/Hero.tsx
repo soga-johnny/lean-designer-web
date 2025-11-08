@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
-  PageWrapper, 
-  StaggerContainer, 
-  fadeInUp, 
-  gentleFadeIn, 
-  ButtonMotion, 
-  buttonVariants 
-} from './SurveyAnimations';
+import {
+  PageWrapper,
+  StaggerContainer,
+  fadeInUp,
+  gentleFadeIn,
+  ButtonMotion,
+  buttonVariants
+} from './Animations';
 
 export function Hero() {
   const router = useRouter();

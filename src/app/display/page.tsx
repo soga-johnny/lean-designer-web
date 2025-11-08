@@ -1,4 +1,4 @@
-import { DisplayContent } from '@/components/display/DisplayContent';
+import { DisplayContent } from './_components/DisplayContent';
 
 export default function DisplayPage() {
   return (

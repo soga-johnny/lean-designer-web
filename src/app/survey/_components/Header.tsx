@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-export function SurveyHeader() {
+export function Header() {
   return (
     <header>
       <div className="md:mx-10 mx-0 px-4 py-4 flex items-center justify-between">

@@ -1,6 +1,6 @@
 'use client';
 
-export function SurveyFooter() {
+export function Footer() {
   return (
     <footer className="border-t border-gray-200 py-4 mt-12">
       <div className="mx-10 px-4">

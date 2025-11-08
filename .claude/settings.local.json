@@ -3,7 +3,8 @@
     "allow": [
       "Bash(tree:*)",
       "Bash(rm:*)",
-      "Bash(rmdir:*)"
+      "Bash(rmdir:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

@@ -24,7 +24,7 @@ const staggerContainer = {
   }
 };
 
-export function LPContent() {
+export function Content() {
   return (
     <>
       {/* Hero Section */}
