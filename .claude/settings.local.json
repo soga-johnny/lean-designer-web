@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
