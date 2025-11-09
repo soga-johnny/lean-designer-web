@@ -7,7 +7,7 @@ import { StartGuide } from './_components/StartGuide';
 
 export default function Top() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />
       <main>
         <ConceptSlide />
