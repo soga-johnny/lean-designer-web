@@ -3,7 +3,9 @@
     "allow": [
       "Bash(tree:*)",
       "Bash(rm:*)",
-      "Bash(rmdir:*)"
+      "Bash(rmdir:*)",
+      "Bash(git add:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

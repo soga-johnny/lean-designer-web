@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-export function LPHeader() {
+export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Logo } from './logo';
+import { Logo } from './Logo';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
