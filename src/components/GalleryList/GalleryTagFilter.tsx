@@ -1,18 +1,28 @@
+import { GalleryTag } from '@/components/GalleryTag';
+
 interface GalleryTagFilterProps {
   tags: string[];
+  selectedTags: string[];
+  onTagSelect: (tag: string) => void;
 }
 
-export function GalleryTagFilter({ tags }: GalleryTagFilterProps) {
+export function GalleryTagFilter({ tags, selectedTags, onTagSelect }: GalleryTagFilterProps) {
   return (
-    <div className="flex gap-3 mb-8 flex-wrap">
-      {tags.map((tag) => (
-        <button
-          key={tag}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          {tag}
-        </button>
-      ))}
+    <div className="flex gap-2 flex-wrap">
+      {tags.map((tag) => {
+        const isSelected = selectedTags.includes(tag);
+        return (
+          <GalleryTag
+            key={tag}
+            tag={tag}
+            backgroundColor={isSelected ? '#8b8985' : '#f6f6f5'}
+            textColor={isSelected ? '#ffffff' : '#51514d'}
+            iconSrc={isSelected ? '/icons/selected-tag-arrow.svg' : '/icons/tag-arrow.svg'}
+            onClick={() => onTagSelect(tag)}
+            isClickable={true}
+          />
+        );
+      })}
     </div>
   );
 }

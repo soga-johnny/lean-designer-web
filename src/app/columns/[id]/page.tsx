@@ -9,7 +9,7 @@ export default function ColumnDetailPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main className="max-w-[100rem] mx-auto">
         {/* コラム内容とレコメンド */}
         <section className="py-20">
           {/* コラム内容 */}
@@ -45,7 +45,7 @@ export default function ColumnDetailPage() {
           </div>
 
           {/* レコメンドコラム一覧 */}
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-gray-800">レコメンド</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               {[...Array(4)].map((_, index) => (

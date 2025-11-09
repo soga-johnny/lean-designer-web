@@ -1,6 +1,7 @@
 'use client';
 
 import { GuideCard } from './GuideCard';
+import { SectionTag } from './SectionTag';
 
 const GUIDE_STEPS = [
   {
@@ -24,14 +25,12 @@ export function GuideContent() {
   const [firstStep, ...restSteps] = GUIDE_STEPS;
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    <div className="mx-auto px-4">
       {/* タグ */}
-      <span className="inline-block bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-        スタートガイド
-      </span>
+      <SectionTag label="スタートガイド" />
 
       {/* メッセージ */}
-      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+      <h2 className="text-5xl font-bold mt-10 mb-10  text-gray-800">
         さあ、今すぐ始めよう！
       </h2>
 

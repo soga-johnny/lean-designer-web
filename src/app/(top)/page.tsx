@@ -9,7 +9,7 @@ export default function Top() {
   return (
     <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />
-      <main>
+      <main className="max-w-[100rem] mx-auto">
         <ConceptSlide />
         <GallerySection />
         <ColumnsSection />

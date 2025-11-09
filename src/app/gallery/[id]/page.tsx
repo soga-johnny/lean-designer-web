@@ -15,7 +15,7 @@ export default function GalleryDetailPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main className="max-w-[100rem] mx-auto">
         {/* ギャラリー詳細とレコメンド */}
         <section className="py-20">
           {/* ギャラリー詳細 */}
@@ -65,7 +65,7 @@ export default function GalleryDetailPage() {
           </div>
 
           {/* レコメンド一覧 */}
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-gray-800">レコメンド</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               {[...Array(4)].map((_, index) => (
