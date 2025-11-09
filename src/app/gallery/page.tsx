@@ -2,6 +2,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GalleryList } from '@/components/GalleryList';
 import { GuideContent } from '@/components/GuideContent';
+import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function GalleryPage() {
   return (
@@ -9,7 +10,13 @@ export default function GalleryPage() {
       <Header />
       <main>
         <section className="py-20">
-          <GalleryList />
+          <GalleryList showPagination />
+          <Breadcrumb
+            items={[
+              { label: 'ホーム', href: '/' },
+              { label: 'ギャラリー' }
+            ]}
+          />
         </section>
         <section className="py-20 bg-gray-50">
           <GuideContent />
