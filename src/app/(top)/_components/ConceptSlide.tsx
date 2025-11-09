@@ -1,47 +1,89 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Inter } from 'next/font/google';
+import Image from 'next/image';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+});
 
 export function ConceptSlide() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 5;
+  const slides = [
+    '/images/top/concept_slide_01.png',
+    '/images/top/concept_slide_02.png',
+    '/images/top/concept_slide_03.png',
+    '/images/top/concept_slide_04.png',
+    '/images/top/concept_slide_05.png',
+  ];
+
+  // 自動スライド切り替え（3秒ごと）
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [totalSlides]);
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* 概要 */}
-        <p className="text-center text-gray-600 mb-4">
-          アプリを一文で表した概要文がここに入ります
-        </p>
+    <section className="py-10 px-6 md:py-[88px] md-px-10">
+      {/* 概要 */}
+      <p className="text-center text-sm md:text-lg font-medium">
+      （ アイデアの総体 、コンセプトシート・ギャラリー ）
+      </p>
 
-        {/* メインメッセージ */}
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-          メインメッセージがここに入ります
-        </h2>
+      {/* メインメッセージ */}
+      <h1 className={`text-6xl md:text-[152px] font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
+        <div>DESIGN</div>
+        <div className="flex justify-center w-4 md:w-20"><div className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></div></div>
+        <div><span className="text-ld-grey-100">BY</span> INTENT</div>
+      </h1>
 
-        {/* 画像スライド部分 */}
-        <div className="relative mb-8">
-          <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-            <p className="text-gray-500 text-xl">スライド {currentSlide + 1}</p>
+      {/* 画像スライド部分 */}
+      <div className="md:mt-10 mt-4"> 
+        <div className="relative mb-8 overflow-hidden">
+          <div className="aspect-video relative md:max-w-[1200px] mx-auto">
+            {slides.map((slide, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-500 ${
+                  currentSlide === index ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <Image
+                  src={slide}
+                  alt={`コンセプトスライド ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                  quality={100}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
         {/* ページング（丸ボタン5つ） */}
-        <div className="flex justify-center gap-3">
-          {[...Array(totalSlides)].map((_, index) => (
+        <div className="flex justify-center gap-2 mt-4">
+          {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
+              className={`w-2 h-2 rounded-full transition-colors ${
                 currentSlide === index
-                  ? 'bg-gray-800'
-                  : 'bg-gray-300 hover:bg-gray-400'
+                  ? 'bg-ld-grey-700'
+                  : 'bg-ld-grey-200 hover:bg-ld-grey-400'
               }`}
               aria-label={`スライド ${index + 1} へ移動`}
             />
           ))}
         </div>
       </div>
+      
     </section>
   );
 }
