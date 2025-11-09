@@ -2,27 +2,27 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { SurveyHeader } from '@/components/survey/SurveyHeader';
-import { AnnouncementBanner } from '@/components/survey/AnnouncementBanner';
-import { SurveyFooter } from '@/components/survey/SurveyFooter';
-import { 
-  PageWrapper, 
-  StaggerContainer, 
-  fadeInUp, 
-  buttonVariants 
-} from '@/components/survey/SurveyAnimations';
+import { Header } from '../_components/Header';
+import { AnnouncementBanner } from '../_components/AnnouncementBanner';
+import { Footer } from '../_components/Footer';
+import {
+  PageWrapper,
+  StaggerContainer,
+  fadeInUp,
+  buttonVariants
+} from '../_components/Animations';
 
 export default function SurveyThanksPage() {
   return (
     <PageWrapper className="min-h-screen bg-[#F4F3F2]">
       {/* Header */}
-      <motion.div 
+      <motion.div
         className="bg-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <SurveyHeader />
+        <Header />
       </motion.div>
       
       {/* Announcement Banner */}
@@ -113,7 +113,7 @@ export default function SurveyThanksPage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.8 }}
       >
-        <SurveyFooter />
+        <Footer />
       </motion.div>
     </PageWrapper>
   );

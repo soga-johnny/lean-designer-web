@@ -4,15 +4,15 @@ import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { SurveyProvider, useSurvey } from '@/contexts/SurveyContext';
+import { SurveyProvider, useSurvey } from '../_contexts/SurveyContext';
 import { saveFormDataToFirestore, sendThankYouEmail } from '@/lib/utils';
 import { QuestionOption } from '@/types/form';
-import { 
-  PageWrapper, 
-  ButtonMotion, 
+import {
+  PageWrapper,
+  ButtonMotion,
   buttonVariants,
-  progressBarVariants 
-} from '@/components/survey/SurveyAnimations';
+  progressBarVariants
+} from '../_components/Animations';
 
 function SurveyFormContent() {
   const router = useRouter();
