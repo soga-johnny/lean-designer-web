@@ -52,31 +52,31 @@ export function GuideContent() {
       </h2>
 
       {/* パネル */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-3">
-        {/* 1つ目のパネル: 左半分 */}
-        <GuideCard
-          step={firstStep.step}
-          title={firstStep.title}
-          description={firstStep.description}
-          buttonText={firstStep.buttonText}
-          href={firstStep.href}
-          buttonType={firstStep.buttonType as 'primary' | 'secondary'}
-        />
-
-        {/* 2つ目と3つ目のパネル: 右半分を横に分割 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-3">
-          {restSteps.map((guideStep) => (
-            <GuideCard
-              key={guideStep.step}
-              step={guideStep.step}
-              title={guideStep.title}
-              description={guideStep.description}
-              buttonText={guideStep.buttonText}
-              href={guideStep.href}
-              buttonType={guideStep.buttonType as 'primary' | 'secondary'}
-            />
-          ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-3">
+        {/* 1つ目のパネル: 左半分（2列分） */}
+        <div className="md:col-span-2">
+          <GuideCard
+            step={firstStep.step}
+            title={firstStep.title}
+            description={firstStep.description}
+            buttonText={firstStep.buttonText}
+            href={firstStep.href}
+            buttonType={firstStep.buttonType as 'primary' | 'secondary'}
+          />
         </div>
+
+        {/* 2つ目と3つ目のパネル: 右半分（各1列ずつ） */}
+        {restSteps.map((guideStep) => (
+          <GuideCard
+            key={guideStep.step}
+            step={guideStep.step}
+            title={guideStep.title}
+            description={guideStep.description}
+            buttonText={guideStep.buttonText}
+            href={guideStep.href}
+            buttonType={guideStep.buttonType as 'primary' | 'secondary'}
+          />
+        ))}
       </div>
     </div>
   );
