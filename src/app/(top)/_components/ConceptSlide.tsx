@@ -30,20 +30,11 @@ export function ConceptSlide() {
   }, [totalSlides]);
 
   return (
-<<<<<<< Updated upstream
     <section className="py-10 px-6 md:py-[88px] md-px-10">
       {/* 概要 */}
       <p className="text-center text-sm md:text-lg font-medium">
       （ アイデアの総体 、コンセプトシート・ギャラリー ）
       </p>
-=======
-    <section className="py-20 bg-gray-50">
-      <div className="mx-auto px-4">
-        {/* 概要 */}
-        <p className="text-center text-gray-600 mb-4">
-          アプリを一文で表した概要文がここに入ります
-        </p>
->>>>>>> Stashed changes
 
       {/* メインメッセージ */}
       <h1 className={`text-6xl md:text-[152px] font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>

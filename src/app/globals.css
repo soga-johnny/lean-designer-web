@@ -10,7 +10,6 @@
 
 :root {
   --background: #F4F3F2;
-<<<<<<< Updated upstream
   --foreground: #171717;
   
   /* Lean Designer Color System */
@@ -51,9 +50,7 @@
   /* Red Colors */
   --LD-Color-Red-100: #FBE9E8;
   --LD-Color-Red-600: #C43A4A;
-=======
   --foreground: #51514d;
->>>>>>> Stashed changes
 }
 
 @media (prefers-color-scheme: dark) {

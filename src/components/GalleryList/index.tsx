@@ -82,7 +82,7 @@ export function GalleryList({ showPagination = false }: GalleryListProps) {
         <div className="text-center">
           <Link
             href="/gallery"
-            className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-colors border border-[#e7e7e6] text-[#51514d]"
+            className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
           >
             ギャラリーの続きを見る
           </Link>

@@ -26,7 +26,7 @@ export function GalleryTag({
   return (
     <Component
       onClick={onClick}
-      className={`inline-flex items-center gap-2 ${sizeClasses} rounded-full font-semibold select-none ${isClickable ? 'cursor-pointer transition-colors' : ''}`}
+      className={`inline-flex items-center gap-2 ${sizeClasses} rounded-full font-semibold select-none ${isClickable ? 'cursor-pointer transition-opacity hover:opacity-70' : ''}`}
       style={{ backgroundColor, color: textColor }}
     >
       <Image

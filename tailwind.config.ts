@@ -37,7 +37,6 @@ const config: Config = {
           DEFAULT: "rgba(255,200,180,0.15)",
           dark: "#6B4A4F"
         },
-<<<<<<< Updated upstream
         
         // Lean Designer Color System
         'ld-accent': {
@@ -78,14 +77,12 @@ const config: Config = {
           100: '#FBE9E8',
           600: '#C43A4A',
         },
-=======
         tag: {
           DEFAULT: "#51514d"
         },
         card: {
           DEFAULT: "#f6f6f5"
         }
->>>>>>> Stashed changes
       },
       fontFamily: {
         sans: ["var(--font-noto-sans-jp)"],

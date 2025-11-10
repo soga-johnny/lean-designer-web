@@ -55,7 +55,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
           <div className="text-center mb-12">
             <Link
               href="/columns"
-            className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-colors border border-[#e7e7e6] text-[#51514d]"
+              className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
             >
               コラムの続きを見る
             </Link>
