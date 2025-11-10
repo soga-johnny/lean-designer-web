@@ -9,6 +9,9 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      maxWidth: {
+        'content': '89.5rem',
+      },
       colors: {
         // Legacy colors (for backward compatibility)
         background: {

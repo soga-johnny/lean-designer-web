@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { GuideContent } from '@/components/GuideContent';
+import { GuideContent } from '@/components/StartGuide/GuideContent';
 import { ColumnCard } from '@/components/ColumnCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import Link from 'next/link';
