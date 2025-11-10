@@ -47,7 +47,7 @@ export const Header = () => {
           <div className="flex justify-center">
             <Link href="/" className="hover:opacity-80 transition-opacity">
               <Image 
-                src="/images/logo.png" 
+                src="/images/common/logo.png" 
                 alt="Lean Designer Logo" 
                 width={30} 
                 height={22}
