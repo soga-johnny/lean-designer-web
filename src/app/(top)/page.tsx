@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { StartGuide } from '@/components/StartGuide/StartGuide';
+import { StartGuide } from '@/components/StartGuide';
 import { ConceptSlide } from './_components/ConceptSlide';
 import { GallerySection } from './_components/GallerySection';
 import { ColumnsSection } from './_components/ColumnsSection';

@@ -39,7 +39,7 @@ export function ConceptSlide() {
         </p>
 
         {/* メインメッセージ */}
-        <h1 className={`text-6xl md:text-[152px] tracking-tight font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
+        <h1 className={`text-6xl md:text-[9.5rem] tracking-tight font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
           <div>DESIGN</div>
           <div className="flex justify-center w-4 md:w-16"><div className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></div></div>
           <div><span className="text-ld-grey-100">BY</span> INTENT</div>
