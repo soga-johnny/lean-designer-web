@@ -8,7 +8,7 @@ export function AccessRanking() {
         {[...Array(4)].map((_, index) => (
           <ColumnCard
             key={index}
-            index={index + 9}
+            columnId={`column-${index + 10}`}
             title={`Ranking Article Title ${index + 1}`}
           />
         ))}

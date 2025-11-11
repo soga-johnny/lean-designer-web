@@ -69,7 +69,7 @@ export default function GalleryDetailPage() {
             <h2 className="text-2xl font-bold mb-8 text-gray-800">レコメンド</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               {[...Array(4)].map((_, index) => (
-                <GalleryCard key={index} index={index} />
+                <GalleryCard key={index} galleryId={`gallery-${index + 1}`} />
               ))}
             </div>
           </div>
