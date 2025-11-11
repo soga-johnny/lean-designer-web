@@ -6,6 +6,7 @@ import { ColumnsGrid } from './ColumnsGrid';
 import { ColumnsPagination } from './ColumnsPagination';
 import { AccessRanking } from './AccessRanking';
 import { PopularKeywords } from './PopularKeywords';
+import { SectionTag } from '@/components/SectionTag';
 
 interface ColumnsListProps {
   showPagination?: boolean;
@@ -20,14 +21,12 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
   const listItemsCount = 12;
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    <div className="mx-auto">
       {/* タグ */}
-      <span className="inline-block bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-        コラム
-      </span>
+      <SectionTag label="コラム" />
 
       {/* 文言 */}
-      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+      <h2 className="text-5xl font-bold mt-10 mb-10 text-gray-800">
         戦略の立て方、成功に導くデザインの原則
       </h2>
 
@@ -56,7 +55,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
           <div className="text-center mb-12">
             <Link
               href="/columns"
-              className="block w-full px-8 py-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
             >
               コラムの続きを見る
             </Link>

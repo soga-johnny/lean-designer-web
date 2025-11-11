@@ -8,7 +8,7 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main className="max-w-[100rem] mx-auto">
         <section className="py-20">
           <GalleryList showPagination />
           <Breadcrumb

@@ -16,7 +16,7 @@ const config: Config = {
           dark: "#1A1A1A"
         },
         text: {
-          DEFAULT: "#2B2325",
+          DEFAULT: "#51514d",
           dark: "#F8F8F8"
         },
         primary: {
@@ -77,6 +77,12 @@ const config: Config = {
           100: '#FBE9E8',
           600: '#C43A4A',
         },
+        tag: {
+          DEFAULT: "#51514d"
+        },
+        card: {
+          DEFAULT: "#f6f6f5"
+        }
       },
       fontFamily: {
         sans: ["var(--font-noto-sans-jp)"],
