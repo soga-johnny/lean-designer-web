@@ -1,12 +1,14 @@
 'use client';
 
+import { useState } from 'react';
+import Link from 'next/link';
+
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { GuideContent } from '@/components/StartGuide/GuideContent';
+import { StartGuide } from '@/components/StartGuide';
 import { GalleryCard } from '@/components/GalleryCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
-import Link from 'next/link';
-import { useState } from 'react';
+
 
 export default function GalleryDetailPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -84,7 +86,7 @@ export default function GalleryDetailPage() {
         </section>
 
         <section className="py-20">
-          <GuideContent />
+          <StartGuide />
         </section>
       </main>
       <Footer />

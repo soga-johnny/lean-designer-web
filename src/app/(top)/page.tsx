@@ -1,10 +1,10 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { ConceptSlide } from './_components/ConceptSlide';
+import { GalleryList } from '@/components/GalleryList';
+import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { BottomConceptArea } from '@/components/BottomConceptArea';
-import { ConceptSlide } from './_components/ConceptSlide';
-import { GallerySection } from './_components/GallerySection';
-import { ColumnsSection } from './_components/ColumnsSection';
 
 
 export default function Top() {
@@ -13,9 +13,19 @@ export default function Top() {
       <Header />
       <main className="max-w-[100rem] mx-auto">
         <ConceptSlide />
-        <GallerySection />
-        <ColumnsSection />
-        <StartGuide />
+
+        <section className="py-20">
+          <GalleryList />
+        </section>
+
+        <section className="py-20">
+          <ColumnsList />
+        </section>
+
+        <section className="py-20 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
+          <StartGuide />
+        </section>
+
         <BottomConceptArea />
       </main>
       <Footer />
