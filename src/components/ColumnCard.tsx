@@ -1,34 +1,80 @@
+import Link from 'next/link';
+
 interface ColumnCardProps {
-  index: number;
+  columnId: string;
   title?: string;
   date?: string;
   tags?: string[];
+  createdAt?: Date;
 }
 
-export function ColumnCard({ index, title, date, tags }: ColumnCardProps) {
-  const defaultTitle = `Column Article Title ${index + 1}`;
-  const defaultDate = `2024.01.${String(index + 1).padStart(2, '0')}`;
+const isWithinTwoWeeks = (createdAt?: Date): boolean => {
+  if (!createdAt) return false;
+  const daysDifference = (new Date().getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
+  return daysDifference <= 14;
+};
+
+export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCardProps) {
+  const defaultTitle = `デザイン思考とリーンスタートアップを活用した新規事業開発プロジェクトの成功事例と実践的アプローチ`;
+  const defaultDate = `2024.01.01`;
   const defaultTags = ['デザイン', '戦略'];
 
+  const thumbnailSrc = '/images/common/column_thumbnail.png';
+  const isNew = isWithinTwoWeeks(createdAt);
+
+  const ThumbnailImage = () => (
+    <div className="w-full overflow-hidden bg-[#EFE2D6]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={thumbnailSrc}
+        alt={title || defaultTitle}
+        className="w-full h-auto object-cover aspect-[2/1]"
+      />
+    </div>
+  );
+
+  const Tags = () => (
+    <div className="flex gap-2 flex-wrap">
+      {(tags || defaultTags).map((tag) => (
+        <span key={tag} className="text-base text-[#51514d]">#{tag}</span>
+      ))}
+    </div>
+  );
+
+  const NewBadge = () => {
+    if (!isNew) return null;
+    return (
+      <div className="text-base font-semibold text-[#51514d]">
+        NEW
+      </div>
+    );
+  };
+
+  const ArrowIcon = () => (
+    <div className="relative px-[0.2rem] w-[1.5rem] h-[1.5rem]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/icons/arrow.svg" alt="" className="w-full h-full object-contain" />
+    </div>
+  );
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      {/* サムネイル画像 */}
-      <div className="aspect-video bg-gray-200"></div>
-
-      <div className="p-6">
-        {/* 日付 */}
-        <p className="text-sm text-gray-500 mb-2">{date || defaultDate}</p>
-
-        {/* タイトル */}
-        <h3 className="text-xl font-semibold mb-3 text-gray-800">{title || defaultTitle}</h3>
-
-        {/* タグ */}
-        <div className="flex gap-2 flex-wrap">
-          {(tags || defaultTags).map((tag) => (
-            <span key={tag} className="text-sm text-gray-600">#{tag}</span>
-          ))}
+    <Link href={`/columns/${columnId}`} className="block h-full">
+      <div className="cursor-pointer transition-opacity hover:opacity-80 flex flex-col relative">
+        <ThumbnailImage />
+        <div className="flex-1 flex flex-col min-h-[10rem] relative">
+          <div className="flex items-center gap-2 my-2">
+            <NewBadge />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/calendar.svg" alt="" className="w-4 h-4" />
+            <p className="text-base text-[#51514d]">{date || defaultDate}</p>
+          </div>
+          <h3 className="text-xl font-semibold mb-4 line-clamp-2 text-[#51514d]">{title || defaultTitle}</h3>
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center">
+            {Tags()}
+            <ArrowIcon />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
