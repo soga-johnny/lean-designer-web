@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 type ButtonSize = 'small' | 'medium';
@@ -12,14 +11,14 @@ interface PrimaryButtonProps {
   className?: string;
 }
 
-export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+export function PrimaryButton({
   size = 'medium',
   href,
   target,
   disabled = false,
   children,
   className = '',
-}) => {
+}: PrimaryButtonProps) {
   const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block';
   
   const sizeStyles = {
@@ -43,5 +42,5 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       {children}
     </Link>
   );
-};
+}
 

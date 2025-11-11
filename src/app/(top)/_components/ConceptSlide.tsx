@@ -31,59 +31,62 @@ export function ConceptSlide() {
 
   return (
     <section className="py-10 px-6 md:py-[88px] md-px-10">
-      {/* 概要 */}
-      <p className="text-center text-sm md:text-lg font-medium">
-      （ アイデアの総体 、コンセプトシート・ギャラリー ）
-      </p>
+      <div className="max-w-content mx-auto">
 
-      {/* メインメッセージ */}
-      <h1 className={`text-6xl md:text-[152px] font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
-        <div>DESIGN</div>
-        <div className="flex justify-center w-4 md:w-20"><div className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></div></div>
-        <div><span className="text-ld-grey-100">BY</span> INTENT</div>
-      </h1>
+        {/* 概要 */}
+        <p className="text-center text-sm md:text-lg font-medium">
+        （ アイデアの総体 、コンセプトシート・ギャラリー ）
+        </p>
 
-      {/* 画像スライド部分 */}
-      <div className="md:mt-10 mt-4"> 
-        <div className="relative mb-8 overflow-hidden">
-          <div className="aspect-video relative md:max-w-[1200px] mx-auto">
-            {slides.map((slide, index) => (
-              <div
+        {/* メインメッセージ */}
+        <h1 className={`text-6xl md:text-[9.5rem] tracking-tight font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
+          <div>DESIGN</div>
+          <div className="flex justify-center w-4 md:w-16"><div className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></div></div>
+          <div><span className="text-ld-grey-100">BY</span> INTENT</div>
+        </h1>
+
+        {/* 画像スライド部分 */}
+        <div className="md:mt-10 mt-4"> 
+          <div className="relative mb-8 overflow-hidden">
+            <div className="aspect-video relative md:max-w-[1200px] mx-auto">
+              {slides.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-500 ${
+                    currentSlide === index ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <Image
+                    src={slide}
+                    alt={`コンセプトスライド ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                    quality={100}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ページング（丸ボタン5つ） */}
+          <div className="flex justify-center gap-2 mt-4">
+            {slides.map((_, index) => (
+              <button
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-500 ${
-                  currentSlide === index ? 'opacity-100' : 'opacity-0'
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  currentSlide === index
+                    ? 'bg-ld-grey-700'
+                    : 'bg-ld-grey-200 hover:bg-ld-grey-400'
                 }`}
-              >
-                <Image
-                  src={slide}
-                  alt={`コンセプトスライド ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  quality={100}
-                />
-              </div>
+                aria-label={`スライド ${index + 1} へ移動`}
+              />
             ))}
           </div>
         </div>
-
-        {/* ページング（丸ボタン5つ） */}
-        <div className="flex justify-center gap-2 mt-4">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                currentSlide === index
-                  ? 'bg-ld-grey-700'
-                  : 'bg-ld-grey-200 hover:bg-ld-grey-400'
-              }`}
-              aria-label={`スライド ${index + 1} へ移動`}
-            />
-          ))}
-        </div>
       </div>
-      
+
     </section>
   );
 }

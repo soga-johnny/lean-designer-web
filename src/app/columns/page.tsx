@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ColumnsList } from '@/components/ColumnsList';
-import { GuideContent } from '@/components/GuideContent';
+import { GuideContent } from '@/components/StartGuide/GuideContent';
 import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function ColumnsPage() {

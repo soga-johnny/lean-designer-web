@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 type ButtonSize = 'small' | 'medium';
@@ -12,14 +11,14 @@ interface SecondaryButtonProps {
   className?: string;
 }
 
-export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
+export function SecondaryButton({
   size = 'medium',
   href,
   target,
   disabled = false,
   children,
   className = '',
-}) => {
+}: SecondaryButtonProps) {
   const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block border border-ld-grey-100';
   
   const sizeStyles = {
@@ -43,5 +42,5 @@ export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       {children}
     </Link>
   );
-};
+}
 
