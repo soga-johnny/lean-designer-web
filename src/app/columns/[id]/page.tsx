@@ -51,7 +51,7 @@ export default function ColumnDetailPage() {
               {[...Array(4)].map((_, index) => (
                 <ColumnCard
                   key={index}
-                  index={index + 9}
+                  columnId={`column-${index + 9}`}
                   title={`Recommended Article ${index + 1}`}
                 />
               ))}

@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StartGuide } from '@/components/StartGuide';
+import { BottomConceptArea } from '@/components/BottomConceptArea';
 import { ConceptSlide } from './_components/ConceptSlide';
 import { GallerySection } from './_components/GallerySection';
 import { ColumnsSection } from './_components/ColumnsSection';
@@ -15,6 +16,7 @@ export default function Top() {
         <GallerySection />
         <ColumnsSection />
         <StartGuide />
+        <BottomConceptArea />
       </main>
       <Footer />
     </div>

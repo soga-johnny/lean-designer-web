@@ -30,7 +30,7 @@ export function ConceptSlide() {
   }, [totalSlides]);
 
   return (
-    <section className="py-10 px-6 md:py-[88px] md-px-10">
+    <section className="py-10 px-6 md:py-[88px] md:px-10">
       <div className="max-w-content mx-auto">
 
         {/* 概要 */}
@@ -39,10 +39,11 @@ export function ConceptSlide() {
         </p>
 
         {/* メインメッセージ */}
-        <h1 className={`text-6xl md:text-[9.5rem] tracking-tight font-medium flex flex-col md:flex-row items-center justify-center text-center mt-4 md:mt-2 ${inter.className}`}>
-          <div>DESIGN</div>
-          <div className="flex justify-center w-4 md:w-16"><div className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></div></div>
-          <div><span className="text-ld-grey-100">BY</span> INTENT</div>
+        <h1 className={`text-6xl md:text-[9.5rem] tracking-tight font-medium flex flex-col md:flex-row items-center justify-between text-center mt-4 md:mt-2 ${inter.className}`}>
+          <span className="flex items-center gap-4 md:block"><span>DE</span>SIGN</span>
+          <span className="flex justify-center w-4 md:w-16"><span className="relative w-1 md:w-2 h-[42px] md:h-28 bg-gray-400 rotate-[20deg]"></span></span>
+          <span className="flex items-center gap-4 md:block"><span className="text-ld-grey-100">BY</span><span className="md:hidden block"> INTENT</span></span>
+          <span className="md:block hidden">INTENT</span>
         </h1>
 
         {/* 画像スライド部分 */}
