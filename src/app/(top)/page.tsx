@@ -1,3 +1,7 @@
+'use client';
+
+import { useSessions } from '@/hooks/useSessions';
+
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ConceptSlide } from './_components/ConceptSlide';
@@ -6,8 +10,14 @@ import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { BottomConceptArea } from '@/components/BottomConceptArea';
 
-
 export default function Top() {
+  // カスタムフックを使用してセッション一覧を取得
+  const { sessions, loading, error } = useSessions({
+    limit: 10,
+    offset: 0,
+    includeExpired: true,
+  });
+
   return (
     <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />

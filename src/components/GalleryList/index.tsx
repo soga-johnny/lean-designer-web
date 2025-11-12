@@ -6,12 +6,21 @@ import { GalleryTagFilter } from './GalleryTagFilter';
 import { GalleryGrid } from './GalleryGrid';
 import { GalleryPagination } from './GalleryPagination';
 import { SectionTag } from '@/components/SectionTag';
+import { Session } from '@/services/sessionService';
 
 interface GalleryListProps {
   showPagination?: boolean;
+  sessions?: Session[];
+  loading?: boolean;
+  error?: string | null;
 }
 
-export function GalleryList({ showPagination = false }: GalleryListProps) {
+export function GalleryList({
+  showPagination = false,
+  sessions = [],
+  loading = false,
+  error = null
+}: GalleryListProps) {
   const tags = [
     'すべて',
     'デザイン',
@@ -72,10 +81,21 @@ export function GalleryList({ showPagination = false }: GalleryListProps) {
 
       {/* ギャラリー一覧 */}
       <div className="mb-20">
-        <GalleryGrid
-          itemsCount={itemsCount}
-          layout={showPagination ? 'list' : 'top'}
-        />
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">読み込み中...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <p className="text-red-600">{error}</p>
+          </div>
+        ) : (
+          <GalleryGrid
+            itemsCount={itemsCount}
+            layout={showPagination ? 'list' : 'top'}
+            sessions={sessions}
+          />
+        )}
       </div>
 
       {/* ページネーション or もっと見るボタン */}
