@@ -6,6 +6,7 @@ interface ColumnCardProps {
   date?: string;
   tags?: string[];
   createdAt?: Date;
+  thumbnailUrl?: string;
 }
 
 const isWithinTwoWeeks = (createdAt?: Date): boolean => {
@@ -14,12 +15,12 @@ const isWithinTwoWeeks = (createdAt?: Date): boolean => {
   return daysDifference <= 14;
 };
 
-export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCardProps) {
+export function ColumnCard({ columnId, title, date, tags, createdAt, thumbnailUrl }: ColumnCardProps) {
   const defaultTitle = `デザイン思考とリーンスタートアップを活用した新規事業開発プロジェクトの成功事例と実践的アプローチ`;
   const defaultDate = `2024.01.01`;
   const defaultTags = ['デザイン', '戦略'];
 
-  const thumbnailSrc = '/images/common/column_thumbnail.png';
+  const thumbnailSrc = thumbnailUrl || '/images/common/column_thumbnail.png';
   const isNew = isWithinTwoWeeks(createdAt);
 
   const ThumbnailImage = () => (
@@ -36,7 +37,7 @@ export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCar
   const Tags = () => (
     <div className="flex gap-2 flex-wrap">
       {(tags || defaultTags).map((tag) => (
-        <span key={tag} className="text-base text-[#51514d]">#{tag}</span>
+        <span key={tag} className="text-sm text-ld-grey-400">#{tag}</span>
       ))}
     </div>
   );
@@ -44,7 +45,7 @@ export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCar
   const NewBadge = () => {
     if (!isNew) return null;
     return (
-      <div className="text-base font-semibold text-[#51514d]">
+      <div className="text-sm font-bold text-ld-red-600">
         NEW
       </div>
     );
@@ -58,7 +59,7 @@ export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCar
   );
 
   return (
-    <Link href={`/columns/${columnId}`} className="block h-full">
+    <Link href={`/columns/${columnId}`} className="block h-full group">
       <div className="cursor-pointer transition-opacity hover:opacity-80 flex flex-col relative">
         <ThumbnailImage />
         <div className="flex-1 flex flex-col min-h-[10rem] relative">
@@ -66,9 +67,9 @@ export function ColumnCard({ columnId, title, date, tags, createdAt }: ColumnCar
             <NewBadge />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/icons/calendar.svg" alt="" className="w-4 h-4" />
-            <p className="text-base text-[#51514d]">{date || defaultDate}</p>
+            <p className="text-sm font-bold">{date || defaultDate}</p>
           </div>
-          <h3 className="text-xl font-semibold mb-4 line-clamp-2 text-[#51514d]">{title || defaultTitle}</h3>
+          <h3 className="text-xl font-semibold mb-4 line-clamp-2 group-hover:underline transition-all duration-300">{title || defaultTitle}</h3>
           <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center">
             {Tags()}
             <ArrowIcon />
