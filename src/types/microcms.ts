@@ -7,6 +7,14 @@ export interface Tag {
   updatedAt: string;
 }
 
+export interface Writer {
+  thumbnail: {
+    url: string;
+  };
+  name: string;
+  biography: string;
+}
+
 export interface Article {
   id: string;
   title: string;
@@ -17,6 +25,7 @@ export interface Article {
     height?: number;
   };
   tags?: Tag[];
+  writer?: Writer;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;

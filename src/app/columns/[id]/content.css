@@ -1,0 +1,44 @@
+/* コラム本文用スタイル */
+
+.column-content {
+
+  h2 {
+    @apply text-xl md:text-2xl text-ld-accent-400 bg-ld-accent-50 p-3 font-bold mb-10 rounded-lg flex items-stretch gap-4
+  }
+
+  h2::before {
+    content: '';
+    @apply w-1 bg-ld-accent-400;
+  }
+
+  h3 {
+    @apply text-lg md:text-xl font-medium mb-2 md:mb-4 flex items-center gap-2;
+  }
+
+  h3::before {
+    content: '\25A0';
+    @apply text-ld-accent-400;
+  }
+
+  h4 {
+    @apply text-lg md:text-lg font-medium mb-2 md:mb-4 py-2 border-b border-ld-accent-200;
+  }
+
+  p {
+    @apply mb-10 md:text-lg text-base;
+  }
+
+  ul {
+    @apply list-disc md:text-lg text-base mb-10;
+  }
+
+  ul li {
+    @apply ml-6;
+  }
+
+  a {
+    @apply text-ld-blue-600 underline hover:opacity-70 transition-opacity;
+  }
+
+
+}
