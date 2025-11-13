@@ -13,13 +13,19 @@ interface GalleryListProps {
   sessions?: Session[];
   loading?: boolean;
   error?: string | null;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function GalleryList({
   showPagination = false,
   sessions = [],
   loading = false,
-  error = null
+  error = null,
+  currentPage: externalCurrentPage,
+  totalPages: externalTotalPages,
+  onPageChange: externalOnPageChange
 }: GalleryListProps) {
   const tags = [
     'すべて',
@@ -38,9 +44,13 @@ export function GalleryList({
     'リサーチ',
     'イノベーション'
   ];
-  const [currentPage, setCurrentPage] = useState(1);
+  const [internalCurrentPage, setInternalCurrentPage] = useState(1);
   const [selectedTags, setSelectedTags] = useState<string[]>(['すべて']);
-  const totalPages = 5;
+
+  // 外部からpropsが渡されている場合はそれを使用、なければ内部stateを使用
+  const currentPage = externalCurrentPage ?? internalCurrentPage;
+  const totalPages = externalTotalPages ?? 5;
+  const onPageChange = externalOnPageChange ?? setInternalCurrentPage;
 
   const handleTagSelect = (tag: string) => {
     if (tag === 'すべて') {
@@ -103,7 +113,7 @@ export function GalleryList({
         <GalleryPagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={setCurrentPage}
+          onPageChange={onPageChange}
         />
       ) : (
         <div className="text-center">

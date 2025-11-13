@@ -79,27 +79,6 @@ export class SessionService {
           firstPageContent = session.generated_content['page_1_cover'] ||
                            session.generated_content['1'] ||
                            session.generated_content[1];
-
-          // それでも見つからない場合は最初のキーを使用
-          if (!firstPageContent) {
-            const firstKey = Object.keys(session.generated_content).sort()[0];
-            firstPageContent = session.generated_content[firstKey];
-          }
-        }
-
-        // generated_contentが空の場合はuser_inputsから取得
-        if (!firstPageContent || Object.keys(firstPageContent || {}).length === 0) {
-          if (session.user_inputs && Object.keys(session.user_inputs).length > 0) {
-            firstPageContent = session.user_inputs['section_0'] ||
-                             session.user_inputs['1'] ||
-                             session.user_inputs[1];
-
-            // それでも見つからない場合は最初のキーを使用
-            if (!firstPageContent) {
-              const firstKey = Object.keys(session.user_inputs).sort()[0];
-              firstPageContent = session.user_inputs[firstKey];
-            }
-          }
         }
 
         return {
