@@ -1,8 +1,9 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GalleryList } from '@/components/GalleryList';
-import { GuideContent } from '@/components/StartGuide/GuideContent';
+import { StartGuide } from '@/components/StartGuide';
 import { Breadcrumb } from '@/components/Breadcrumb';
+
 
 export default function GalleryPage() {
   return (
@@ -19,7 +20,7 @@ export default function GalleryPage() {
           />
         </section>
         <section className="py-20 bg-gray-50">
-          <GuideContent />
+          <StartGuide />
         </section>
       </main>
       <Footer />

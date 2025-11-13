@@ -23,7 +23,15 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
   return (
     <div className="mx-auto">
       {/* タグ */}
-      <SectionTag label="コラム" />
+      <div className="flex justify-between items-center mb-4 md:mb-8">
+        {/* タグ */}
+        <SectionTag label="コラム" />
+
+        <span className="text-sm font-medium">
+        （ COLUMN ）
+        </span>
+      </div>
+
 
       {/* 文言 */}
       <h2 className="text-5xl font-bold mt-10 mb-10 text-gray-800">

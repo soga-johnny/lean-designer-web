@@ -1,9 +1,10 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { GuideContent } from '@/components/StartGuide/GuideContent';
+import { StartGuide } from '@/components/StartGuide';
 import { ColumnCard } from '@/components/ColumnCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import Link from 'next/link';
+
 
 export default function ColumnDetailPage() {
   return (
@@ -68,7 +69,7 @@ export default function ColumnDetailPage() {
         </section>
 
         <section className="py-20">
-          <GuideContent />
+          <StartGuide />
         </section>
       </main>
       <Footer />

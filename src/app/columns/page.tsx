@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ColumnsList } from '@/components/ColumnsList';
-import { GuideContent } from '@/components/StartGuide/GuideContent';
+import { StartGuide } from '@/components/StartGuide';
 import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function ColumnsPage() {
@@ -18,8 +18,9 @@ export default function ColumnsPage() {
             ]}
           />
         </section>
+
         <section className="py-20 bg-gray-50">
-          <GuideContent />
+          <StartGuide />
         </section>
       </main>
       <Footer />
