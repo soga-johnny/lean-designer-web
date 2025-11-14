@@ -19,7 +19,7 @@ export function SecondaryButton({
   children,
   className = '',
 }: SecondaryButtonProps) {
-  const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block border border-ld-grey-100';
+  const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block border border-ld-grey-100 text-center';
   
   const sizeStyles = {
     small: 'text-sm',

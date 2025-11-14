@@ -19,7 +19,7 @@ export function PrimaryButton({
   children,
   className = '',
 }: PrimaryButtonProps) {
-  const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block';
+  const baseStyles = 'font-medium rounded-full transition-colors px-6 py-3 inline-block text-center';
   
   const sizeStyles = {
     small: 'text-sm',
