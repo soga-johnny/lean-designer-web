@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { GalleryTagFilter } from './GalleryTagFilter';
 import { GalleryGrid } from './GalleryGrid';
+import { GallerySkeleton } from './GallerySkeleton';
 import { Pagination } from '@/components/Pagination';
 import { SectionTag } from '@/components/SectionTag';
 import { Session } from '@/services/sessionService';
@@ -92,9 +93,10 @@ export function GalleryList({
       {/* ギャラリー一覧 */}
       <div className="mb-20">
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">読み込み中...</p>
-          </div>
+          <GallerySkeleton
+            layout={showPagination ? 'list' : 'top'}
+            count={itemsCount}
+          />
         ) : error ? (
           <div className="text-center py-12">
             <p className="text-red-600">{error}</p>
