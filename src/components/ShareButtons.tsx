@@ -5,15 +5,18 @@ interface ShareButtonsProps {
   articleTitle: string;
 }
 
+
+const createShareLinks = (url: string, title: string) => ({
+  twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+  threads: `https://threads.net/intent/post?text=${encodeURIComponent(`${title} ${url}`)}`,
+});
+
 /**
  * SNSシェアボタン
  */
 export function ShareButtons({ articleUrl, articleTitle }: ShareButtonsProps) {
-  const shareLinks = {
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(articleTitle)}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`,
-    threads: `https://threads.net/intent/post?text=${encodeURIComponent(`${articleTitle} ${articleUrl}`)}`,
-  };
+  const shareLinks = createShareLinks(articleUrl, articleTitle);
 
   const handleCopyLink = async () => {
     try {

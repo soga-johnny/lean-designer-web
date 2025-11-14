@@ -3,14 +3,18 @@ import { Footer } from '@/components/Footer';
 import { StartGuide } from '@/components/StartGuide';
 import { ColumnCard } from '@/components/ColumnCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
-import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SecondaryButton } from '@/components/ui/SecondaryButton';
 import { ShareButtons } from '@/components/ShareButtons';
-import { getArticleById, getArticles, getArticlesByTags } from '@/lib/microcms';
-import { Article, Writer } from '@/types/microcms';
+import { getArticleById, getArticles } from '@/lib/microcms';
+import { Article } from '@/types/microcms';
 import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+import { formatDate } from './_utils/formatDate';
+import { WriterBlock } from './_components/WriterBlock';
+import { CTABlock } from './_components/CTABlock';
 import './content.css';
+
+// メタデータ生成関数をインポート
+export { generateMetadata } from './_utils/generateMetadata';
 
 // ISR: 6時間ごとに再検証
 export const revalidate = 21600;
@@ -35,113 +39,6 @@ export async function generateStaticParams() {
     console.error('記事IDの取得に失敗しました:', error);
     return [];
   }
-}
-
-/**
- * HTMLタグを除去してプレーンテキストにする
- */
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-}
-
-/**
- * テキストを指定文字数でトリミングして三点リーダーを追加
- */
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength) + '...';
-}
-
-/**
- * メタデータを動的に生成（SEO対応）
- */
-export async function generateMetadata({ params }: ColumnDetailPageProps): Promise<Metadata> {
-  try {
-    const article = await getArticleById(params.id);
-    
-    if (!article) {
-      return {
-        title: 'Lean Designer',
-      };
-    }
-
-    // 本文からHTMLタグを除去してプレーンテキスト化
-    const plainContent = article.content ? stripHtml(article.content) : '';
-    
-    // 70文字でトリミングして三点リーダーを追加
-    const description = truncateText(plainContent, 80);
-
-    return {
-      title: `${article.title} | Lean Designer`,
-      description: description,
-      openGraph: {
-        title: `${article.title} | Lean Designer`,
-        description: description,
-        images: article.eyecatch?.url ? [article.eyecatch.url] : [],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${article.title} | Lean Designer`,
-        description: description,
-        images: article.eyecatch?.url ? [article.eyecatch.url] : [],
-      },
-    };
-  } catch (error) {
-    console.error('メタデータの生成に失敗しました:', error);
-    return {
-      title: 'コラム | Lean Designer',
-    };
-  }
-}
-
-/**
- * 日付をYYYY.MM.DD形式にフォーマット
- */
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}.${month}.${day}`;
-}
-
-/**
- * このコラムを書いた人のブロック
- */
-function WriterBlock({ data }: { data: Writer }) {
-  return (
-    <div className="px-10 py-6 bg-white rounded-2xl border border-ld-grey-100 mb-10">
-      <p className="text-sm mb-4">このコラムを書いた人</p>
-      <div className="flex md:items-center gap-6 border-t border-ld-grey-100 pt-4">
-        <div className="md:w-28 md:h-28 w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.thumbnail.url} alt={data.name} className="w-full h-full object-cover" />
-        </div>
-        <div>
-          <p className="text-lg mb-2">{data.name}</p>
-          <p className="text-ld-grey-400 text-sm">{data.biography}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * CTAブロック
- */
-function CTABlock() {
-  return (
-    <div className="py-8 md:py-10 px-8 md:px-14 bg-ld-grey-50 rounded-2xl border border-ld-grey-100 mb-10">
-      <p className="text-sm mb-4 md:mb-6">お問い合わせ・資料ダウンロード</p>
-      <p className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 relative before:content-[''] before:absolute before:left-[-2rem] md:before:left-[-3.5rem] before:top-0 before:bottom-0 before:w-1 before:bg-ld-grey-700">コンピューターと情報表現の力で、貴社の課題解決に伴走します</p>
-      <div className="flex gap-2 md:flex-row flex-col">
-        <PrimaryButton href="https://www.plasmism.com/contact" className="w-[fit-content]" target="_blank">まずは相談する</PrimaryButton>
-        <PrimaryButton href="https://www.plasmism.com/download" className="w-[fit-content]" target="_blank">資料をダウンロードする</PrimaryButton>
-      </div>
-    </div>
-  );
 }
 
 export default async function ColumnDetailPage({ params }: ColumnDetailPageProps) {
@@ -234,7 +131,7 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
             />
 
             {/* CTAブロック */}
-            {CTABlock()}
+            <CTABlock />
 
             {/* このコラムを書いた人 */}
             {article.writer && <WriterBlock data={article.writer} />}
