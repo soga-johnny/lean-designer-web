@@ -110,6 +110,20 @@ body::before {
   }
 }
 
+/* Heading border utility */
+.heading-border {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heading-border::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #51514D 16px, #E7E7E6 16px);
+}
+
 /* Display page animations */
 @keyframes fade-in-up {
   0% {
