@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { GalleryTagFilter } from './GalleryTagFilter';
 import { GalleryGrid } from './GalleryGrid';
-import { GalleryPagination } from './GalleryPagination';
+import { Pagination } from '@/components/Pagination';
 import { SectionTag } from '@/components/SectionTag';
 import { Session } from '@/services/sessionService';
 
@@ -110,7 +110,7 @@ export function GalleryList({
 
       {/* ページネーション or もっと見るボタン */}
       {showPagination ? (
-        <GalleryPagination
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={onPageChange}
