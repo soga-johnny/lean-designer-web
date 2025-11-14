@@ -5,7 +5,7 @@ import { ColumnCard } from '@/components/ColumnCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { SecondaryButton } from '@/components/ui/SecondaryButton';
 import { ShareButtons } from '@/components/ShareButtons';
-import { getArticleById, getArticles } from '@/lib/microcms';
+import { getArticleById, getArticles, getArticlesByTags } from '@/lib/microcms';
 import { Article } from '@/types/microcms';
 import { notFound } from 'next/navigation';
 import { formatDate } from './_utils/formatDate';
