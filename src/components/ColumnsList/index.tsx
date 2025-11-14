@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { ColumnsGrid } from './ColumnsGrid';
 import { ColumnsSkeleton } from './ColumnsSkeleton';
-import { ColumnsPagination } from './ColumnsPagination';
+import { Pagination } from '@/components/Pagination';
 import { AccessRanking } from './AccessRanking';
 import { PopularKeywords } from './PopularKeywords';
 import { SectionTag } from '@/components/SectionTag';
@@ -104,10 +104,11 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
             <ColumnsGrid itemsCount={listItemsCount} articles={articles} />
           </div>
 
-          <ColumnsPagination
+          <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
+            className="mb-12"
           />
         </>
       ) : (
