@@ -25,7 +25,7 @@ export default function Top() {
         <ConceptSlide />
 
         <section className="py-20">
-          <GalleryList />
+          <GalleryList sessions={sessions} loading={loading} error={error} />
         </section>
 
         <section className="py-20">
