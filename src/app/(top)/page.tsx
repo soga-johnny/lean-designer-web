@@ -15,7 +15,6 @@ export default function Top() {
   const { sessions, loading, error } = useSessions({
     limit: 10,
     offset: 0,
-    includeExpired: true,
   });
 
   return (

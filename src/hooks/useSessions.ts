@@ -6,7 +6,6 @@ import { Session } from '@/services/sessionService';
 interface UseSessionsOptions {
   limit?: number;
   offset?: number;
-  includeExpired?: boolean;
 }
 
 interface SessionsResponse {
@@ -47,7 +46,6 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
   const {
     limit = 10,
     offset = 0,
-    includeExpired = true,
   } = options;
 
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -68,7 +66,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
       setError(null);
 
       const response = await fetch(
-        `/api/v1/sessions?limit=${limit}&offset=${newOffset}&includeExpired=${includeExpired}`
+        `/api/v1/sessions?limit=${limit}&offset=${newOffset}`
       );
 
       if (!response.ok) {
@@ -94,7 +92,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
     } finally {
       setLoading(false);
     }
-  }, [limit, offset, includeExpired]);
+  }, [limit, offset]);
 
   /**
    * 現在のoffsetで再取得

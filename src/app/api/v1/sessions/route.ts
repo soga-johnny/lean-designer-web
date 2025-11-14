@@ -15,9 +15,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '10');
     const offset = parseInt(searchParams.get('offset') || '0');
-    const includeExpired = searchParams.get('includeExpired') === 'true';
 
-    logger.info('セッション一覧取得API開始', { limit, offset, includeExpired }, traceId);
+    logger.info('セッション一覧取得API開始', { limit, offset }, traceId);
 
     // バリデーション
     if (limit < 1 || limit > 100) {
@@ -43,9 +42,9 @@ export async function GET(request: NextRequest) {
     }
 
     // セッション一覧取得
-    const { sessions, total } = await sessionService.getSessions(limit, offset, includeExpired);
+    const { sessions, total } = await sessionService.getSessions(limit, offset);
 
-    logger.info('セッション一覧取得API成功', { count: sessions.length, total, includeExpired }, traceId);
+    logger.info('セッション一覧取得API成功', { count: sessions.length, total }, traceId);
 
     return NextResponse.json({
       success: true,

@@ -17,7 +17,6 @@ export default function GalleryPage() {
   const { sessions, loading, error, pagination, fetchSessions } = useSessions({
     limit: itemsPerPage,
     offset: 0,
-    includeExpired: true,
   });
 
   // ページが変わったら新しいデータを取得

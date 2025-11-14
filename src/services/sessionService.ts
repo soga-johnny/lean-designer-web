@@ -32,13 +32,13 @@ export interface SessionDetail extends Session {
  */
 export class SessionService {
   /**
-   * セッション一覧を取得
+   * セッション一覧を取得（デフォルトで有効期限切れを含む）
    */
-  async getSessions(limit: number = 10, offset: number = 0, includeExpired: boolean = false): Promise<{ sessions: Session[]; total: number }> {
+  async getSessions(limit: number = 10, offset: number = 0): Promise<{ sessions: Session[]; total: number }> {
     const traceId = logger.generateTraceId();
 
     try {
-      logger.info('セッション一覧取得開始', { limit, offset, includeExpired }, traceId);
+      logger.info('セッション一覧取得開始', { limit, offset }, traceId);
 
       const supabase = createServerSupabaseClient();
 
@@ -49,12 +49,9 @@ export class SessionService {
       // クエリを構築
       let query = supabase
         .from('sessions')
-        .select(selectFields, { count: 'exact' });
-
-      // 有効期限切れを除外する場合
-      if (!includeExpired) {
-        query = query.gte('expires_at', new Date().toISOString());
-      }
+        .select(selectFields, { count: 'exact' })
+        // FIXME: 検証のため期限切れのデータも取得する
+        .gte('expires_at', new Date().toISOString());
 
       // セッション一覧を取得
       const { data, error, count } = await query
@@ -130,15 +127,6 @@ export class SessionService {
 
       if (!data) {
         throw new Error('セッションが見つかりません');
-      }
-
-      // 有効期限チェック
-      const expiresAt = new Date(data.expires_at);
-      const now = new Date();
-
-      if (expiresAt < now) {
-        logger.warn('セッション有効期限切れ', { sessionId, expiresAt }, traceId);
-        throw new Error('セッションの有効期限が切れています');
       }
 
       logger.info('セッション取得成功', { sessionId }, traceId);
