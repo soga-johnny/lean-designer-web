@@ -53,11 +53,25 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
       notFound();
     }
 
-    // レコメンド記事を取得（全記事から現在の記事を除外して最新4件）
-    const allArticles = await getArticles();
-    recommendedArticles = allArticles
-      .filter((a: Article) => a.id !== params.id)
-      .slice(0, 4);
+    // レコメンド記事を取得（現在の記事のタグに紐づく記事）
+    if (article.tags && article.tags.length > 0) {
+      // タグIDの配列を作成
+      const tagIds = article.tags.map(tag => tag.id);
+      
+      // タグに紐づく記事を取得
+      const taggedArticles = await getArticlesByTags(tagIds);
+      
+      // 現在の記事を除外して最新4件
+      recommendedArticles = taggedArticles
+        .filter((a: Article) => a.id !== params.id)
+        .slice(0, 4);
+    } else {
+      // タグがない場合は全記事から取得
+      const allArticles = await getArticles();
+      recommendedArticles = allArticles
+        .filter((a: Article) => a.id !== params.id)
+        .slice(0, 4);
+    }
   } catch (error) {
     console.error('記事の取得に失敗しました:', error);
     notFound();
