@@ -52,8 +52,6 @@ export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
     return htmlContent || null;
   };
 
-  console.log(totalSlides, session);
-
   return (
     <div className="max-w-4xl mx-auto px-4 mb-20">
       {/* タイトル */}
