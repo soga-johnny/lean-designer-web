@@ -7,18 +7,18 @@ export interface Session {
   created_at: string;
   updated_at: string;
   session_name: string;
-  generated_content: any; // 最初のページのみ
+  generated_content: Record<string, unknown> | null; // 最初のページのみ
 }
 
 // セッション詳細用の完全なインターフェース
 export interface SessionDetail extends Session {
-  user_inputs: any;
-  processing_status: any;
+  user_inputs: Record<string, unknown> | null;
+  processing_status: Record<string, unknown> | null;
   current_section: number;
   status: string;
   expires_at: string;
-  design_preferences: any;
-  processing_config: any;
+  design_preferences: Record<string, unknown> | null;
+  processing_config: Record<string, unknown> | null;
   user_id: string | null;
   is_template: boolean;
   created_by_user: boolean;
@@ -69,24 +69,16 @@ export class SessionService {
         throw new Error(`セッション一覧取得に失敗しました: ${error.message}`);
       }
 
-      // generated_contentまたはuser_inputsの最初のページのみを抽出
-      const sessions: Session[] = (data || []).map((session: any) => {
-        let firstPageContent = null;
-
-        // generated_contentから最初のページを探す
-        if (session.generated_content && Object.keys(session.generated_content).length > 0) {
-          // page_1_cover または "1" というキーを探す
-          firstPageContent = session.generated_content['page_1_cover'] ||
-                           session.generated_content['1'] ||
-                           session.generated_content[1];
-        }
+      // generated_contentから最初のページのみを抽出
+      const sessions: Session[] = (data || []).map((row: Session) => {
+        const content = row.generated_content;
+        const firstPage = content?.['page_1_cover'] ?? content?.['1'] ?? content?.[1];
 
         return {
-          session_id: session.session_id,
-          created_at: session.created_at,
-          updated_at: session.updated_at,
-          session_name: session.session_name,
-          generated_content: firstPageContent || null
+          ...row,
+          generated_content: (firstPage && typeof firstPage === 'object')
+            ? firstPage as Record<string, unknown>
+            : null
         };
       });
 
@@ -97,9 +89,9 @@ export class SessionService {
         total: count || 0
       };
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error('セッション一覧取得エラー', {
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       }, traceId);
       throw error;
     }
@@ -153,10 +145,10 @@ export class SessionService {
 
       return data;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error('セッション取得エラー', {
         sessionId,
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       }, traceId);
       throw error;
     }

@@ -58,15 +58,16 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString()
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error('セッション一覧取得APIエラー', {
-      error: error.message
+      error: errorMessage
     }, traceId);
 
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: errorMessage,
         timestamp: new Date().toISOString()
       },
       { status: 500 }

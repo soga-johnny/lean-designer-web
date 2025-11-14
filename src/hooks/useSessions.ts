@@ -106,6 +106,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
   // 初回マウント時に自動取得
   useEffect(() => {
     fetchSessions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

@@ -43,21 +43,22 @@ export async function GET(
       timestamp: new Date().toISOString()
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error('セッション取得APIエラー', {
       sessionId: params.sessionId,
-      error: error.message
+      error: errorMessage
     }, traceId);
 
     // エラーの種類に応じてステータスコードを設定
     const statusCode =
-      error.message.includes('見つかりません') ||
-      error.message.includes('有効期限が切れています') ? 404 : 500;
+      errorMessage.includes('見つかりません') ||
+      errorMessage.includes('有効期限が切れています') ? 404 : 500;
 
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: errorMessage,
         timestamp: new Date().toISOString()
       },
       { status: statusCode }
