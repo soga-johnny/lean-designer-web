@@ -34,7 +34,7 @@ export function StartGuide() {
   const [firstStep, ...restSteps] = GUIDE_STEPS;
 
   return (
-    <div className="relative mx-auto z-[1]">
+    <div>
       <div className="flex justify-between items-center mb-4 md:mb-8">
         {/* タグ */}
         <SectionTag label="スタートガイド" />

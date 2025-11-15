@@ -11,7 +11,9 @@ import { notFound } from 'next/navigation';
 import { formatDate } from './_utils/formatDate';
 import { WriterBlock } from './_components/WriterBlock';
 import { CTABlock } from './_components/CTABlock';
+import { BottomConceptArea } from '@/components/BottomConceptArea';
 import './content.css';
+
 
 // メタデータ生成関数をインポート
 export { generateMetadata } from './_utils/generateMetadata';
@@ -84,13 +86,13 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
   const tagNames = article.tags?.map(tag => tag.name) || [];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-[4.5rem] md:pb-0">
       <Header />
-      <main className="md:mt-[4.875rem] px-6 md:px-10">
+      <main className="md:mt-[4.875rem] ">
 
-        <section className="md:pt-16 md:pb-32 pb-10">
+        <section className="px-6 md:px-[9.75rem] md:pb-32 py-10 md:pt-16">
           {/* コラムコンテンツ */}
-          <div className="max-w-[752px] mx-auto mb-10 md:mb-32">
+          <div className="mb-10 md:mb-32 max-w-[752px] mx-auto">
 
             {/* アイキャッチ */}
             {article.eyecatch?.url ? (
@@ -114,10 +116,10 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
             </div>
 
             {/* タイトル */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-1">{article.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">{article.title}</h1>
 
             {/* タグ */}
-            <div className="flex gap-2 mb-10">
+            <div className="flex flex-wrap gap-2 mb-10">
               {tagNames.map((tagName) => (
                 <span key={tagName} className="text-sm text-ld-grey-400">#{tagName}</span>
               ))}
@@ -144,9 +146,9 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
           </div>
 
           {/* レコメンドコラム一覧 */}
-          <div className="mx-auto px-4">
-            <h2 className="text-2xl font-bold">レコメンド</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div>
+            <h2 className="text-2xl font-bold heading-border mb-6">レコメンド</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {recommendedArticles.map((recommendedArticle) => (
                 <ColumnCard
                   key={recommendedArticle.id}
@@ -163,19 +165,24 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
 
           
         </section>
-
-        <Breadcrumb
-          items={[
-            { label: 'ホーム', href: '/' },
-            { label: 'コラム', href: '/columns' },
-            { label: article.title }
-          ]}
-        />
-
-        <section className="py-20 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
-          <StartGuide />
-        </section>
+        
       </main>
+      <Breadcrumb
+        items={[
+          { label: 'ホーム', href: '/' },
+          { label: 'コラム', href: '/columns' },
+          { label: article.title }
+        ]}
+      />
+
+      <section className="bg-ld-grey-50 px-6 md:px-10 py-10 md:py-32">
+        <StartGuide />
+      </section>
+
+      <section>
+        <BottomConceptArea />
+      </section>
+      
       <Footer />
     </div>
   );

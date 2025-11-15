@@ -66,7 +66,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
   return (
     <div className="mx-auto">
       {/* タグ */}
-      <div className="flex justify-between items-center mb-4 md:mb-8">
+      <div className="flex justify-between items-center mb-6 md:mb-8">
         {/* タグ */}
         <SectionTag label="コラム" />
 
@@ -77,7 +77,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
 
 
       {/* 文言 */}
-      <h2 className="text-5xl font-bold mt-10 mb-10 text-gray-800">
+      <h2 className="text-3xl md:text-5xl font-bold md:mb-20 mb-6">
         戦略の立て方、成功に導くデザインの原則
       </h2>
 

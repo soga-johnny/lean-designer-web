@@ -21,23 +21,26 @@ export default function Top() {
   return (
     <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />
-      <main className="max-w-[100rem] mx-auto">
-        <ConceptSlide />
+      <main className="px-6 md:px-10">
+        <section className="py-10 md:py-[5.5rem]">
+          <ConceptSlide />
+        </section>
 
-        <section className="py-20">
+        <section className="py-10 md:py-32">
           <GalleryList sessions={sessions} loading={loading} error={error} />
         </section>
 
-        <section className="py-20">
+        <section className="py-10 md:py-32">
           <ColumnsList />
         </section>
-
-        <section className="py-20 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
-          <StartGuide />
-        </section>
-
-        <BottomConceptArea />
       </main>
+      <section className="bg-ld-grey-50 px-6 md:px-10 py-10 md:py-32">
+        <StartGuide />
+      </section>
+
+      <section>
+        <BottomConceptArea />
+      </section>
       <Footer />
     </div>
   );
