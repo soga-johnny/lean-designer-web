@@ -55,7 +55,7 @@ export function PopularKeywords({ onTagClick, selectedTagId }: PopularKeywordsPr
   }
 
   return (
-    <div>
+    <>
       <h3 className="text-2xl font-bold mb-6 heading-border">注目のキーワード</h3>
       <div className="flex gap-3 flex-wrap">
         {tags.map((tag) => (
@@ -70,6 +70,6 @@ export function PopularKeywords({ onTagClick, selectedTagId }: PopularKeywordsPr
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 }

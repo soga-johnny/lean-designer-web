@@ -91,41 +91,46 @@ export function GalleryList({
       </div>
 
       {/* ギャラリー一覧 */}
-      <div className="mb-20">
-        {loading ? (
-          <GallerySkeleton
-            layout={showPagination ? 'list' : 'top'}
-            count={itemsCount}
-          />
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-red-600">{error}</p>
-          </div>
-        ) : (
+      {loading ? (
+        <GallerySkeleton
+          layout={showPagination ? 'list' : 'top'}
+          count={itemsCount}
+        />
+      ) : error ? (
+        <div className="text-center py-12">
+          <p className="text-red-600">{error}</p>
+        </div>
+      ) : showPagination ? (
+        <>
           <GalleryGrid
             itemsCount={itemsCount}
             layout={showPagination ? 'list' : 'top'}
             sessions={sessions}
           />
-        )}
-      </div>
-
-      {/* ページネーション or もっと見るボタン */}
-      {showPagination ? (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-        />
+          <div className="mt-6 md:mt-20">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          </div>
+        </>
       ) : (
-        <div className="text-center">
-          <Link
-            href="/gallery"
-            className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
-          >
-            ギャラリーの続きを見る
-          </Link>
-        </div>
+        <>
+          <GalleryGrid
+            itemsCount={itemsCount}
+            layout={showPagination ? 'list' : 'top'}
+            sessions={sessions}
+          />
+          <div className="text-center mt-6 md:mt-20">
+            <Link
+              href="/gallery"
+              className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
+            >
+              ギャラリーの続きを見る
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );

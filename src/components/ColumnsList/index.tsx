@@ -81,45 +81,30 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
         戦略の立て方、成功に導くデザインの原則
       </h2>
 
-      {/* エラーメッセージ */}
-      {error && (
+      {/* コラム一覧 */}
+      {loading ? (
+        <ColumnsSkeleton count={showPagination ? listItemsCount : topItemsCount} />
+      ) : error ? (
         <div className="mb-8 p-4 bg-ld-red-100 border border-ld-red-600 rounded-lg md:max-w-[500px] mx-auto">
           <p className="text-ld-red-600 text-center">{error}</p>
         </div>
-      )}
-
-      {/* コラム一覧 */}
-      {loading ? (
-        // ローディング中: スケルトン表示
-        <div className="mb-8">
-          <ColumnsSkeleton count={showPagination ? listItemsCount : topItemsCount} />
-        </div>
-      ) : error ? (
-        // エラー時: 何も表示しない（エラーメッセージのみ）
-        null
       ) : showPagination ? (
         // コラム一覧ページ: 3列×4段
         <>
-          <div className="mb-8">
-            <ColumnsGrid itemsCount={listItemsCount} articles={articles} />
+          <ColumnsGrid itemsCount={listItemsCount} articles={articles} />
+          <div className="mt-6 md:mt-20">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
-
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            className="mb-12"
-          />
         </>
       ) : (
         // トップページ: 3個横並び
         <>
-          <div className="mb-6 md:mb-20">
-            <ColumnsGrid itemsCount={topItemsCount} articles={articles} />
-          </div>
-
-          {/* コラムの続きを見るボタン */}
-          <div className="text-center mb-12">
+          <ColumnsGrid itemsCount={topItemsCount} articles={articles} />
+          <div className="text-center mt-6 md:mt-20">
             <Link
               href="/columns"
               className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
@@ -131,7 +116,9 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
       )}
 
       {/* アクセスランキング */}
-      <AccessRanking />
+      <div className="mt-20 mb-28">
+        <AccessRanking />
+      </div>
 
       {/* 注目のキーワード */}
       <PopularKeywords onTagClick={handleTagClick} selectedTagId={selectedTagId} />
