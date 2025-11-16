@@ -36,6 +36,14 @@
     @apply ml-6;
   }
 
+  ol {
+    @apply list-decimal md:text-lg text-base mb-10;
+  }
+
+  ol li {
+    @apply ml-6;
+  }
+
   a {
     @apply text-ld-blue-600 underline hover:opacity-70 transition-opacity;
   }
