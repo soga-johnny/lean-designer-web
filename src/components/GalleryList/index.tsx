@@ -71,7 +71,7 @@ export function GalleryList({
   return (
     <div className="mx-auto">
       {/* タグ */}
-      <div className="flex justify-between items-center mb-4 md:mb-8">
+      <div className="flex justify-between items-center md:mb-8 max-md:mb-6">
         {/* タグ */}
         <SectionTag label="ギャラリー" />
 
@@ -81,7 +81,7 @@ export function GalleryList({
       </div>
 
       {/* 文言 */}
-      <h2 className="text-5xl font-bold mt-10 mb-10 text-gray-800">
+      <h2 className="text-3xl md:text-5xl font-bold md:mb-8 max-md:mb-6">
         アイデアの具現化、戦略が生まれる瞬間
       </h2>
 
@@ -91,41 +91,46 @@ export function GalleryList({
       </div>
 
       {/* ギャラリー一覧 */}
-      <div className="mb-20">
-        {loading ? (
-          <GallerySkeleton
-            layout={showPagination ? 'list' : 'top'}
-            count={itemsCount}
-          />
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-red-600">{error}</p>
-          </div>
-        ) : (
+      {loading ? (
+        <GallerySkeleton
+          layout={showPagination ? 'list' : 'top'}
+          count={itemsCount}
+        />
+      ) : error ? (
+        <div className="text-center py-12">
+          <p className="text-red-600">{error}</p>
+        </div>
+      ) : showPagination ? (
+        <>
           <GalleryGrid
             itemsCount={itemsCount}
             layout={showPagination ? 'list' : 'top'}
             sessions={sessions}
           />
-        )}
-      </div>
-
-      {/* ページネーション or もっと見るボタン */}
-      {showPagination ? (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-        />
+          <div className="mt-6 md:mt-20">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          </div>
+        </>
       ) : (
-        <div className="text-center">
-          <Link
-            href="/gallery"
-            className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
-          >
-            ギャラリーの続きを見る
-          </Link>
-        </div>
+        <>
+          <GalleryGrid
+            itemsCount={itemsCount}
+            layout={showPagination ? 'list' : 'top'}
+            sessions={sessions}
+          />
+          <div className="text-center mt-6 md:mt-20">
+            <Link
+              href="/gallery"
+              className="block w-full px-8 py-4 bg-white rounded-full text-[1.2rem] font-normal transition-opacity border border-[#e7e7e6] text-[#51514d] hover:opacity-70"
+            >
+              ギャラリーの続きを見る
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );

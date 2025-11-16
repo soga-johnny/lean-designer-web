@@ -32,17 +32,20 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="max-w-[100rem] mx-auto">
-        <section className="py-20">
-          <GalleryList
-            showPagination
-            sessions={sessions}
-            loading={loading}
-            error={error}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
+        <section className="md:pt-60 max-md:pt-10">
+          <div className="pb-40">
+            <GalleryList
+              showPagination
+              sessions={sessions}
+              loading={loading}
+              error={error}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },
@@ -50,7 +53,8 @@ export default function GalleryPage() {
             ]}
           />
         </section>
-        <section className="py-20 bg-gray-50">
+
+        <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
           <StartGuide />
         </section>
       </main>

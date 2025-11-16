@@ -12,9 +12,8 @@ export function GalleryGrid({ itemsCount, layout = 'list', sessions = [] }: Gall
   const displaySessions = sessions.slice(0, itemsCount);
 
   if (layout === 'list') {
-    // ギャラリー一覧ページ: モバイル2列、PC3列
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-12">
         {displaySessions.map((session) => (
           <GalleryCard
             key={session.session_id}
@@ -34,7 +33,7 @@ export function GalleryGrid({ itemsCount, layout = 'list', sessions = [] }: Gall
   return (
     <>
       {/* 1段目: 横長カード2枚 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 mb-8">
         {largeSessions.map((session) => (
           <GalleryCard
             key={session.session_id}
@@ -46,8 +45,8 @@ export function GalleryGrid({ itemsCount, layout = 'list', sessions = [] }: Gall
         ))}
       </div>
 
-      {/* 2-3段目: モバイル2列×4段、PC4列×2段 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* 2-3段目: 4列×2段 */}
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
         {smallSessions.map((session) => (
           <GalleryCard
             key={session.session_id}

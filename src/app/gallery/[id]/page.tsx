@@ -17,7 +17,7 @@ export default function GalleryDetailPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="max-w-[100rem] mx-auto">
+      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         {/* ギャラリー詳細とレコメンド */}
         <section className="py-20">
           {/* ギャラリー詳細 */}
@@ -85,7 +85,7 @@ export default function GalleryDetailPage() {
           />
         </section>
 
-        <section className="py-20">
+        <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
           <StartGuide />
         </section>
       </main>

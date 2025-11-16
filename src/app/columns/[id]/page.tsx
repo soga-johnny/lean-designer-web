@@ -100,10 +100,8 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
   return (
     <div className="min-h-screen">
       <Header />
-      {/* Draft Mode バナー（Draft Mode かつ draftKey がある場合のみ表示） */}
       {isDraftPreview && <DraftModeBanner />}
-      <main className="md:mt-[4.875rem] px-6 md:px-10">
-
+      <main className="md:mt-[4.875rem] px-6 md:px-10 max-md:px-[2rem]">
         <section className="md:pt-16 md:pb-32 pb-10">
           {/* コラムコンテンツ */}
           <div className="max-w-[752px] mx-auto mb-10 md:mb-32">
@@ -176,8 +174,6 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
               ))}
             </div>
           </div>
-
-          
         </section>
 
         <Breadcrumb
@@ -188,7 +184,7 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
           ]}
         />
 
-        <section className="py-20 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
+        <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
           <StartGuide />
         </section>
       </main>
