@@ -9,35 +9,33 @@ export function Pagination({ currentPage, totalPages, onPageChange, className = 
   // ページ番号配列を生成（省略記法対応）
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const showMax = 7; // 最大表示ページ数
+    const showMax = 3; // 最大表示ページ数
 
     if (totalPages <= showMax) {
       // 全ページ表示
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    // 常に最初のページ
-    pages.push(1);
-
-    if (currentPage > 3) {
+    // 現在のページ位置に応じて表示を決定
+    if (currentPage <= 2) {
+      // 最初の方: 1, 2, 3, ...
+      for (let i = 1; i <= showMax; i++) {
+        pages.push(i);
+      }
       pages.push('...');
-    }
-
-    // 現在のページ周辺
-    const start = Math.max(2, currentPage - 1);
-    const end = Math.min(totalPages - 1, currentPage + 1);
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-
-    if (currentPage < totalPages - 2) {
+    } else if (currentPage >= totalPages - 1) {
+      // 最後の方: ..., totalPages-2, totalPages-1, totalPages
       pages.push('...');
-    }
-
-    // 常に最後のページ
-    if (totalPages > 1) {
-      pages.push(totalPages);
+      for (let i = totalPages - showMax + 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // 中間: ..., current-1, current, current+1, ...
+      pages.push('...');
+      pages.push(currentPage - 1);
+      pages.push(currentPage);
+      pages.push(currentPage + 1);
+      pages.push('...');
     }
 
     return pages;
