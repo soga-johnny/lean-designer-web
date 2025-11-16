@@ -11,6 +11,8 @@ import { notFound } from 'next/navigation';
 import { formatDate } from './_utils/formatDate';
 import { WriterBlock } from './_components/WriterBlock';
 import { CTABlock } from './_components/CTABlock';
+import { DraftModeBanner } from './_components/DraftModeBanner';
+import { draftMode } from 'next/headers';
 import './content.css';
 
 // メタデータ生成関数をインポート
@@ -22,6 +24,9 @@ export const revalidate = 21600;
 interface ColumnDetailPageProps {
   params: {
     id: string;
+  };
+  searchParams: {
+    draftKey?: string;
   };
 }
 
@@ -41,13 +46,22 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function ColumnDetailPage({ params }: ColumnDetailPageProps) {
+export default async function ColumnDetailPage({ params, searchParams }: ColumnDetailPageProps) {
+  const { isEnabled: isDraftMode } = draftMode();
+  const draftKey = searchParams.draftKey;
+  
+  // Draft Mode が有効 かつ draftKey がある場合のみプレビューモード
+  const isDraftPreview = isDraftMode && !!draftKey;
+  
+  // デバッグログ
+  console.log('🔍 Draft Mode Status:', { isDraftMode, hasDraftKey: !!draftKey, isDraftPreview, articleId: params.id });
+  
   let article: Article;
   let recommendedArticles: Article[] = [];
 
   try {
-    // 記事詳細を取得
-    article = await getArticleById(params.id);
+    // プレビューモードの場合はdraftKeyを使用して記事を取得
+    article = await getArticleById(params.id, isDraftPreview ? draftKey : undefined);
     
     if (!article) {
       notFound();
@@ -86,6 +100,8 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
   return (
     <div className="min-h-screen">
       <Header />
+      {/* Draft Mode バナー（Draft Mode かつ draftKey がある場合のみ表示） */}
+      {isDraftPreview && <DraftModeBanner />}
       <main className="md:mt-[4.875rem] px-6 md:px-10">
 
         <section className="md:pt-16 md:pb-32 pb-10">
