@@ -21,7 +21,7 @@ export default function Top() {
   return (
     <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />
-      <main className="max-w-[100rem] mx-auto">
+      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         <section className="py-10 md:py-[88px] md:pt-40 md:pb-18">
           <ConceptSlide />
         </section>
