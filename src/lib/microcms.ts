@@ -17,9 +17,16 @@ export async function getArticles() {
 
 /**
  * IDで記事を取得
+ * @param id 記事ID
+ * @param draftKey ドラフトキー（プレビュー時に使用）
  */
-export async function getArticleById(id: string) {
-  const data = await client.get({ endpoint: 'articles', contentId: id });
+export async function getArticleById(id: string, draftKey?: string) {
+  const queries = draftKey ? { draftKey } : {};
+  const data = await client.get({ 
+    endpoint: 'articles', 
+    contentId: id,
+    queries 
+  });
   return data;
 }
 
