@@ -49,12 +49,12 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
     </div>
   );
 
-  const NewBadge = ({ position }: { position: 'top-0 right-0' | 'top-16 right-16' }) => {
+  const NewBadge = () => {
     if (!isNew) return null;
     return (
-      <div className={`absolute ${position} px-3 py-1 text-base font-semibold text-[#51514d]`}>
+      <span className="text-sm font-bold text-ld-red-600 text-right">
         NEW
-      </div>
+      </span>
     );
   };
 
@@ -68,15 +68,15 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
   if (size === 'large') {
     return (
       <Link href={`/gallery/${galleryId}`} className="block">
-        <div className="bg-card rounded-lg p-16 flex relative cursor-pointer transition-opacity hover:opacity-80">
+        <div className="bg-card rounded-2xl p-6 md:p-[3.5rem] flex flex-col md:flex-row md:gap-6 gap-0 relative cursor-pointer transition-opacity hover:opacity-80">
           <ThumbnailImage />
-          <div className="flex-1 pl-8">
-            <div className="relative w-full h-full flex flex-col justify-between">
-              <NewBadge position="top-0 right-0" />
+          <div className="flex-1">
+            <div className="relative w-full h-full flex flex-col justify-between gap-2 md:gap-0">
+              <NewBadge />
               <div className="flex-1 flex items-center">
-                <h3 className="text-2xl font-semibold line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
+                <h3 className="md:text-2xl text-base font-bold line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
               </div>
-              <div className="flex justify-between items-center before:content-[''] before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
+              <div className="flex justify-between items-center before:content-[''] before:absolute md:before:-bottom-[3.4rem] before:-bottom-[1.4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
                 {Tags()}
                 <ArrowIcon />
               </div>
@@ -89,14 +89,19 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
 
   return (
     <Link href={`/gallery/${galleryId}`} className="block h-full">
-      <div className="bg-card rounded-lg p-16 cursor-pointer transition-opacity hover:opacity-80 flex flex-col h-full relative">
-        <NewBadge position="top-16 right-16" />
-        <ThumbnailImage />
-        <div className="flex-1 flex flex-col min-h-[10rem] relative">
-          <h3 className="text-xl font-semibold my-4 line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center before:content-[''] before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
+      <div className="bg-card rounded-2xl p-4 md:p-[3.5rem] cursor-pointer transition-opacity hover:opacity-80 flex flex-col h-full relative">
+        <div className="flex md:flex-row flex-col justify-between">
+          <ThumbnailImage />
+          <NewBadge />
+          
+        </div>
+        <div className="flex-1 flex flex-col md:min-h-[10rem] relative">
+          <h3 className="text-sm md:text-lg font-semibold my-4 line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
+          <div className="md:absolute md:bottom-0 md:left-0 md:right-0 flex justify-between items-center md:before:content-[''] md:before:absolute md:before:-bottom-[3.4rem] md:before:right-0 md:before:w-[1.5rem] md:before:h-[4px] md:before:bg-[#51514d]">
             {Tags()}
-            <ArrowIcon />
+            <div className="hidden md:block">
+              <ArrowIcon />
+            </div>
           </div>
         </div>
       </div>
