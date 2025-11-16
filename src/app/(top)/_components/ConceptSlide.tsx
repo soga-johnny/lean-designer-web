@@ -30,7 +30,6 @@ export function ConceptSlide() {
   }, [totalSlides]);
 
   return (
-    <section className="py-10 px-6 md:py-[88px] md:px-10">
       <div className="max-w-content mx-auto">
 
         {/* 概要 */}
@@ -87,7 +86,5 @@ export function ConceptSlide() {
           </div>
         </div>
       </div>
-
-    </section>
   );
 }
