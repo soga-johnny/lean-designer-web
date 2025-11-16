@@ -22,16 +22,18 @@ const getRandomThumbnail = (): string => {
 
 export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt }: GalleryCardProps) {
   const defaultTitle = `デザイン思考とリーンスタートアップを活用した新規事業開発プロジェクト`;
-  const defaultTags = ['デザイン', '開発'];
+  const defaultTags = ['デザイン'];
+
+  const isLarge = size === 'large';
 
   const thumbnailSrc = getRandomThumbnail();
-  const thumbnailWidth = size === 'large' ? 'w-[16rem]' : 'w-[7rem]';
+  const thumbnailWidth = isLarge ? 'md:w-[16rem]' : 'md:w-[7rem]';
 
   // 2週間以内ならNEWを表示
   const isNew = isWithinTwoWeeks(createdAt);
 
   const ThumbnailImage = () => (
-    <div className={`${thumbnailWidth} rounded-lg overflow-hidden bg-[#EFE2D6]`}>
+    <div className={`${thumbnailWidth} max-md:w-[7rem] rounded-lg overflow-hidden bg-[#EFE2D6]`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={thumbnailSrc}
@@ -65,41 +67,50 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
     </div>
   );
 
-  if (size === 'large') {
-    return (
-      <Link href={`/gallery/${galleryId}`} className="block">
-        <div className="bg-card rounded-lg p-16 flex relative cursor-pointer transition-opacity hover:opacity-80">
-          <ThumbnailImage />
-          <div className="flex-1 pl-8">
-            <div className="relative w-full h-full flex flex-col justify-between">
-              <NewBadge position="top-0 right-0" />
-              <div className="flex-1 flex items-center">
-                <h3 className="text-2xl font-semibold line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
+  return (
+    <>
+      {isLarge && (
+        (
+          <Link href={`/gallery/${galleryId}`} className="max-md:hidden block">
+            <div className="bg-card rounded-lg md:p-16 max-md:p-5 flex relative cursor-pointer transition-opacity hover:opacity-80">
+              <ThumbnailImage />
+              <div className="flex-1 pl-8">
+                <div className="relative w-full h-full flex flex-col justify-between">
+                  <div className="max-md:hidden">
+                    <NewBadge position="top-0 right-0" />
+                  </div>
+                  <div className="flex-1 flex items-center">
+                    <h3 className="text-2xl font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
+                  </div>
+                  <div className="flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
+                    {Tags()}
+                    <div className="max-md:hidden">
+                      <ArrowIcon />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between items-center before:content-[''] before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
-                {Tags()}
+            </div>
+          </Link>
+        )
+      )}
+      <Link href={`/gallery/${galleryId}`} className={`${isLarge ? "md:hidden" : ""} block h-full`}>
+        <div className="bg-card rounded-lg md:p-16 max-md:p-5 cursor-pointer transition-opacity hover:opacity-80 flex flex-col h-full relative">
+          <div className="max-md:hidden">
+            <NewBadge position="top-16 right-16" />
+          </div>
+          <ThumbnailImage />
+          <div className="flex-1 flex flex-col min-h-[10rem] relative">
+            <h3 className="text-xl my-4 font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
+            <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
+              {Tags()}
+              <div className="max-md:hidden">
                 <ArrowIcon />
               </div>
             </div>
           </div>
         </div>
       </Link>
-    );
-  }
-
-  return (
-    <Link href={`/gallery/${galleryId}`} className="block h-full">
-      <div className="bg-card rounded-lg p-16 cursor-pointer transition-opacity hover:opacity-80 flex flex-col h-full relative">
-        <NewBadge position="top-16 right-16" />
-        <ThumbnailImage />
-        <div className="flex-1 flex flex-col min-h-[10rem] relative">
-          <h3 className="text-xl font-semibold my-4 line-clamp-3 text-[#51514d]">{title || defaultTitle}</h3>
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center before:content-[''] before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
-            {Tags()}
-            <ArrowIcon />
-          </div>
-        </div>
-      </div>
-    </Link>
+    </>
   );
 }
