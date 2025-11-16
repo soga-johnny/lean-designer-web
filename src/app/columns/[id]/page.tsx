@@ -86,8 +86,7 @@ export default async function ColumnDetailPage({ params }: ColumnDetailPageProps
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="md:mt-[4.875rem] px-6 md:px-10">
-
+      <main className="md:mt-[4.875rem] px-6 md:px-10 max-md:px-[2rem]">
         <section className="md:pt-16 md:pb-32 pb-10">
           {/* コラムコンテンツ */}
           <div className="max-w-[752px] mx-auto mb-10 md:mb-32">

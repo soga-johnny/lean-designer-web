@@ -65,7 +65,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, className = 
             <button
               key={page}
               onClick={() => onPageChange(page as number)}
-              className={`w-20 h-20 rounded-full text-xl font-bold transition-colors flex items-center justify-center ${
+              className={`md:w-20 md:h-20 md:min-w-20 md:min-h-20 max-md:w-16 max-md:h-16 max-md:min-w-16 max-md:min-h-16 rounded-full text-xl font-bold transition-colors flex items-center justify-center ${
                 currentPage === page
                   ? 'bg-[#BF8058] text-white'
                   : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
