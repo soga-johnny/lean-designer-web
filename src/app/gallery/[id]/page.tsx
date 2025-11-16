@@ -17,7 +17,7 @@ export default function GalleryDetailPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="max-w-[100rem] mx-auto">
+      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         {/* ギャラリー詳細とレコメンド */}
         <section className="py-20">
           {/* ギャラリー詳細 */}
