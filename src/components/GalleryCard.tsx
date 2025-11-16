@@ -76,9 +76,7 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
               <ThumbnailImage />
               <div className="flex-1 pl-8">
                 <div className="relative w-full h-full flex flex-col justify-between">
-                  <div className="max-md:hidden">
-                    <NewBadge />
-                  </div>
+                  <NewBadge />
                   <div className="flex-1 flex items-center">
                     <h3 className="text-2xl font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
                   </div>
@@ -96,10 +94,10 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
       )}
       <Link href={`/gallery/${galleryId}`} className={`${isLarge ? "md:hidden" : ""} block h-full`}>
         <div className="bg-card rounded-lg md:p-16 max-md:p-5 cursor-pointer transition-opacity hover:opacity-80 flex flex-col h-full relative">
-          <div className="max-md:hidden">
+          <div className="flex justify-between">
+            <ThumbnailImage />
             <NewBadge />
           </div>
-          <ThumbnailImage />
           <div className="flex-1 flex flex-col min-h-[10rem] relative">
             <h3 className="text-xl my-4 font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
             <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
