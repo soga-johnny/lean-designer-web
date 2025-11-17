@@ -8,6 +8,7 @@ export interface Session {
   updated_at: string;
   session_name: string;
   generated_content: Record<string, unknown> | null; // 最初のページのみ
+  genres: string[] | null;
 }
 
 // セッション詳細用の完全なインターフェース
@@ -34,17 +35,17 @@ export class SessionService {
   /**
    * セッション一覧を取得（デフォルトで有効期限切れを含む）
    */
-  async getSessions(limit: number = 10, offset: number = 0): Promise<{ sessions: Session[]; total: number }> {
+  async getSessions(limit: number = 10, offset: number = 0, genres?: string[]): Promise<{ sessions: Session[]; total: number }> {
     const traceId = logger.generateTraceId();
 
     try {
-      logger.info('セッション一覧取得開始', { limit, offset }, traceId);
+      logger.info('セッション一覧取得開始', { limit, offset, genres }, traceId);
 
       const supabase = createServerSupabaseClient();
 
       // 必要な項目のみをSELECT
       // user_inputsとgenerated_contentは全て取得
-      const selectFields = 'session_id, created_at, updated_at, session_name, generated_content, user_inputs';
+      const selectFields = 'session_id, created_at, updated_at, session_name, generated_content, user_inputs, genres';
 
       // クエリを構築
       let query = supabase
@@ -52,6 +53,16 @@ export class SessionService {
         .select(selectFields, { count: 'exact' })
         // FIXME: 検証のため期限切れのデータも取得する
         .gte('expires_at', new Date().toISOString());
+
+      // genresフィルター: 指定されたジャンルのいずれかを含むセッションを取得
+      if (genres && genres.length > 0) {
+        // JSONB配列に対するOR条件フィルタ
+        // 各ジャンルに対して contains 演算子でチェックし、OR条件で結合
+        const orConditions = genres
+          .map(genre => `genres.cs.["${genre}"]`)
+          .join(',');
+        query = query.or(orConditions);
+      }
 
       // セッション一覧を取得
       const { data, error, count } = await query
