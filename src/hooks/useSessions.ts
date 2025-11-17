@@ -79,7 +79,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
       }
 
       const response = await fetch(
-        `/api/v1/sessions?limit=${limit}&offset=${newOffset}`
+        `/api/v1/sessions?${params.toString()}`
       );
 
       if (!response.ok) {

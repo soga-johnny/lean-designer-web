@@ -40,7 +40,7 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">
       <Header />
-      <main className="md:max-w-[100rem] px-6 md:px-10 mx-auto">
+      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         <section className="md:pt-60 max-md:pt-10 pb-40">
           <GalleryList
             showPagination
@@ -50,6 +50,7 @@ export default function GalleryPage() {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
+            onGenresChange={handleGenresChange}
           />
         </section>
 
