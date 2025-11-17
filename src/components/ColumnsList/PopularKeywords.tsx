@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Tag } from '@/types/microcms';
 
 interface PopularKeywordsProps {
-  onTagClick?: (tagId: string) => void;
   selectedTagId?: string | null;
 }
 
-export function PopularKeywords({ onTagClick, selectedTagId }: PopularKeywordsProps) {
+export function PopularKeywords({ selectedTagId }: PopularKeywordsProps) {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,15 +59,15 @@ export function PopularKeywords({ onTagClick, selectedTagId }: PopularKeywordsPr
       <h3 className="text-2xl font-bold mb-6 heading-border">注目のキーワード</h3>
       <div className="flex gap-3 flex-wrap">
         {tags.map((tag) => (
-          <button
+          <Link
             key={tag.id}
-            onClick={() => onTagClick?.(tag.id)}
+            href={`/columns?tag=${tag.id}`}
             className={`text-lg text-ld-grey-400 transition-colors hover:opacity-70 ${
               selectedTagId === tag.id ? 'font-bold' : ''
             }`}
           >
             #{tag.name}
-          </button>
+          </Link>
         ))}
       </div>
     </>

@@ -4,14 +4,22 @@ import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { Breadcrumb } from '@/components/Breadcrumb';
 
-export default function ColumnsPage() {
+interface ColumnsPageProps {
+  searchParams: {
+    tag?: string;
+  };
+}
+
+export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
+  const initialTagId = searchParams.tag;
+
   return (
     <div className="min-h-screen">
       <Header />
       <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         <section className="md:pt-60 max-md:pt-10">
           <div className="pb-40">
-            <ColumnsList showPagination />
+            <ColumnsList showPagination initialTagId={initialTagId} />
           </div>
 
           <Breadcrumb

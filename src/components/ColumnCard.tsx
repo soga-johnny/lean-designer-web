@@ -1,10 +1,14 @@
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Tag } from '@/types/microcms';
 
 interface ColumnCardProps {
   columnId: string;
   title?: string;
   date?: string;
-  tags?: string[];
+  tags?: Tag[];
   createdAt?: Date;
   thumbnailUrl?: string;
 }
@@ -16,10 +20,7 @@ const isWithinTwoWeeks = (createdAt?: Date): boolean => {
 };
 
 export function ColumnCard({ columnId, title, date, tags, createdAt, thumbnailUrl }: ColumnCardProps) {
-  const defaultTitle = `デザイン思考とリーンスタートアップを活用した新規事業開発プロジェクトの成功事例と実践的アプローチ`;
-  const defaultDate = `2024.01.01`;
-  const defaultTags = ['デザイン', '戦略'];
-
+  const router = useRouter();
   const thumbnailSrc = thumbnailUrl || '/images/common/column_thumbnail.png';
   const isNew = isWithinTwoWeeks(createdAt);
 
@@ -28,16 +29,28 @@ export function ColumnCard({ columnId, title, date, tags, createdAt, thumbnailUr
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={thumbnailSrc}
-        alt={title || defaultTitle}
+        alt={title || ''}
         className="w-full h-auto object-cover aspect-[2/1]"
       />
     </div>
   );
 
+  const handleTagClick = (e: React.MouseEvent, tagId: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    router.push(`/columns?tag=${tagId}`);
+  };
+
   const Tags = () => (
     <div className="flex gap-2 flex-wrap">
-      {(tags || defaultTags).map((tag) => (
-        <span key={tag} className="text-sm text-ld-grey-400">#{tag}</span>
+      {tags?.map((tag) => (
+        <span
+          key={tag.id}
+          onClick={(e) => handleTagClick(e, tag.id)}
+          className="text-sm text-ld-grey-400 hover:opacity-70 transition-opacity cursor-pointer"
+        >
+          #{tag.name}
+        </span>
       ))}
     </div>
   );
@@ -67,9 +80,9 @@ export function ColumnCard({ columnId, title, date, tags, createdAt, thumbnailUr
             <NewBadge />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/icons/calendar.svg" alt="" className="w-4 h-4" />
-            <p className="text-sm font-bold">{date || defaultDate}</p>
+            <p className="text-sm font-bold">{date}</p>
           </div>
-          <h3 className="text-xl font-semibold mb-4 line-clamp-2 group-hover:underline transition-all duration-300">{title || defaultTitle}</h3>
+          <h3 className="text-xl font-semibold mb-4 line-clamp-2 group-hover:underline transition-all duration-300">{title}</h3>
           <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center">
             {Tags()}
             <ArrowIcon />
