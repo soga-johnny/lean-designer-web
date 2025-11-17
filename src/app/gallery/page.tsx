@@ -11,19 +11,28 @@ import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function GalleryPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const itemsPerPage = 12;
 
   // カスタムフックを使用してセッション一覧を取得
   const { sessions, loading, error, pagination, fetchSessions } = useSessions({
     limit: itemsPerPage,
     offset: 0,
+    genres: selectedGenres,
   });
 
-  // ページが変わったら新しいデータを取得
+  // ページまたはジャンルが変わったら新しいデータを取得
   useEffect(() => {
     const newOffset = (currentPage - 1) * itemsPerPage;
-    fetchSessions(newOffset);
-  }, [currentPage, fetchSessions, itemsPerPage]);
+    fetchSessions(newOffset, selectedGenres);
+  }, [currentPage, selectedGenres, fetchSessions, itemsPerPage]);
+
+  // ジャンル変更時の処理
+  const handleGenresChange = (genres: string[]) => {
+    console.log(genres);
+    setSelectedGenres(genres);
+    setCurrentPage(1); // ジャンル変更時は最初のページに戻る
+  };
 
   // 総ページ数を計算
   const totalPages = Math.ceil(pagination.total / itemsPerPage);
@@ -32,19 +41,20 @@ export default function GalleryPage() {
     <div className="min-h-screen">
       <Header />
       <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
-        <section className="md:pt-60 max-md:pt-10">
-          <div className="pb-40">
-            <GalleryList
-              showPagination
-              sessions={sessions}
-              loading={loading}
-              error={error}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </div>
+        <section className="md:pt-60 max-md:pt-10 pb-40">
+          <GalleryList
+            showPagination
+            sessions={sessions}
+            loading={loading}
+            error={error}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            onGenresChange={handleGenresChange}
+          />
+        </section>
 
+        <section>
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },
