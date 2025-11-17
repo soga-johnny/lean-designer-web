@@ -115,13 +115,17 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
         </>
       )}
 
-      {/* アクセスランキング */}
+      {/* アクセスランキング 
       <div className="mt-20 mb-28">
         <AccessRanking />
       </div>
+      */}
 
       {/* 注目のキーワード */}
-      <PopularKeywords onTagClick={handleTagClick} selectedTagId={selectedTagId} />
+      <div className="mt-10 md:mt-32">
+        <PopularKeywords />
+      </div>
+      
     </div>
   );
 }
