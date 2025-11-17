@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { ColumnsGrid } from './ColumnsGrid';
 import { ColumnsSkeleton } from './ColumnsSkeleton';
 import { Pagination } from '@/components/Pagination';
-import { AccessRanking } from './AccessRanking';
+// import { AccessRanking } from './AccessRanking';
 import { PopularKeywords } from './PopularKeywords';
 import { SectionTag } from '@/components/SectionTag';
 import { Article } from '@/types/microcms';
@@ -123,7 +123,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
 
       {/* 注目のキーワード */}
       <div className="mt-10 md:mt-32">
-        <PopularKeywords />
+        <PopularKeywords onTagClick={handleTagClick} selectedTagId={selectedTagId} />
       </div>
       
     </div>
