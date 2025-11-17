@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { SecondaryButton } from '@/components/ui/SecondaryButton';
 import { SessionDetail } from '@/services/sessionService';
 
 interface GalleryDetailProps {
@@ -13,18 +13,35 @@ interface GalleryDetailProps {
 export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // generated_contentからページキーの配列を取得
+  // generated_contentからページキーの配列を取得（数値順にソート）
   const pageKeys = session?.generated_content
-    ? Object.keys(session.generated_content).sort()
+    ? Object.keys(session.generated_content).sort((a, b) => {
+        // page_1_xxxx から数値部分を抽出して比較
+        const numA = parseInt(a.match(/page_(\d+)/)?.[1] || '0');
+        const numB = parseInt(b.match(/page_(\d+)/)?.[1] || '0');
+        return numA - numB;
+      })
     : [];
 
   const totalSlides = pageKeys.length;
 
-  // 現在のページのHTMLコンテンツを取得
-  const getCurrentPageContent = () => {
-    if (!session?.generated_content || pageKeys.length === 0) return null;
+  // スライド移動
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
 
-    const pageKey = pageKeys[currentSlide];
+  const goToPrevious = () => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
+
+  // 指定ページのHTMLコンテンツを取得
+  const getPageContent = (pageKey: string) => {
+    if (!session?.generated_content) return null;
+
     const pageData = session.generated_content[pageKey] as Record<string, unknown> | undefined;
 
     // page_1_xxxx.content.content.html_content の構造に対応
@@ -35,7 +52,7 @@ export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
     return htmlContent || null;
   };
 
-  const htmlContent = getCurrentPageContent();
+  console.log(totalSlides, session);
 
   return (
     <div className="max-w-4xl mx-auto px-4 mb-20">
@@ -55,15 +72,78 @@ export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
         </div>
       ) : (
         <>
-          {/* HTMLコンテンツ表示（iframe使用） */}
+          {/* HTMLコンテンツ表示（カルーセル形式） */}
           <div className="relative mb-8">
-            {htmlContent ? (
-              <iframe
-                srcDoc={htmlContent}
-                className="w-full h-[600px] border-0 rounded-lg shadow-sm bg-white"
-                title={`ページ ${currentSlide + 1}`}
-                sandbox="allow-same-origin"
-              />
+            {pageKeys.length > 0 ? (
+              <>
+                {/* 画面幅いっぱいのabsolute領域（PCのみ） / SP時は通常のflow */}
+                <div className="max-md:static max-md:w-full md:absolute md:left-1/2 md:-translate-x-1/2 md:w-screen">
+                  {/* スライドコンテナの外側ラッパー */}
+                  <div className="max-md:block md:overflow-hidden">
+                    <div className="max-md:block md:flex md:items-center md:h-[38rem] md:min-h-[38rem]">
+                      <div
+                        className="flex max-md:flex-col max-md:gap-8 md:transition-transform md:duration-500 md:ease-in-out"
+                        style={{
+                          transform: window.innerWidth >= 768
+                            ? `translateX(calc(50vw - 27rem - ${currentSlide * 54}rem))`
+                            : 'none'
+                        }}
+                      >
+                        {pageKeys.map((pageKey, index) => {
+                          const htmlContent = getPageContent(pageKey);
+                          return (
+                            <div
+                              key={pageKey}
+                              className="max-md:w-full max-md:h-[600px] md:w-[54rem] md:h-[38rem] md:min-w-[54rem] md:min-h-[38rem] flex-shrink-0 md:transition-all md:duration-300 bg-gray-200 rounded-lg"
+                              style={{
+                                scale: window.innerWidth >= 768 && currentSlide === index ? '1' : window.innerWidth >= 768 ? '0.9' : '1'
+                              }}
+                            >
+                              {htmlContent ? (
+                                <iframe
+                                  srcDoc={htmlContent}
+                                  className="w-full h-full border-0 rounded-lg shadow-sm bg-white"
+                                  title={`ページ ${index + 1}`}
+                                  sandbox="allow-same-origin"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                                  <p className="text-gray-500">コンテンツがありません</p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 左右の矢印ボタン（PCのみ表示） */}
+                  {totalSlides > 1 && (
+                    <div className="max-md:hidden">
+                      <button
+                        onClick={goToPrevious}
+                        className="absolute left-1/2 -translate-x-1/2 -ml-[27rem] top-1/2 -translate-y-1/2 w-16 h-16 bg-[#F6F6F5] hover:bg-white border border-[#E7E7E6] rounded-md shadow-lg flex items-center justify-center transition-all z-10"
+                        aria-label="前のページ"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/icons/slide-arrow.svg" alt="" className="w-4 h-4 rotate-180" />
+                      </button>
+                      <button
+                        onClick={goToNext}
+                        className="absolute left-1/2 -translate-x-1/2 ml-[27rem] top-1/2 -translate-y-1/2 w-16 h-16 bg-[#F6F6F5] hover:bg-white border border-[#E7E7E6] rounded-md shadow-lg flex items-center justify-center transition-all z-10"
+                        aria-label="次のページ"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/icons/slide-arrow.svg" alt="" className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* スペーサー（高さ確保・PCのみ） */}
+                <div className="max-md:hidden md:h-[38rem]"></div>
+              </>
             ) : (
               <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
                 <p className="text-gray-500">コンテンツがありません</p>
@@ -77,7 +157,7 @@ export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
               {pageKeys.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentSlide(index)}
+                  onClick={() => goToSlide(index)}
                   className={`w-3 h-3 rounded-full transition-colors ${
                     currentSlide === index
                       ? 'bg-gray-800'
@@ -91,15 +171,7 @@ export function GalleryDetail({ session, loading, error }: GalleryDetailProps) {
         </>
       )}
 
-      {/* 一覧へ戻るボタン（常に表示） */}
-      <div className="mb-12">
-        <Link
-          href="/gallery"
-          className="block w-full px-8 py-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors text-center"
-        >
-          一覧へ戻る
-        </Link>
-      </div>
+      <SecondaryButton href="/gallery" className="w-full">一覧へ戻る</SecondaryButton>
     </div>
   );
 }

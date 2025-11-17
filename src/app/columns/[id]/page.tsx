@@ -176,13 +176,15 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
           </div>
         </section>
 
-        <Breadcrumb
+        <section>
+          <Breadcrumb
           items={[
             { label: 'ホーム', href: '/' },
             { label: 'コラム', href: '/columns' },
             { label: article.title }
           ]}
-        />
+          />
+        </section>
 
         <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
           <StartGuide />

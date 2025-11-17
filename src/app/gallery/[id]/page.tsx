@@ -22,20 +22,22 @@ export default function GalleryDetailPage() {
       <Header />
       <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
         {/* ギャラリー詳細とレコメンド */}
-        <section className="py-20">
+        <section className="md:pt-60 max-md:pt-10 pb-40">
           {/* ギャラリー詳細 */}
           <GalleryDetail session={session} loading={loading} error={error} />
 
           {/* レコメンド一覧 */}
           <div className="mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-gray-800">レコメンド</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[...Array(4)].map((_, index) => (
                 <GalleryCard key={index} galleryId={`gallery-${index + 1}`} />
               ))}
             </div>
           </div>
+        </section>
 
+        <section>
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },

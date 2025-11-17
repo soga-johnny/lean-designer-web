@@ -9,11 +9,11 @@ export default function ColumnsPage() {
     <div className="min-h-screen">
       <Header />
       <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
-        <section className="md:pt-60 max-md:pt-10">
-          <div className="pb-40">
-            <ColumnsList showPagination />
-          </div>
+        <section className="md:pt-60 max-md:pt-10 pb-40">
+          <ColumnsList showPagination />
+        </section>
 
+        <section>
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },

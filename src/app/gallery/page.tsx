@@ -32,19 +32,19 @@ export default function GalleryPage() {
     <div className="min-h-screen">
       <Header />
       <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
-        <section className="md:pt-60 max-md:pt-10">
-          <div className="pb-40">
-            <GalleryList
-              showPagination
-              sessions={sessions}
-              loading={loading}
-              error={error}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </div>
+        <section className="md:pt-60 max-md:pt-10 pb-40">
+          <GalleryList
+            showPagination
+            sessions={sessions}
+            loading={loading}
+            error={error}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </section>
 
+        <section>
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },
