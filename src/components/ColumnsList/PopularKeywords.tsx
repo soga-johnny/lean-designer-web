@@ -1,56 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Tag } from '@/types/microcms';
 
 interface PopularKeywordsProps {
+  tags: Tag[];
   selectedTagId?: string | null;
 }
 
-export function PopularKeywords({ selectedTagId }: PopularKeywordsProps) {
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // microCMSからタグを取得
-  useEffect(() => {
-    const fetchTags = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/tags');
-        const data = await response.json();
-        if (data.tags) {
-          setTags(data.tags);
-          setError(null);
-        } else if (data.error) {
-          setError('タグの取得に失敗しました');
-        }
-      } catch (error) {
-        console.error('タグの取得に失敗しました:', error);
-        setError('タグの取得に失敗しました');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTags();
-  }, []);
-
-  if (loading) {
-    return (
-      <div>
-        <h3 className="text-2xl font-bold mb-6 text-gray-800">注目のキーワード</h3>
-        <div className="flex gap-3 flex-wrap">
-          {[...Array(8)].map((_, index) => (
-            <div key={index} className="w-24 h-6 bg-gray-200 rounded animate-pulse"></div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (error || tags.length === 0) {
+export function PopularKeywords({ tags, selectedTagId }: PopularKeywordsProps) {
+  if (tags.length === 0) {
     return null;
   }
 

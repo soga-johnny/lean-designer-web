@@ -8,7 +8,7 @@ import { Pagination } from '@/components/Pagination';
 import { AccessRanking } from './AccessRanking';
 import { PopularKeywords } from './PopularKeywords';
 import { SectionTag } from '@/components/SectionTag';
-import { Article } from '@/types/microcms';
+import { Article, Tag } from '@/types/microcms';
 
 interface ColumnsListProps {
   showPagination?: boolean;
@@ -21,8 +21,7 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTagId, setSelectedTagId] = useState<string | null>(initialTagId || null);
-  const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
-  const [loadingTagName, setLoadingTagName] = useState(false);
+  const [tags, setTags] = useState<Tag[]>([]);
   const totalPages = 5;
 
   // トップページ: 3個、コラム一覧: 3列×4段=12個
@@ -34,31 +33,22 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
     setSelectedTagId(initialTagId || null);
   }, [initialTagId]);
 
-  // selectedTagId が変更されたらタグ名を取得
+  // タグ一覧を取得
   useEffect(() => {
-    const fetchTagName = async () => {
-      if (selectedTagId) {
-        setLoadingTagName(true);
-        try {
-          const response = await fetch(`/api/tags/${selectedTagId}`);
-          const data = await response.json();
-          if (data.tag) {
-            setSelectedTagName(data.tag.name);
-          }
-        } catch (error) {
-          console.error('タグ名の取得に失敗しました:', error);
-          setSelectedTagName(null);
-        } finally {
-          setLoadingTagName(false);
+    const fetchTags = async () => {
+      try {
+        const response = await fetch('/api/tags');
+        const data = await response.json();
+        if (data.tags) {
+          setTags(data.tags);
         }
-      } else {
-        setSelectedTagName(null);
-        setLoadingTagName(false);
+      } catch (error) {
+        console.error('タグの取得に失敗しました:', error);
       }
     };
 
-    fetchTagName();
-  }, [selectedTagId]);
+    fetchTags();
+  }, []);
 
   // microCMSから記事を取得
   useEffect(() => {
@@ -91,6 +81,10 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
     fetchArticles();
   }, [selectedTagId]);
 
+  // 選択中のタグ名を取得
+  const selectedTag = tags.find(tag => tag.id === selectedTagId);
+  const selectedTagName = selectedTag?.name || null;
+
   return (
     <div className="mx-auto">
       {/* タグ */}
@@ -106,13 +100,7 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
 
       {/* 文言 */}
       <h1 className="text-3xl md:text-5xl font-bold md:mb-20 mb-6">
-        {loadingTagName ? (
-          <span className="opacity-0">読み込み中...</span>
-        ) : selectedTagName ? (
-          `${selectedTagName}のコラム一覧`
-        ) : (
-          '戦略の立て方、成功に導くデザインの原則'
-        )}
+        {selectedTagName ? `${selectedTagName}のコラム一覧` : '戦略の立て方、成功に導くデザインの原則'}
       </h1>
 
       {/* コラム一覧 */}
@@ -155,7 +143,7 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
       </div>
 
       {/* 注目のキーワード */}
-      <PopularKeywords selectedTagId={selectedTagId} />
+      <PopularKeywords tags={tags} selectedTagId={selectedTagId} />
     </div>
   );
 }
