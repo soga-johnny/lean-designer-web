@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { GalleryTagFilter } from './GalleryTagFilter';
+// import { GalleryTagFilter } from './GalleryTagFilter';
 import { GalleryGrid } from './GalleryGrid';
 import { GallerySkeleton } from './GallerySkeleton';
 import { Pagination } from '@/components/Pagination';
 import { SectionTag } from '@/components/SectionTag';
 import { Session } from '@/services/sessionService';
+// import { GALLERY_TAGS } from '@/constants/galleryTags';
 
 interface GalleryListProps {
   showPagination?: boolean;
@@ -24,46 +24,21 @@ export function GalleryList({
   sessions = [],
   loading = false,
   error = null,
-  currentPage: externalCurrentPage,
-  totalPages: externalTotalPages,
-  onPageChange: externalOnPageChange
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange
 }: GalleryListProps) {
-  const tags = [
-    'すべて',
-    'デザイン',
-    '開発',
-    'マーケティング',
-    '戦略',
-    'UI/UX',
-    'ブランディング',
-    'プロトタイプ',
-    'Webデザイン',
-    'アプリ開発',
-    'コンサルティング',
-    'ビジネス戦略',
-    'プロダクト開発',
-    'リサーチ',
-    'イノベーション'
-  ];
-  const [internalCurrentPage, setInternalCurrentPage] = useState(1);
-  const [selectedTags, setSelectedTags] = useState<string[]>(['すべて']);
+  // const handleTagSelect = (tag: string) => {
+  //   if (tag === 'すべて') {
+  //     setSelectedTags(['すべて']);
+  //   } else {
+  //     const newSelectedTags = selectedTags.includes(tag)
+  //       ? selectedTags.filter(t => t !== tag)
+  //       : [...selectedTags.filter(t => t !== 'すべて'), tag];
 
-  // 外部からpropsが渡されている場合はそれを使用、なければ内部stateを使用
-  const currentPage = externalCurrentPage ?? internalCurrentPage;
-  const totalPages = externalTotalPages ?? 5;
-  const onPageChange = externalOnPageChange ?? setInternalCurrentPage;
-
-  const handleTagSelect = (tag: string) => {
-    if (tag === 'すべて') {
-      setSelectedTags(['すべて']);
-    } else {
-      const newSelectedTags = selectedTags.includes(tag)
-        ? selectedTags.filter(t => t !== tag)
-        : [...selectedTags.filter(t => t !== 'すべて'), tag];
-
-      setSelectedTags(newSelectedTags.length === 0 ? ['すべて'] : newSelectedTags);
-    }
-  };
+  //     setSelectedTags(newSelectedTags.length === 0 ? ['すべて'] : newSelectedTags);
+  //   }
+  // };
 
   // トップページ: 1段目2枚+2-3段目8枚=10個、ギャラリー一覧: 3列×4段=12個
   const itemsCount = 12;
@@ -86,9 +61,9 @@ export function GalleryList({
       </h2>
 
       {/* ギャラリーのタグ一覧 */}
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <GalleryTagFilter tags={tags} selectedTags={selectedTags} onTagSelect={handleTagSelect} />
-      </div>
+      </div> */}
 
       {/* ギャラリー一覧 */}
       {loading ? (
@@ -100,7 +75,7 @@ export function GalleryList({
         <div className="text-center py-12">
           <p className="text-red-600">{error}</p>
         </div>
-      ) : showPagination ? (
+      ) : showPagination && onPageChange ? (
         <>
           <GalleryGrid
             itemsCount={itemsCount}

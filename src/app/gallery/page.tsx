@@ -10,8 +10,8 @@ import { Breadcrumb } from '@/components/Breadcrumb';
 
 
 export default function GalleryPage() {
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const [currentPage, setCurrentPage] = useState(1);
 
   // カスタムフックを使用してセッション一覧を取得
   const { sessions, loading, error, pagination, fetchSessions } = useSessions({

@@ -10,9 +10,16 @@ export const client = createClient({
 /**
  * 全記事を取得
  */
-export async function getArticles() {
-  const data = await client.get({ endpoint: 'articles' });
-  return data.contents;
+export async function getArticles(limit?: number, offset?: number) {
+  const queries: { limit?: number; offset?: number } = {};
+  if (limit !== undefined) queries.limit = limit;
+  if (offset !== undefined) queries.offset = offset;
+
+  const data = await client.get({
+    endpoint: 'articles',
+    queries
+  });
+  return { contents: data.contents, totalCount: data.totalCount };
 }
 
 /**
@@ -33,14 +40,18 @@ export async function getArticleById(id: string, draftKey?: string) {
 /**
  * タグで記事を絞り込み
  */
-export async function getArticlesByTag(tagId: string) {
+export async function getArticlesByTag(tagId: string, limit?: number, offset?: number) {
+  const queries: { filters: string; limit?: number; offset?: number } = {
+    filters: `tags[contains]${tagId}`
+  };
+  if (limit !== undefined) queries.limit = limit;
+  if (offset !== undefined) queries.offset = offset;
+
   const data = await client.get({
     endpoint: 'articles',
-    queries: {
-      filters: `tags[contains]${tagId}`
-    }
+    queries
   });
-  return data.contents;
+  return { contents: data.contents, totalCount: data.totalCount };
 }
 
 /**

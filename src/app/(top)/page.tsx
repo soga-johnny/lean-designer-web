@@ -1,6 +1,7 @@
 'use client';
 
 import { useSessions } from '@/hooks/useSessions';
+import { useArticles } from '@/hooks/useArticles';
 
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -18,6 +19,15 @@ export default function Top() {
     includeExpired: true,
   });
 
+  // カスタムフックを使用してコラム一覧を取得（トップページは3件）
+  const {
+    articles,
+    loading: articlesLoading,
+    error: articlesError
+  } = useArticles({
+    limit: 3,
+  });
+
   return (
     <div className="min-h-screen pb-[70px] md:pb-0">
       <Header />
@@ -31,7 +41,7 @@ export default function Top() {
         </section>
 
         <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-px before:bg-gray-200">
-          <ColumnsList />
+          <ColumnsList articles={articles} loading={articlesLoading} error={articlesError} />
         </section>
 
         <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">

@@ -6,7 +6,8 @@
       "Bash(rmdir:*)",
       "Bash(git add:*)",
       "Bash(npm run build:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
