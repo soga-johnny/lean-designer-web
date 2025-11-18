@@ -8,23 +8,47 @@ import { Pagination } from '@/components/Pagination';
 // import { AccessRanking } from './AccessRanking';
 import { PopularKeywords } from './PopularKeywords';
 import { SectionTag } from '@/components/SectionTag';
-import { Article } from '@/types/microcms';
+import { Article, Tag } from '@/types/microcms';
 
 interface ColumnsListProps {
   showPagination?: boolean;
+  initialTagId?: string;
 }
 
-export function ColumnsList({ showPagination = false }: ColumnsListProps) {
+export function ColumnsList({ showPagination = false, initialTagId }: ColumnsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
+  const [selectedTagId, setSelectedTagId] = useState<string | null>(initialTagId || null);
+  const [tags, setTags] = useState<Tag[]>([]);
   const totalPages = 5;
 
   // トップページ: 3個、コラム一覧: 3列×4段=12個
   const topItemsCount = 3;
   const listItemsCount = 12;
+
+  // initialTagId が変更されたら selectedTagId を更新
+  useEffect(() => {
+    setSelectedTagId(initialTagId || null);
+  }, [initialTagId]);
+
+  // タグ一覧を取得
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await fetch('/api/tags');
+        const data = await response.json();
+        if (data.tags) {
+          setTags(data.tags);
+        }
+      } catch (error) {
+        console.error('タグの取得に失敗しました:', error);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   // microCMSから記事を取得
   useEffect(() => {
@@ -57,11 +81,9 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
     fetchArticles();
   }, [selectedTagId]);
 
-  // タグクリック時のハンドラー
-  const handleTagClick = (tagId: string) => {
-    // 同じタグをクリックした場合は選択解除
-    setSelectedTagId(prevTagId => prevTagId === tagId ? null : tagId);
-  };
+  // 選択中のタグ名を取得
+  const selectedTag = tags.find(tag => tag.id === selectedTagId);
+  const selectedTagName = selectedTag?.name || null;
 
   return (
     <div className="mx-auto">
@@ -77,9 +99,9 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
 
 
       {/* 文言 */}
-      <h2 className="text-3xl md:text-5xl font-bold md:mb-20 mb-6">
-        戦略の立て方、成功に導くデザインの原則
-      </h2>
+      <h1 className="text-3xl md:text-5xl font-bold md:mb-20 mb-6">
+        {selectedTagName ? `${selectedTagName}のコラム一覧` : '戦略の立て方、成功に導くデザインの原則'}
+      </h1>
 
       {/* コラム一覧 */}
       {loading ? (
@@ -123,7 +145,7 @@ export function ColumnsList({ showPagination = false }: ColumnsListProps) {
 
       {/* 注目のキーワード */}
       <div className="mt-10 md:mt-32">
-        <PopularKeywords onTagClick={handleTagClick} selectedTagId={selectedTagId} />
+        <PopularKeywords tags={tags} selectedTagId={selectedTagId} />
       </div>
       
     </div>
