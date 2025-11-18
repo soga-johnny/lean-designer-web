@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { GalleryTagFilter } from './GalleryTagFilter';
+// import { GalleryTagFilter } from './GalleryTagFilter';
 import { GalleryGrid } from './GalleryGrid';
 import { GallerySkeleton } from './GallerySkeleton';
 import { Pagination } from '@/components/Pagination';
 import { SectionTag } from '@/components/SectionTag';
 import { Session } from '@/services/sessionService';
-import { getAllGalleryGenres } from '@/constants/galleryGenres';
+// import { getAllGalleryGenres } from '@/constants/galleryGenres';
+// import { GALLERY_TAGS } from '@/constants/galleryTags';
 
 interface GalleryListProps {
   showPagination?: boolean;
@@ -26,28 +26,19 @@ export function GalleryList({
   sessions = [],
   loading = false,
   error = null,
-  currentPage: externalCurrentPage,
-  totalPages: externalTotalPages,
-  onPageChange: externalOnPageChange,
-  onGenresChange
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
+  // onGenresChange
 }: GalleryListProps) {
-  const genres = getAllGalleryGenres();
-  const [internalCurrentPage, setInternalCurrentPage] = useState(1);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  // const handleGenresChange = (newGenres: string[]) => {
+  //   setSelectedGenres(newGenres);
 
-  // 外部からpropsが渡されている場合はそれを使用、なければ内部stateを使用
-  const currentPage = externalCurrentPage ?? internalCurrentPage;
-  const totalPages = externalTotalPages ?? 5;
-  const onPageChange = externalOnPageChange ?? setInternalCurrentPage;
-
-  const handleGenresChange = (newGenres: string[]) => {
-    setSelectedGenres(newGenres);
-
-    // 外部にジャンル変更を通知
-    if (onGenresChange) {
-      onGenresChange(newGenres);
-    }
-  };
+  //   // 外部にジャンル変更を通知
+  //   if (onGenresChange) {
+  //     onGenresChange(newGenres);
+  //   }
+  // };
 
   // トップページ: 1段目2枚+2-3段目8枚=10個、ギャラリー一覧: 3列×4段=12個
   const itemsCount = 12;
@@ -70,9 +61,9 @@ export function GalleryList({
       </h2>
 
       {/* ギャラリーのジャンル一覧 */}
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <GalleryTagFilter genres={genres} selectedGenres={selectedGenres} onGenresChange={handleGenresChange} />
-      </div>
+      </div> */}
 
       {/* ギャラリー一覧 */}
       {loading ? (
@@ -88,7 +79,7 @@ export function GalleryList({
         <div className="text-center py-12">
           <p className="text-gray-500">該当するギャラリーが見つかりませんでした</p>
         </div>
-      ) : showPagination ? (
+      ) : showPagination && onPageChange ? (
         <>
           <GalleryGrid
             itemsCount={itemsCount}

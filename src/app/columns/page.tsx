@@ -1,24 +1,66 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { Breadcrumb } from '@/components/Breadcrumb';
+import { useArticles } from '@/hooks/useArticles';
 
-interface ColumnsPageProps {
-  searchParams: {
-    tag?: string;
-  };
-}
+export default function ColumnsPage() {
+  const searchParams = useSearchParams();
+  const initialTagId = searchParams.get('tag');
 
-export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
-  const initialTagId = searchParams.tag;
+  const itemsPerPage = 12;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTagId, setSelectedTagId] = useState<string | null>(initialTagId || null);
+
+  // URLパラメータが変わったら selectedTagId を更新
+  useEffect(() => {
+    const tagFromUrl = searchParams.get('tag');
+    setSelectedTagId(tagFromUrl || null);
+  }, [searchParams]);
+
+  const { articles, loading, error, pagination, fetchArticles } = useArticles({
+    limit: itemsPerPage,
+    offset: 0,
+    tagId: selectedTagId,
+  });
+
+  // ページまたはタグが変わったら新しいデータを取得
+  useEffect(() => {
+    const newOffset = (currentPage - 1) * itemsPerPage;
+    fetchArticles(newOffset, selectedTagId);
+  }, [currentPage, selectedTagId, fetchArticles, itemsPerPage]);
+
+  // タグクリック時の処理
+  // const handleTagClick = (tagId: string) => {
+  //   // 同じタグをクリックした場合は選択解除
+  //   setSelectedTagId(prevTagId => prevTagId === tagId ? null : tagId);
+  //   setCurrentPage(1); // タグ変更時は1ページ目に戻る
+  // };
+
+  // 総ページ数を計算
+  const totalPages = Math.ceil(pagination.total / itemsPerPage);
 
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">
       <Header />
       <main className="md:max-w-[100rem] px-6 md:px-10 mx-auto">
         <section className="md:pt-60 max-md:pt-10 pb-40">
-          <ColumnsList showPagination initialTagId={initialTagId} />
+          <ColumnsList
+            showPagination
+            articles={articles}
+            loading={loading}
+            error={error}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            selectedTagId={selectedTagId}
+            onPageChange={setCurrentPage}
+            // onTagClick={handleTagClick}
+          />
         </section>
 
         <section>

@@ -12,26 +12,32 @@ import { Article, Tag } from '@/types/microcms';
 
 interface ColumnsListProps {
   showPagination?: boolean;
-  initialTagId?: string;
+  articles?: Article[];
+  loading?: boolean;
+  error?: string | null;
+  currentPage?: number;
+  totalPages?: number;
+  selectedTagId?: string | null;
+  onPageChange?: (page: number) => void;
+  // onTagClick?: (tagId: string) => void;
 }
 
-export function ColumnsList({ showPagination = false, initialTagId }: ColumnsListProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedTagId, setSelectedTagId] = useState<string | null>(initialTagId || null);
+export function ColumnsList({
+  showPagination = false,
+  articles = [],
+  loading = false,
+  error = null,
+  currentPage = 1,
+  totalPages = 1,
+  selectedTagId = null,
+  onPageChange,
+  // onTagClick
+}: ColumnsListProps) {
   const [tags, setTags] = useState<Tag[]>([]);
-  const totalPages = 5;
 
   // トップページ: 3個、コラム一覧: 3列×4段=12個
   const topItemsCount = 3;
   const listItemsCount = 12;
-
-  // initialTagId が変更されたら selectedTagId を更新
-  useEffect(() => {
-    setSelectedTagId(initialTagId || null);
-  }, [initialTagId]);
 
   // タグ一覧を取得
   useEffect(() => {
@@ -49,37 +55,6 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
 
     fetchTags();
   }, []);
-
-  // microCMSから記事を取得
-  useEffect(() => {
-    const fetchArticles = async () => {
-      setLoading(true);
-      try {
-        let response;
-        if (selectedTagId) {
-          // タグが選択されている場合、そのタグの記事を取得
-          response = await fetch(`/api/articles/by-tag?tagId=${selectedTagId}`);
-        } else {
-          // タグが選択されていない場合、全記事を取得
-          response = await fetch('/api/articles');
-        }
-        const data = await response.json();
-        if (data.articles) {
-          setArticles(data.articles);
-          setError(null);
-        } else if (data.error) {
-          setError('記事の一覧が取得できませんでした');
-        }
-      } catch (error) {
-        console.error('記事の取得に失敗しました:', error);
-        setError('記事の一覧が取得できませんでした');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, [selectedTagId]);
 
   // 選択中のタグ名を取得
   const selectedTag = tags.find(tag => tag.id === selectedTagId);
@@ -110,7 +85,11 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
         <div className="mb-8 p-4 bg-ld-red-100 border border-ld-red-600 rounded-lg md:max-w-[500px] mx-auto">
           <p className="text-ld-red-600 text-center">{error}</p>
         </div>
-      ) : showPagination ? (
+      ) : articles.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500">記事が見つかりませんでした</p>
+        </div>
+      ) : showPagination && onPageChange ? (
         // コラム一覧ページ: 3列×4段
         <>
           <ColumnsGrid itemsCount={listItemsCount} articles={articles} />
@@ -118,7 +97,7 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={setCurrentPage}
+              onPageChange={onPageChange}
             />
           </div>
         </>
@@ -147,7 +126,6 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
       <div className="mt-10 md:mt-32">
         <PopularKeywords tags={tags} selectedTagId={selectedTagId} />
       </div>
-      
     </div>
   );
 }
