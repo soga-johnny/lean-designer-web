@@ -98,13 +98,13 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
   const tagNames = article.tags?.map(tag => tag.name) || [];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-[62.5px] md:pb-0">
       <Header />
       {isDraftPreview && <DraftModeBanner />}
-      <main className="md:mt-[4.875rem] px-6 md:px-10 max-md:px-[2rem]">
-        <section className="md:pt-16 md:pb-32 pb-10">
+      <main className="md:max-w-[100rem] mx-auto px-6 md:px-10">
+        <section className="md:pt-[8.875rem] pt-10 md:pb-32 pb-10">
           {/* コラムコンテンツ */}
-          <div className="max-w-[752px] mx-auto mb-10 md:mb-32">
+          <div className="max-w-[47rem] mx-auto mb-10 md:mb-32">
 
             {/* アイキャッチ */}
             {article.eyecatch?.url ? (
@@ -158,9 +158,9 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
           </div>
 
           {/* レコメンドコラム一覧 */}
-          <div className="mx-auto px-4">
+          <div className="mx-auto max-w-[75rem]">
             <h2 className="text-2xl font-bold">レコメンド</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {recommendedArticles.map((recommendedArticle) => (
                 <ColumnCard
                   key={recommendedArticle.id}
@@ -184,7 +184,7 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
           ]}
         />
 
-        <section className="py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
+        <section className="py-10 md:py-32 relative before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-screen before:h-full before:bg-[#F4F3F2] before:-z-[5]">
           <StartGuide />
         </section>
       </main>
