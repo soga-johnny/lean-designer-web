@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useSessions } from '@/hooks/useSessions';
 
 import { Header } from '@/components/Header';
@@ -11,12 +12,24 @@ import { StartGuide } from '@/components/StartGuide';
 import { BottomConceptArea } from '@/components/BottomConceptArea';
 
 export default function Top() {
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
   // カスタムフックを使用してセッション一覧を取得
-  const { sessions, loading, error } = useSessions({
+  const { sessions, loading, error, fetchSessions } = useSessions({
     limit: 10,
     offset: 0,
-    includeExpired: true,
+    genres: selectedGenres,
   });
+
+  // ジャンルが変わったら新しいデータを取得
+  useEffect(() => {
+    fetchSessions(0, selectedGenres);
+  }, [selectedGenres, fetchSessions]);
+
+  // ジャンル変更時の処理
+  const handleGenresChange = (genres: string[]) => {
+    setSelectedGenres(genres);
+  };
 
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">

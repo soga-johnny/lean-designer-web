@@ -17,11 +17,11 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
     <div className="min-h-screen pb-[62.5px] md:pb-0">
       <Header />
       <main className="md:max-w-[100rem] px-6 md:px-10 mx-auto">
-        <section className="md:pt-60 max-md:pt-10">
-          <div className="pb-40">
-            <ColumnsList showPagination initialTagId={initialTagId} />
-          </div>
+        <section className="md:pt-60 max-md:pt-10 pb-40">
+          <ColumnsList showPagination initialTagId={initialTagId} />
+        </section>
 
+        <section>
           <Breadcrumb
             items={[
               { label: 'ホーム', href: '/' },

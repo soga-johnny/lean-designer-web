@@ -6,7 +6,7 @@ import { Session } from '@/services/sessionService';
 interface UseSessionsOptions {
   limit?: number;
   offset?: number;
-  includeExpired?: boolean;
+  genres?: string[];
 }
 
 interface SessionsResponse {
@@ -29,7 +29,7 @@ interface UseSessionsReturn {
     offset: number;
     total: number;
   };
-  fetchSessions: (newOffset?: number) => Promise<void>;
+  fetchSessions: (newOffset?: number, genres?: string[]) => Promise<void>;
   refetch: () => Promise<void>;
 }
 
@@ -47,7 +47,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
   const {
     limit = 10,
     offset = 0,
-    includeExpired = true,
+    genres,
   } = options;
 
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -62,13 +62,24 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
   /**
    * セッション一覧を取得
    */
-  const fetchSessions = useCallback(async (newOffset: number = offset) => {
+  const fetchSessions = useCallback(async (newOffset: number = offset, newGenres?: string[]) => {
     try {
       setLoading(true);
       setError(null);
 
+      // クエリパラメータを構築
+      const params = new URLSearchParams();
+      params.set('limit', limit.toString());
+      params.set('offset', newOffset.toString());
+
+      // genresパラメータを追加（空配列の場合はフィルターなし）
+      const genresToUse = newGenres ?? genres;
+      if (genresToUse && genresToUse.length > 0) {
+        params.set('genres', genresToUse.join(','));
+      }
+
       const response = await fetch(
-        `/api/v1/sessions?limit=${limit}&offset=${newOffset}&includeExpired=${includeExpired}`
+        `/api/v1/sessions?limit=${limit}&offset=${newOffset}`
       );
 
       if (!response.ok) {
@@ -82,7 +93,8 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
         setPagination(data.pagination);
         console.log('セッション取得成功:', {
           count: data.sessions.length,
-          total: data.pagination.total
+          total: data.pagination.total,
+          genres: genresToUse
         });
       } else {
         throw new Error('セッションの取得に失敗しました');
@@ -94,7 +106,7 @@ export function useSessions(options: UseSessionsOptions = {}): UseSessionsReturn
     } finally {
       setLoading(false);
     }
-  }, [limit, offset, includeExpired]);
+  }, [limit, offset, genres]);
 
   /**
    * 現在のoffsetで再取得

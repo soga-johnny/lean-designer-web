@@ -8,6 +8,7 @@ import { GallerySkeleton } from './GallerySkeleton';
 import { Pagination } from '@/components/Pagination';
 import { SectionTag } from '@/components/SectionTag';
 import { Session } from '@/services/sessionService';
+import { getAllGalleryGenres } from '@/constants/galleryGenres';
 
 interface GalleryListProps {
   showPagination?: boolean;
@@ -17,6 +18,7 @@ interface GalleryListProps {
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  onGenresChange?: (genres: string[]) => void;
 }
 
 export function GalleryList({
@@ -26,42 +28,24 @@ export function GalleryList({
   error = null,
   currentPage: externalCurrentPage,
   totalPages: externalTotalPages,
-  onPageChange: externalOnPageChange
+  onPageChange: externalOnPageChange,
+  onGenresChange
 }: GalleryListProps) {
-  const tags = [
-    'すべて',
-    'デザイン',
-    '開発',
-    'マーケティング',
-    '戦略',
-    'UI/UX',
-    'ブランディング',
-    'プロトタイプ',
-    'Webデザイン',
-    'アプリ開発',
-    'コンサルティング',
-    'ビジネス戦略',
-    'プロダクト開発',
-    'リサーチ',
-    'イノベーション'
-  ];
+  const genres = getAllGalleryGenres();
   const [internalCurrentPage, setInternalCurrentPage] = useState(1);
-  const [selectedTags, setSelectedTags] = useState<string[]>(['すべて']);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   // 外部からpropsが渡されている場合はそれを使用、なければ内部stateを使用
   const currentPage = externalCurrentPage ?? internalCurrentPage;
   const totalPages = externalTotalPages ?? 5;
   const onPageChange = externalOnPageChange ?? setInternalCurrentPage;
 
-  const handleTagSelect = (tag: string) => {
-    if (tag === 'すべて') {
-      setSelectedTags(['すべて']);
-    } else {
-      const newSelectedTags = selectedTags.includes(tag)
-        ? selectedTags.filter(t => t !== tag)
-        : [...selectedTags.filter(t => t !== 'すべて'), tag];
+  const handleGenresChange = (newGenres: string[]) => {
+    setSelectedGenres(newGenres);
 
-      setSelectedTags(newSelectedTags.length === 0 ? ['すべて'] : newSelectedTags);
+    // 外部にジャンル変更を通知
+    if (onGenresChange) {
+      onGenresChange(newGenres);
     }
   };
 
@@ -85,9 +69,9 @@ export function GalleryList({
         アイデアの具現化、戦略が生まれる瞬間
       </h2>
 
-      {/* ギャラリーのタグ一覧 */}
+      {/* ギャラリーのジャンル一覧 */}
       <div className="mb-8">
-        <GalleryTagFilter tags={tags} selectedTags={selectedTags} onTagSelect={handleTagSelect} />
+        <GalleryTagFilter genres={genres} selectedGenres={selectedGenres} onGenresChange={handleGenresChange} />
       </div>
 
       {/* ギャラリー一覧 */}
@@ -99,6 +83,10 @@ export function GalleryList({
       ) : error ? (
         <div className="text-center py-12">
           <p className="text-red-600">{error}</p>
+        </div>
+      ) : sessions.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500">該当するギャラリーが見つかりませんでした</p>
         </div>
       ) : showPagination ? (
         <>
