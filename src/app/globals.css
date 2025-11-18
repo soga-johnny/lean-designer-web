@@ -11,6 +11,46 @@
 :root {
   --background: #F4F3F2;
   --foreground: #171717;
+  
+  /* Lean Designer Color System */
+  /* Accent Colors */
+  --LD-Color-Accent-50: #FAF5F0;
+  --LD-Color-Accent-100: #EFE2D6;
+  --LD-Color-Accent-200: #DEC1A9;
+  --LD-Color-Accent-400: #BF8058;
+  --LD-Color-Accent-700: #863F37;
+  --LD-Color-Accent-800: #6F3431;
+  --LD-Color-Accent-900: #5C2D2B;
+  --LD-Color-Accent-950: #331515;
+  
+  /* Blue Colors */
+  --LD-Color-Blue-100: #DFEEFA;
+  --LD-Color-Blue-600: #4582D5;
+  
+  /* Green Colors */
+  --LD-Color-Green-100: #DCF7D0;
+  --LD-Color-Green-600: #37951B;
+  
+  /* Grey Colors */
+  --LD-Color-Grey-50: #F6F6F5;
+  --LD-Color-Grey-100: #E7E7E6;
+  --LD-Color-Grey-200: #D2D1CF;
+  --LD-Color-Grey-300: #B2B1AE;
+  --LD-Color-Grey-400: #8B8985;
+  --LD-Color-Grey-700: #51514D;
+  --LD-Color-Grey-800: #474743;
+  --LD-Color-Grey-900: #3E3E3B;
+  --LD-Color-Grey-950: #262624;
+  
+  /* Primary Colors */
+  --LD-Color-Primary-50: #F4F3F2;
+  --LD-Color-Primary-100: #E1DEDB;
+  --LD-Color-Primary-900: #251E1F;
+  
+  /* Red Colors */
+  --LD-Color-Red-100: #FBE9E8;
+  --LD-Color-Red-600: #C43A4A;
+  --foreground: #51514d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,15 +60,68 @@
   }
 }
 
+/* レスポンシブスケーリング設定 */
+html {
+  /* PC時（768px以上）: 1600pxから縮小開始 */
+  font-size: clamp(10px, 1vw, 16px);
+}
+
+/* SP時（767px以下）: 固定サイズ */
+@media (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 body {
-  color: var(--foreground);
-  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--LD-Color-Grey-700);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/images/top/bg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%);
+  animation: rotate-background 120s linear infinite;
+  z-index: -10;
+}
+
+@keyframes rotate-background {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Heading border utility */
+.heading-border {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heading-border::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #51514D 16px, #E7E7E6 16px);
 }
 
 /* Display page animations */

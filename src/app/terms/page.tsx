@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import {Header} from '@/components/header'; // ヘッダーコンポーネント
-import {Footer} from '@/components/footer'; // フッターコンポーネント
+import {Header} from '@/components/Header'; // ヘッダーコンポーネント
+import {Footer} from '@/components/Footer'; // フッターコンポーネント
 
 export default function TermsOfService() {
   return (

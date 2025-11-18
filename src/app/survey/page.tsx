@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Hero } from '@/components/survey/Hero';
-import { SurveyHeader } from '@/components/survey/SurveyHeader';
-import { AnnouncementBanner } from '@/components/survey/AnnouncementBanner';
-import { SurveyFooter } from '@/components/survey/SurveyFooter';
+import { Hero } from './_components/Hero';
+import { Header } from './_components/Header';
+import { AnnouncementBanner } from './_components/AnnouncementBanner';
+import { Footer } from './_components/Footer';
 
 export const metadata: Metadata = {
   title: 'Lean Designer Beta | プロダクトアイデアを３分で可視化',
@@ -32,10 +32,10 @@ export const metadata: Metadata = {
 export default function SurveyPage() {
   return (
     <div className="min-h-screen bg-[#F4F3F2]">
-      <SurveyHeader />
+      <Header />
       <AnnouncementBanner />
       <Hero />
-      <SurveyFooter />
+      <Footer />
     </div>
   );
 }
