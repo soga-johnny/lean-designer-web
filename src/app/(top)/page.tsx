@@ -34,9 +34,9 @@ export default function Top() {
   }, [selectedGenres, fetchSessions]);
 
   // ジャンル変更時の処理
-  const handleGenresChange = (genres: string[]) => {
-    setSelectedGenres(genres);
-  };
+  // const handleGenresChange = (genres: string[]) => {
+  //   setSelectedGenres(genres);
+  // };
 
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">

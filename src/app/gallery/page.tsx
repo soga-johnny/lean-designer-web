@@ -28,11 +28,11 @@ export default function GalleryPage() {
   }, [currentPage, selectedGenres, fetchSessions, itemsPerPage]);
 
   // ジャンル変更時の処理
-  const handleGenresChange = (genres: string[]) => {
-    console.log(genres);
-    setSelectedGenres(genres);
-    setCurrentPage(1); // ジャンル変更時は最初のページに戻る
-  };
+  // const handleGenresChange = (genres: string[]) => {
+  //   console.log(genres);
+  //   setSelectedGenres(genres);
+  //   setCurrentPage(1); // ジャンル変更時は最初のページに戻る
+  // };
 
   // 総ページ数を計算
   const totalPages = Math.ceil(pagination.total / itemsPerPage);

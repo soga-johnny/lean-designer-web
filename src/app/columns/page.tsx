@@ -36,11 +36,11 @@ export default function ColumnsPage() {
   }, [currentPage, selectedTagId, fetchArticles, itemsPerPage]);
 
   // タグクリック時の処理
-  const handleTagClick = (tagId: string) => {
-    // 同じタグをクリックした場合は選択解除
-    setSelectedTagId(prevTagId => prevTagId === tagId ? null : tagId);
-    setCurrentPage(1); // タグ変更時は1ページ目に戻る
-  };
+  // const handleTagClick = (tagId: string) => {
+  //   // 同じタグをクリックした場合は選択解除
+  //   setSelectedTagId(prevTagId => prevTagId === tagId ? null : tagId);
+  //   setCurrentPage(1); // タグ変更時は1ページ目に戻る
+  // };
 
   // 総ページ数を計算
   const totalPages = Math.ceil(pagination.total / itemsPerPage);
@@ -59,7 +59,7 @@ export default function ColumnsPage() {
             totalPages={totalPages}
             selectedTagId={selectedTagId}
             onPageChange={setCurrentPage}
-            onTagClick={handleTagClick}
+            // onTagClick={handleTagClick}
           />
         </section>
 

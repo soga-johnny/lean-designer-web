@@ -19,7 +19,7 @@ interface ColumnsListProps {
   totalPages?: number;
   selectedTagId?: string | null;
   onPageChange?: (page: number) => void;
-  onTagClick?: (tagId: string) => void;
+  // onTagClick?: (tagId: string) => void;
 }
 
 export function ColumnsList({
@@ -31,7 +31,7 @@ export function ColumnsList({
   totalPages = 1,
   selectedTagId = null,
   onPageChange,
-  onTagClick
+  // onTagClick
 }: ColumnsListProps) {
   const [tags, setTags] = useState<Tag[]>([]);
 
