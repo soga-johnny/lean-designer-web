@@ -40,18 +40,19 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">
       <Header />
-      <main className="md:max-w-[100rem] max-md:px-[2rem] mx-auto">
-        <section className="md:pt-60 max-md:pt-10 pb-40">
-          <GalleryList
-            showPagination
-            sessions={sessions}
-            loading={loading}
-            error={error}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            onGenresChange={handleGenresChange}
-          />
+      <main className="md:max-w-[100rem] px-6 md:px-10 mx-auto">
+        <section className="pt-10 md:pt-[12.875rem]">
+          <div className="pb-10 md:pb-32">
+            <GalleryList
+              showPagination
+              sessions={sessions}
+              loading={loading}
+              error={error}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </section>
 
         <section>
