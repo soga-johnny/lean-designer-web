@@ -11,7 +11,7 @@ import { Breadcrumb } from '@/components/Breadcrumb';
 
 export default function GalleryPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenres] = useState<string[]>([]);
   const itemsPerPage = 12;
 
   // カスタムフックを使用してセッション一覧を取得
