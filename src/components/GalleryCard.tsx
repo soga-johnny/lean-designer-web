@@ -42,11 +42,9 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
 
   const Tags = () => (
     tags ? (
-      <div className="flex gap-2 flex-wrap">
-        {(tags).map((tag) => (
-          <GalleryTag key={tag} tag={tag} size="small" />
-        ))}
-      </div>
+      (tags).map((tag) => (
+        <GalleryTag key={tag} tag={tag} size="small" />
+      ))
     ) : null
   );
 
@@ -79,7 +77,9 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
                     <h3 className="text-2xl font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title}</h3>
                   </div>
                   <div className="flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
-                    {Tags()}
+                    <div className="flex gap-2 flex-wrap">
+                      {Tags()}
+                    </div>
                     <div className="max-md:hidden">
                       <ArrowIcon />
                     </div>
@@ -99,7 +99,9 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
           <div className="flex-1 flex flex-col min-h-[10rem] relative">
             <h3 className="text-xl my-4 font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title}</h3>
             <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
-              {Tags()}
+              <div className="flex gap-2 flex-wrap">
+                {Tags()}
+              </div>
               <div className="max-md:hidden">
                 <ArrowIcon />
               </div>
