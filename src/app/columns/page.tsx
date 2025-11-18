@@ -4,7 +4,15 @@ import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { Breadcrumb } from '@/components/Breadcrumb';
 
-export default function ColumnsPage() {
+interface ColumnsPageProps {
+  searchParams: {
+    tag?: string;
+  };
+}
+
+export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
+  const initialTagId = searchParams.tag;
+
   return (
     <div className="min-h-screen">
       <Header />

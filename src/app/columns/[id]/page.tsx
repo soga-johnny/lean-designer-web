@@ -167,7 +167,7 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
                   columnId={recommendedArticle.id}
                   title={recommendedArticle.title}
                   date={formatDate(recommendedArticle.publishedAt || recommendedArticle.createdAt)}
-                  tags={recommendedArticle.tags?.map(tag => tag.name)}
+                  tags={recommendedArticle.tags}
                   createdAt={new Date(recommendedArticle.createdAt)}
                   thumbnailUrl={recommendedArticle.eyecatch?.url}
                 />

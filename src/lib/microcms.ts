@@ -11,7 +11,10 @@ export const client = createClient({
  * 全記事を取得
  */
 export async function getArticles() {
-  const data = await client.get({ endpoint: 'articles' });
+  const data = await client.get({ 
+    endpoint: 'articles',
+    queries: { limit: 100 }
+  });
   return data.contents;
 }
 
@@ -37,7 +40,8 @@ export async function getArticlesByTag(tagId: string) {
   const data = await client.get({
     endpoint: 'articles',
     queries: {
-      filters: `tags[contains]${tagId}`
+      filters: `tags[contains]${tagId}`,
+      limit: 100
     }
   });
   return data.contents;
@@ -51,7 +55,8 @@ export async function getArticlesByTags(tagIds: string[]) {
   const data = await client.get({
     endpoint: 'articles',
     queries: {
-      filters
+      filters,
+      limit: 100
     }
   });
   return data.contents;
@@ -63,7 +68,10 @@ export async function getArticlesByTags(tagIds: string[]) {
  * 全タグを取得
  */
 export async function getTags() {
-  const data = await client.get({ endpoint: 'tags' });
+  const data = await client.get({ 
+    endpoint: 'tags',
+    queries: { limit: 30 }
+  });
   return data.contents;
 }
 

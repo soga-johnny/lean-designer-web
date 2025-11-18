@@ -24,7 +24,7 @@ export function ColumnsGrid({ itemsCount, articles }: ColumnsGridProps) {
           columnId={article.id}
           title={article.title}
           date={formatDate(article.publishedAt || article.createdAt)}
-          tags={article.tags?.map(tag => tag.name)}
+          tags={article.tags}
           createdAt={new Date(article.createdAt)}
           thumbnailUrl={article.eyecatch?.url}
         />
