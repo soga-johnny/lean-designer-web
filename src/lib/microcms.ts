@@ -57,15 +57,17 @@ export async function getArticlesByTag(tagId: string, limit?: number, offset?: n
 /**
  * 複数のタグで記事を絞り込み（OR条件）
  */
-export async function getArticlesByTags(tagIds: string[]) {
+export async function getArticlesByTags(tagIds: string[], limit?: number, offset?: number) {
   const filters = tagIds.map(id => `tags[contains]${id}`).join('[or]');
+  const queries: { filters: string; limit?: number; offset?: number } = { filters };
+  if (limit) queries.limit = limit;
+  if (offset) queries.offset = offset;
+
   const data = await client.get({
     endpoint: 'articles',
-    queries: {
-      filters
-    }
+    queries
   });
-  return data.contents;
+  return { contents: data.contents, totalCount: data.totalCount };
 }
 
 // ---------- タグ ----------
