@@ -12,7 +12,7 @@ import { StartGuide } from '@/components/StartGuide';
 import { BottomConceptArea } from '@/components/BottomConceptArea';
 
 export default function Top() {
-  const [selectedGenres, _setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenres] = useState<string[]>([]);
 
   const { sessions, loading, error, fetchSessions } = useSessions({
     limit: 10,
