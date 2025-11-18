@@ -21,9 +21,6 @@ const getRandomThumbnail = (): string => {
 };
 
 export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt }: GalleryCardProps) {
-  const defaultTitle = `デザイン思考とリーンスタートアップを活用した新規事業開発プロジェクト`;
-  const defaultTags = ['デザイン'];
-
   const isLarge = size === 'large';
 
   const thumbnailSrc = getRandomThumbnail();
@@ -37,28 +34,29 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={thumbnailSrc}
-        alt={title || defaultTitle}
+        alt={title}
         className="w-full h-auto object-cover aspect-square"
       />
     </div>
   );
 
   const Tags = () => (
-    <div className="flex gap-2 flex-wrap">
-      {(tags || defaultTags).map((tag) => (
-        <GalleryTag key={tag} tag={tag} size="small" />
-      ))}
-    </div>
+    tags ? (
+      <div className="flex gap-2 flex-wrap">
+        {(tags).map((tag) => (
+          <GalleryTag key={tag} tag={tag} size="small" />
+        ))}
+      </div>
+    ) : null
   );
 
-  const NewBadge = () => {
-    if (!isNew) return null;
-    return (
+  const NewBadge = () => (
+    isNew ? (
       <span className="text-sm font-bold text-ld-red-600 text-right">
         NEW
       </span>
-    );
-  };
+    ) : null
+  );
 
   const ArrowIcon = () => (
     <div className="relative px-[0.2rem] w-[1.5rem] h-[1.5rem]">
@@ -78,7 +76,7 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
                 <div className="relative w-full h-full flex flex-col justify-between">
                   <NewBadge />
                   <div className="flex-1 flex items-center">
-                    <h3 className="text-2xl font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
+                    <h3 className="text-2xl font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title}</h3>
                   </div>
                   <div className="flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
                     {Tags()}
@@ -99,7 +97,7 @@ export function GalleryCard({ galleryId, title, tags, size = 'small', createdAt 
             <NewBadge />
           </div>
           <div className="flex-1 flex flex-col min-h-[10rem] relative">
-            <h3 className="text-xl my-4 font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title || defaultTitle}</h3>
+            <h3 className="text-xl my-4 font-semibold md:line-clamp-3 max-md:line-clamp-4 text-[#51514d]">{title}</h3>
             <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center md:before:content-[''] max-md:before:hidden before:absolute before:-bottom-[4rem] before:right-0 before:w-[1.5rem] before:h-[4px] before:bg-[#51514d]">
               {Tags()}
               <div className="max-md:hidden">
