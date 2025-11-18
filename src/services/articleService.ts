@@ -31,7 +31,7 @@ async function getRecommendedArticles(article: Article, excludeId: string): Prom
   }
 
   // フォールバック: 全記事から取得
-  const allArticles = await getArticles();
+  const { contents: allArticles } = await getArticles();
   return allArticles
     .filter((a: Article) => a.id !== excludeId)
     .slice(0, 4);
