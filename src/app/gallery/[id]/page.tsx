@@ -9,6 +9,7 @@ import { GalleryCard } from '@/components/GalleryCard';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { GalleryDetail } from '@/components/GalleryDetail';
 import { useSession } from '@/hooks/useSession';
+import { useSessions } from '@/hooks/useSessions';
 
 export default function GalleryDetailPage() {
   const params = useParams();
@@ -16,6 +17,12 @@ export default function GalleryDetailPage() {
 
   // カスタムフックを使用してセッションを取得
   const { session, loading, error } = useSession(sessionId);
+
+  // 新着ギャラリー4件を取得（現在のセッションを除く）
+  const { sessions: latestSessions } = useSessions({
+    limit: 5, // 現在のセッションを除外するため5件取得
+    offset: 0,
+  });
 
   return (
     <div className="min-h-screen pb-[62.5px] md:pb-0">
@@ -30,9 +37,15 @@ export default function GalleryDetailPage() {
           <div className="mx-auto">
             <h2 className="text-2xl font-bold mb-8">レコメンド</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {[...Array(4)].map((_, index) => (
-                <GalleryCard key={index} galleryId={`gallery-${index + 1}`} />
-              ))}
+              {latestSessions
+                .filter(s => s.session_id !== sessionId) // 現在のセッションを除外
+                .slice(0, 4) // 4件まで
+                .map((latestSession) => (
+                  <GalleryCard
+                    key={latestSession.session_id}
+                    session={latestSession}
+                  />
+                ))}
             </div>
           </div>
         </section>
