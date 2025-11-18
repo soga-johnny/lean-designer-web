@@ -147,7 +147,6 @@ export function ColumnsList({ showPagination = false, initialTagId }: ColumnsLis
       <div className="mt-10 md:mt-32">
         <PopularKeywords tags={tags} selectedTagId={selectedTagId} />
       </div>
-      
     </div>
   );
 }
