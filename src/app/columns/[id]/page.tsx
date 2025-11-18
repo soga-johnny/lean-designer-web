@@ -81,7 +81,7 @@ export default async function ColumnDetailPage({ params, searchParams }: ColumnD
         .slice(0, 4);
     } else {
       // タグがない場合は全記事から取得
-      const allArticles = await getArticles();
+      const { contents: allArticles } = await getArticles();
 
       recommendedArticles = allArticles
         .filter((a: Article) => a.id !== params.id)

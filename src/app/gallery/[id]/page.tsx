@@ -35,7 +35,7 @@ export default function GalleryDetailPage() {
 
           {/* レコメンド一覧 */}
           <div className="mx-auto">
-            <h2 className="text-2xl font-bold mb-8">レコメンド</h2>
+            <h2 className="text-2xl font-bold mb-8">新着ギャラリー</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               {latestSessions
                 .filter(s => s.session_id !== sessionId) // 現在のセッションを除外
@@ -43,7 +43,9 @@ export default function GalleryDetailPage() {
                 .map((latestSession) => (
                   <GalleryCard
                     key={latestSession.session_id}
-                    session={latestSession}
+                    galleryId={latestSession.session_id}
+                    title={latestSession.session_name}
+                    createdAt={new Date(latestSession.created_at)}
                   />
                 ))}
             </div>
