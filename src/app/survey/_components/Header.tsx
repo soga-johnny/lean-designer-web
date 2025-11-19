@@ -29,13 +29,21 @@ export function Header() {
             プロダクト開発フェーズのアイデアを、3分で可視化する
           </span>
           
+          {/* PC: プレスリリース + ギャラリーサイト */}
           <a 
             href="https://prtimes.jp/main/html/rd/p/000000004.000154085.html"
             target="_blank" 
             rel="noopener noreferrer"
-            className="bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-4 py-2 rounded-md text-sm font-bold transition-colors inline-block"
+            className="bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-4 py-2 rounded-md text-sm font-bold transition-colors hidden md:inline-block"
           >
             プレスリリース
+          </a>
+          
+          <a 
+            href="/"
+            className="bg-[#BF8058] hover:bg-[#5C2D2B] text-white px-4 py-2 rounded-md text-sm font-bold transition-colors inline-block"
+          >
+            ギャラリーサイト
           </a>
         </div>
 

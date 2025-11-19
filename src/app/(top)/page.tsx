@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSessions } from '@/hooks/useSessions';
+// import { useSessions } from '@/hooks/useSessions';
 import { useArticles } from '@/hooks/useArticles';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -10,15 +9,28 @@ import { GalleryList } from '@/components/GalleryList';
 import { ColumnsList } from '@/components/ColumnsList';
 import { StartGuide } from '@/components/StartGuide';
 import { BottomConceptArea } from '@/components/BottomConceptArea';
+import { Session } from '@/services/sessionService';
 
 export default function Top() {
-  const [selectedGenres] = useState<string[]>([]);
+  // ===== 動的取得のロジック（Lean Designer Betaリリース後に解放） =====
+  // const [selectedGenres] = useState<string[]>([]);
+  //
+  // const { sessions, loading, error, fetchSessions } = useSessions({
+  //   limit: 10,
+  //   offset: 0,
+  //   genres: selectedGenres,
+  // });
+  //
+  // // ジャンルが変わったら新しいデータを取得
+  // useEffect(() => {
+  //   fetchSessions(0, selectedGenres);
+  // }, [selectedGenres, fetchSessions]);
+  // ===== 動的取得のロジックここまで =====
 
-  const { sessions, loading, error, fetchSessions } = useSessions({
-    limit: 10,
-    offset: 0,
-    genres: selectedGenres,
-  });
+  // 静的データ（Beta期間中）
+  const sessions: Session[] = [];
+  const loading: boolean = false;
+  const error: string | null = null;
 
   const {
     articles,
@@ -27,11 +39,6 @@ export default function Top() {
   } = useArticles({
     limit: 3,
   });
-
-  // ジャンルが変わったら新しいデータを取得
-  useEffect(() => {
-    fetchSessions(0, selectedGenres);
-  }, [selectedGenres, fetchSessions]);
 
   // ジャンル変更時の処理
   // const handleGenresChange = (genres: string[]) => {

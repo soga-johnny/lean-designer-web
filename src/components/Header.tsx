@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
-import { SecondaryButton } from '@/components/ui/SecondaryButton';
 import { motion } from 'framer-motion';
 
 export const Header = () => {
@@ -58,19 +57,11 @@ export const Header = () => {
 
           {/* Right: Links and CTA */}
           <div className="flex items-center justify-end gap-2">
-            <SecondaryButton
-              size="small"
-              href="/lp"
-              target="_blank"
-            >
-              サービス紹介
-            </SecondaryButton>
             <PrimaryButton
               size="small"
-              href="https://app.lean-designer.tech/"
-              target="_blank"
+              href="/survey"
             >
-              無料で始める
+              アンケートサイト
             </PrimaryButton>
           </div>
         </div>

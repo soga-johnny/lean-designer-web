@@ -75,7 +75,7 @@ export function ColumnsList({
 
       {/* 文言 */}
       <h1 className="text-3xl md:text-5xl font-bold md:mb-20 mb-6">
-        {selectedTagName ? `${selectedTagName}のコラム一覧` : '戦略の立て方、成功に導くデザインの原則'}
+        {selectedTagName ? `${selectedTagName}のコラム一覧` : '戦略の立て方、成功に導くプロダクト開発の原則'}
       </h1>
 
       {/* コラム一覧 */}

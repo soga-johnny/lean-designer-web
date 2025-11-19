@@ -76,8 +76,15 @@ export function GalleryList({
           <p className="text-red-600">{error}</p>
         </div>
       ) : sessions.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">該当するギャラリーが見つかりませんでした</p>
+        <div className="text-center py-12 md:py-32">
+          <div className="bg-card rounded-lg p-8 md:p-16 max-w-3xl mx-auto">
+            <p className="text-xl md:text-3xl font-semibold text-[#51514d] mb-4">
+              Lean Designer Betaリリース後に解放
+            </p>
+            <p className="text-sm md:text-base text-gray-600">
+              コンセプトシートのギャラリーは、正式リリース後に公開予定です。
+            </p>
+          </div>
         </div>
       ) : showPagination && onPageChange ? (
         <>
